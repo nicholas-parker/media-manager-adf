@@ -1,0 +1,31 @@
+<form [formGroup]="taskForm" novalidate>
+<md-toolbar color="primary">
+    <button md-button (click)="onClaim()" >Claim</button>
+    <button md-button (click)="onSave()">Save</button>
+    <button md-button (click)="onTaskComplete()">Make offer</button>
+    <md-select placeholder="reasign task..." *ngIf="canReasign">
+        <md-option>Brian Jones</md-option>
+        <md-option>Nick Parker</md-option>
+        <md-option>Rob Chester</md-option>
+     </md-select>
+    <span class="toolbar-spacer"></span>
+    <button md-button (click)="onCancel()">Close</button>
+  </md-toolbar>
+    <div>
+      <div class="left-block">
+        <div *ngIf="loaded"><h3>{{ task.name }}</h3></div>
+        <div *ngIf="loaded"><h4>{{ task.description }}</h4></div>
+      </div>
+      <div class="right-block form-header">
+        <div mdLine *ngIf="loaded">Status: {{ taskVar('bpm_status') }}</div>
+        <div mdLine *ngIf="loaded">Workflow due date: {{ taskVar('bpm_workflowDueDate') | date }}</div>
+        <div>
+         <md-select placeholder="Priority" formControlName="bpm_workflowPriority">
+           <md-option value="1">Low priority</md-option>
+           <md-option value="2">Medium priority</md-option>
+           <md-option value="3">High priority</md-option>
+         </md-select>
+         </div>
+      </div>
+    </div>
+</form>

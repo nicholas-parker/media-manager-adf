@@ -1,0 +1,232 @@
+<div class="mat-display-1 title">New production</div>
+<div>
+  <form [formGroup]="productionForm" novalidate>
+  <md-tab-group [selectedIndex]="selectedTab">
+    <md-tab label="Type">
+      <md-grid-list cols="3">
+
+        <md-grid-tile>
+          <md-card class="production-card">
+            <md-card-title>Bronze</md-card-title>
+            <img class="production-image" md-card-image src="/images/board2.jpeg">
+            <md-card-content>
+               Book and manage your photoshoot crew
+               Up to 20 crew members
+               Create contracts and crew on-boarding
+               Manage the production period
+               Share files and documents with the crew
+               <div class="money">£25 per month</div>
+            </md-card-content>
+            <md-card-actions>
+              <button (click)="setProduct('BRONZE')" md-raised-button color="accent">
+                <md-icon>arrow_forward</md-icon>
+                Select
+              </button>
+            </md-card-actions>
+         </md-card>
+        </md-grid-tile>
+
+        <md-grid-tile>
+          <md-card class="production-card">
+            <md-card-title>Silver</md-card-title>
+            <img class="production-image" md-card-image src="/images/board2.jpeg">
+            <md-card-content>
+               Book and manage your photoshoot crew
+               Up to 100 crew members
+               Create contracts and crew on-boarding
+               Manage the production period
+               Share files and documents with the crew
+               Crew budget dashboard and reports
+               <div class="money">£45 per month</div>
+            </md-card-content>
+            <md-card-actions>
+              <button (click)="setProduct('SILVER')" md-raised-button color="accent">
+                <md-icon>arrow_forward</md-icon>
+                Select
+              </button>
+            </md-card-actions>
+         </md-card>
+        </md-grid-tile>
+
+        <md-grid-tile>
+          <md-card class="production-card">
+            <md-card-title>Gold</md-card-title>
+            <img class="production-image" md-card-image src="/images/board2.jpeg">
+            <md-card-content>
+               Book and manage your photoshoot crew
+               Unlimited crew members
+               Manage pre-production, production and post-production
+               Create contracts and crew on-boarding
+               Share files and documents with the crew
+               Crew budget dashboard and reports
+               <div class="money">£99 per month</div>
+            </md-card-content>
+            <md-card-actions>
+              <button (click)="setProduct('GOLD')" md-raised-button color="accent">
+                <md-icon>arrow_forward</md-icon>
+                Enter
+              </button>
+            </md-card-actions>
+         </md-card>
+        </md-grid-tile>
+        
+      </md-grid-list>
+      
+    </md-tab>
+    
+    <md-tab label="Description">
+      <div class="tabContainer">
+      <div class="mat-title sub-heading">Production description</div>
+      <md-grid-list cols="1" rowHeight="14:1">
+        <md-grid-tile>
+          <md-form-field class="leftField">
+            <input mdInput placeholder="Production title" formControlName="prod_productionTitle" />
+          </md-form-field>
+        </md-grid-tile>
+        <md-grid-tile>
+          <md-form-field class="leftField">
+            <input mdInput placeholder="Production description" formControlName="prod_productionDescription" />
+          </md-form-field>
+        </md-grid-tile>
+      </md-grid-list>
+      <div class="tabNav">
+        <button (click)="setTab(2)" md-raised-button color="accent">
+        <md-icon>arrow_forward</md-icon>Next
+        </button>
+      </div>
+    </div>
+    </md-tab>
+    
+    <md-tab label="Schedule">
+    <div class="tabContainer">
+    <div class="mat-title sub-heading">Production schedule</div>
+      <md-grid-list cols="1" rowHeight="14:1">
+        <md-grid-tile *ngIf="preProduction">
+          <md-form-field class="firstField">
+            <input mdInput [mdDatepicker]="pickerPreStart" placeholder="Pre-production start date" formControlName="prod_preProductionStartDate" />
+              <md-datepicker-toggle mdSuffix [for]="pickerPreStart"></md-datepicker-toggle>
+              <md-datepicker #pickerPreStart></md-datepicker>
+          </md-form-field>
+          
+          <md-form-field class="leftField">
+            <input mdInput [mdDatepicker]="pickerPreEnd" placeholder="Pre-production end date" formControlName="prod_preProductionEndDate" />
+              <md-datepicker-toggle mdSuffix [for]="pickerPreEnd"></md-datepicker-toggle>
+              <md-datepicker #pickerPreEnd></md-datepicker>
+          </md-form-field>    
+        </md-grid-tile>
+        
+        <md-grid-tile>
+          <md-form-field class="firstField">
+            <input mdInput [mdDatepicker]="pickerProdStart" placeholder="Production start date" formControlName="prod_productionStartDate" />
+              <md-datepicker-toggle mdSuffix [for]="pickerProdStart"></md-datepicker-toggle>
+              <md-datepicker #pickerProdStart></md-datepicker>
+          </md-form-field>
+          
+          <md-form-field class="leftField">
+            <input mdInput [mdDatepicker]="pickerProdEnd" placeholder="Production end date" formControlName="prod_preProductionEndDate" />
+              <md-datepicker-toggle mdSuffix [for]="pickerProdEnd"></md-datepicker-toggle>
+              <md-datepicker #pickerProdEnd></md-datepicker>
+          </md-form-field>    
+        </md-grid-tile>
+        
+        <md-grid-tile *ngIf="postProduction">
+          <md-form-field class="firstField">
+            <input mdInput [mdDatepicker]="pickerPostStart" placeholder="Post production start date" formControlName="prod_postProductionStartDate" />
+              <md-datepicker-toggle mdSuffix [for]="pickerPostStart"></md-datepicker-toggle>
+              <md-datepicker #pickerPostStart></md-datepicker>
+          </md-form-field>
+          
+          <md-form-field class="leftField">
+            <input mdInput [mdDatepicker]="pickerPostEnd" placeholder="Post production end date" formControlName="prod_postProductionEndDate" />
+              <md-datepicker-toggle mdSuffix [for]="pickerPostEnd"></md-datepicker-toggle>
+              <md-datepicker #pickerPostEnd></md-datepicker>
+          </md-form-field>    
+
+        </md-grid-tile>
+      </md-grid-list>
+      <div class="tabNav">
+        <button (click)="setTab(3)" md-raised-button color="accent">
+        <md-icon>arrow_forward</md-icon>Next
+        </button>
+      </div>
+      </div>
+    </md-tab>
+    
+    <md-tab label="Company">
+      <div class="tabContainer">
+      <div class="mat-title sub-heading">Production company information</div>
+      <md-grid-list cols="2" rowHeight="14:1">
+      
+        <md-grid-tile>
+          <md-form-field class="leftField">
+            <input mdInput placeholder="Production company name" formControlName="contract_registeredName" />
+          </md-form-field>
+        </md-grid-tile>
+      
+        <md-grid-tile>
+          <md-form-field class="leftField">
+            <input mdInput placeholder="VAT Number" formControlName="contract_taxNumber" />
+          </md-form-field>
+        </md-grid-tile>
+
+        <md-grid-tile>
+          <md-form-field class="leftField">
+            <input mdInput placeholder="Company registration number" formControlName="contract_registeredNum" />
+          </md-form-field>
+        </md-grid-tile>
+      
+        <md-grid-tile>
+          <md-form-field class="leftField">
+            <input mdInput placeholder="Company address" formControlName="contract_formalAddress" />
+          </md-form-field>
+        </md-grid-tile>
+        
+        <md-grid-tile>
+          <md-form-field class="leftField">
+            <input mdInput placeholder="Post code" formControlName="contract_formalPostCode" />
+          </md-form-field>
+        </md-grid-tile>
+        
+        <md-grid-tile>
+          <md-form-field class="leftField">
+            <input mdInput placeholder="Email" formControlName="contract_orgContactEmail" />
+          </md-form-field>
+        </md-grid-tile>
+        
+        <md-grid-tile>
+          <md-form-field class="leftField">
+            <input mdInput placeholder="Telephone" formControlName="contract_orgContactTel" />
+          </md-form-field>
+        </md-grid-tile>
+        
+      </md-grid-list>
+      <div class="tabNav">
+        <button (click)="setTab(4)" md-raised-button color="accent">
+        <md-icon>arrow_forward</md-icon>Next
+        </button>
+      </div>
+      </div>
+    </md-tab>
+    
+    <md-tab label="Complete">
+      <div class="tabContainer">
+      <div class="mat-title sub-heading">Final steps</div>
+      <div class="mat-body-1 content">
+      Click CREATE to continue and start your production.  
+      An invoice will be dispatched to the contact email address below.  
+      You may use Production before the invoice is paid but you will only be able to issue 3 contracts until the invoice has been paid  
+      </div>
+        
+        <!-- md-checkbox formControlName="terms" checked="false">I agree to the terms & conditions</md-checkbox -->
+        
+      
+      <div class="tabNav">
+        <button (click)="createProduction()" md-raised-button color="accent">
+        <md-icon>arrow_forward</md-icon>Create production
+        </button>
+      </div>
+      </div>
+    </md-tab>
+  </md-tab-group>
+  </form>
+</div>

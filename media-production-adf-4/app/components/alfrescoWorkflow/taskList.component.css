@@ -1,0 +1,34 @@
+.taskListEntry {
+	display: flex;
+	padding: 5px;
+	margin-bottom: 5px;
+	margin-left: 10px;
+	margin-right: 10px;
+	overflow: auto;
+	border-bottom: 1px solid grey
+}
+
+.taskListIcon {
+	flex-basis: 30px;
+	vertical-align: center;
+	padding-right: 5px;
+	float: left;
+}
+
+.taskListText {
+
+}
+
+.taskListTitle {
+	font-weight: bold;
+	font-size: 14px;
+	}
+
+.taskListDescription {
+	font-weight: normal;
+	font-size: 12px;
+}
+
+.clear {
+	clear: both;
+}

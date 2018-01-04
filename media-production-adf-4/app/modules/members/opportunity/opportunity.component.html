@@ -1,0 +1,361 @@
+
+<form [formGroup]="taskForm" novalidate>
+  <md-toolbar color="accent">
+    <div class="taskTitle">{{ model.contract_serviceName }}</div>
+    <span class="toolbar-spacer"></span>
+    <button md-button (click)="onSave()"><md-icon class="buttonIcon">save</md-icon>Save</button>
+    <button md-button (click)="onCancel()"><md-icon class="buttonIcon">close</md-icon>Close</button>
+  </md-toolbar>
+
+<div class="taskDescriptionContainer">
+  <div class="mat-display-1 title">Job offer</div>
+  <div class="taskDesciption">
+   <ul>
+      <li>You have been offered a position to work on new production, the details of the production and offer are below.</li>
+      <li>Please review the offer and either ACCEPT or DECLINE the offer</li>
+      <li>Enter your personal details in the YOUR DETAILS section</li>
+      <li>Complete the RIGHT TO WORK section providing proof of identity</li>
+      <li>Provide BANK DETAILS for payment</li>
+  </ul>
+  </div>
+</div>
+
+
+<div *ngIf="isReviewing">
+<md-tab-group [selectedIndex]="selectedTab">
+
+  <md-tab label="Role">
+  <div class="tabContainer">
+    <div class="mat-title sub-heading">Role details</div>
+    <md-grid-list cols="1" rowHeight="12:1">
+    
+      <md-grid-tile>
+        <div class="leftField">
+        <span class="mat-body-1">{{ model.contract_serviceName }}</span>
+        </div>
+      </md-grid-tile>
+      
+      <md-grid-tile>
+      <div class="leftField mat-body-1">
+        {{ model.contract_serviceDescription }}
+      </div>   
+      </md-grid-tile>
+      
+      <md-grid-tile>
+      <div class="leftField mat-body-1">
+        <md-icon class="buttonIcon">date_range</md-icon>
+        {{ model.contract_serviceStart | date: 'dd/MM/yyyy' }} - {{ model.contract_serviceEnd | date: 'dd/MM/yyyy'}}
+      </div>
+      </md-grid-tile>
+      
+      <md-grid-tile>
+      <div class="leftField mat-body-1">
+        <md-icon class="buttonIcon">location_on</md-icon>
+        {{ model.contract_location }}
+      </div>
+      </md-grid-tile>      
+    
+    </md-grid-list>
+    <div class="tabNav">
+      <button (click)="setTab(1)" md-raised-button color="accent">
+        <md-icon class="buttonIcon">arrow_forward</md-icon>Next
+      </button>
+    </div>
+    
+  </div>
+  </md-tab>
+
+  <md-tab label="Financials">
+  <div class="tabContainer">
+  <div class="mat-title sub-heading">Financial information</div>
+    <md-grid-list cols="1" rowHeight="12:1">
+  
+   <md-grid-tile>
+   <div class="leftField mat-body-1">
+   		<md-icon class="buttonIcon">account_balance</md-icon>
+        {{ model.contract_contractValueCurrency }} {{ model.contract_contractValue }} {{ model.contract_ratePeriodSpecifier }}
+   </div>
+   </md-grid-tile>
+   <md-grid-tile>
+   <div class="leftField mat-body-1">
+        <md-icon class="buttonIcon">query_builder</md-icon>
+        Employment status: {{ model.contract_PAYEstatus }}
+   </div>
+   </md-grid-tile>
+   
+   <md-grid-tile>
+   <div class="leftField  mat-body-1">
+        <md-icon class="buttonIcon">date_range</md-icon>        
+        Paid {{ model.contract_paymentPeriodSpecifier }}
+   </div>
+   </md-grid-tile>
+   
+   <md-grid-tile>
+   <div class="leftField  mat-body-1">
+   		<md-icon class="buttonIcon">network_check</md-icon>
+        Paid overtime: {{ model.contract_overtimePayable }} <span *ngIf="model.contract_overtimePayable === 'YES'">{{ model.contract_overtimeRate }}</span> 
+   </div>
+   </md-grid-tile>
+   
+   <md-grid-tile>
+   <div class="leftField  mat-body-1">
+        <md-icon class="buttonIcon">beach_access</md-icon>
+        Days paid leave: {{ model.contract_holidayRate }}
+   </div>
+   </md-grid-tile>     
+                
+   <md-grid-tile>
+   <div class="leftField  mat-body-1">
+        <md-icon class="buttonIcon">do_not_disturb</md-icon>
+        Termination notice period: {{ model.contract_noticePeriod }} days
+   </div>
+   </md-grid-tile>
+   
+  </md-grid-list>
+      <div class="tabNav">
+      <button (click)="setTab(2)" md-raised-button color="accent">
+        <md-icon class="buttonIcon">arrow_forward</md-icon>Next
+      </button>
+    </div>
+</div>
+</md-tab>
+
+<md-tab label="Personal details">
+ <div class="tabContainer">
+ <div class="mat-title sub-heading">Personal details</div>
+ <div class="mat-body-1">Complete your personal information</div>
+  <md-grid-list cols="1" rowHeight="14:1">
+    <md-grid-tile>
+      <md-form-field class="leftField" >
+        <input mdInput placeholder="First name" formControlName="contract_supplierFirstName" />
+      </md-form-field>
+      </md-grid-tile>
+    <md-grid-tile>
+        <md-form-field class="leftField">
+        <input placeholder="Last name" mdInput formControlName="contract_supplierLastName" />
+      </md-form-field>
+    </md-grid-tile>
+    <md-grid-tile>
+      <md-form-field class="leftField">
+        <input mdInput placeholder="your@email" formControlName="contract_supplierEmail" />
+      </md-form-field>
+    </md-grid-tile>
+    
+    <md-grid-tile>
+        <md-form-field  class="leftField">
+          <input mdInput [mdDatepicker]="pickerDOB" placeholder="Date of birth" formControlName="contract_dateOfBirth" />
+          <md-datepicker-toggle mdSuffix [for]="pickerDOB"></md-datepicker-toggle>
+          <md-datepicker #pickerDOB></md-datepicker>
+        </md-form-field>
+        </md-grid-tile>
+    <md-grid-tile>
+        <md-form-field  class="leftField">
+          <input mdInput placeholder="Town of birth" formControlName="contract_townOfBirth" />
+        </md-form-field>
+        </md-grid-tile>
+    <md-grid-tile>
+        <md-form-field class="leftField">
+          <input mdInput placeholder="Country of birth" formControlName="contract_countryOfBirth" />
+        </md-form-field>
+    </md-grid-tile>
+     
+</md-grid-list>
+<div class="tabNav">
+      <button (click)="setTab(3)" md-raised-button color="accent">
+        <md-icon class="buttonIcon">arrow_forward</md-icon>Next
+      </button>
+    </div>
+</div>
+</md-tab>
+
+<md-tab label="Contact details">
+ <div class="tabContainer">
+ <div class="mat-title sub-heading">Contact details</div>
+ <div class="mat-body-1">Complete your contact details</div>
+  <md-grid-list cols="1" rowHeight="14:1">
+    <md-grid-tile>
+      <md-form-field class="leftField">
+        <input  mdInput placeholder="Mobile" formControlName="contract_supplierMobile" />
+      </md-form-field>
+    </md-grid-tile>
+    <md-grid-tile>
+      <md-form-field class="leftField">
+        <input  mdInput placeholder="Address" formControlName="contract_supplierAddress1" />
+      </md-form-field>
+    </md-grid-tile>
+    <md-grid-tile>
+      <md-form-field class="leftField">
+        <input  mdInput placeholder="Address" formControlName="contract_supplierAddress2" />
+      </md-form-field>
+    </md-grid-tile>
+    <md-grid-tile>
+      <md-form-field class="leftField">
+        <input  mdInput placeholder="Address" formControlName="contract_supplierAddress3" />
+      </md-form-field>
+    </md-grid-tile>
+    <md-grid-tile>
+      <md-form-field class="leftField">
+        <input  mdInput placeholder="Post code" formControlName="contract_supplierPostCode" />
+      </md-form-field>
+    </md-grid-tile>
+    
+  </md-grid-list> 
+  <div class="tabNav">
+      <button (click)="setTab(4)" md-raised-button color="accent">
+        <md-icon class="buttonIcon">arrow_forward</md-icon>Next
+      </button>
+  </div>
+</div>
+</md-tab>
+
+<md-tab label="Right to work">
+<div class="tabContainer">
+ <div class="mat-title sub-heading">Right to work</div>
+ <div class="mat-body-1">Provide proof of your right to work in the UK</div>
+
+  <md-grid-list cols="1" rowHeight="12:1">
+ 
+    <md-grid-tile>
+      <md-radio-group class="leftField" formControlName="contract_rightToWorkAsserted">
+        <div><md-radio-button value="YES" (click)="UKNational()">I am a UK national</md-radio-button></div>
+        <div><md-radio-button value="NO" (click)="nonUKNational()">I am not a UK national but have the right to work in the UK</md-radio-button></div>
+      </md-radio-group>
+    </md-grid-tile>
+    
+    <md-grid-tile *ngIf="isUKNational">
+      <md-form-field class="leftField">
+        <input mdInput placeholder="National insurance number" formControlName="contract_nationalInsuranceNumber" />
+      </md-form-field>
+    </md-grid-tile>
+
+    <md-grid-tile>
+      <md-form-field class="leftField">
+        <input mdInput placeholder="Passport number" formControlName="contract_identityDocumentReference" />
+      </md-form-field>
+    </md-grid-tile>
+    
+    <md-grid-tile *ngIf="isNotUKNational">
+      <md-form-field class="leftField">
+        <input mdInput placeholder="Visa number" formControlName="contract_visaNumber" />
+      </md-form-field>
+    </md-grid-tile>
+    
+    <md-grid-tile *ngIf="isNotUKNational">
+      <md-form-field class="leftField">
+        <input mdInput [mdDatepicker]="pickerExp" placeholder="Visa expiry date" formControlName="contract_visaExpiryDate" />
+          <md-datepicker-toggle mdSuffix [for]="pickerExp"></md-datepicker-toggle>
+          <md-datepicker #pickerExp></md-datepicker>
+      </md-form-field>
+    </md-grid-tile>
+      
+    <md-grid-tile [rowspan]="2">
+      <span class="leftField">
+        <process-file #documents [docType]="'Passport'" [aspects]="passportAspects" [properties]="passportProperties" [deleteOption]="true" [maxFiles]="1" [fieldDescription]="'Scan of passport'" [explainText]="'Upload a scan of your passport'" [bpmPackage]="bpmPackage"></process-file>
+      </span>
+    </md-grid-tile>
+    
+    <!-- md-grid-tile *ngIf="isNotUKNational">
+      <div class="leftField mat-body-1">If you have a visa to work in the UK please provide a scan of the visa</div>
+      <alfresco-upload-button #uploadButton2 (onSuccess)="onFileUploadSuccess($event)" [rootFolderId]="bpmPackage"></alfresco-upload-button>
+    </md-grid-tile-->
+
+    
+
+    
+    
+  </md-grid-list>
+  <div class="tabNav">
+      <button (click)="setTab(5)" md-raised-button color="accent">
+        <md-icon class="buttonIcon">arrow_forward</md-icon>Next
+      </button>
+    </div>
+</div>
+</md-tab>
+<md-tab label="Bank details">
+  <div class="tabContainer">
+    <div class="mat-title sub-heading">Bank details</div>
+    <div class="mat-body-1">Please provide the details of the bank account to receive payment</div>
+
+  
+    <md-grid-list cols="1" rowHeight="14:1">
+ 
+      <md-grid-tile>
+        <md-form-field class="leftField">
+          <input mdInput placeholder="Bank name" formControlName="prod_bankName"/>
+        </md-form-field>
+      </md-grid-tile>
+    
+      <md-grid-tile>
+        <md-form-field class="leftField">
+          <input mdInput placeholder="Bank account name" formControlName="prod_bankAccountName"/>
+        </md-form-field>
+      </md-grid-tile>
+      
+      <md-grid-tile>
+        <md-form-field class="leftField">
+          <input mdInput placeholder="Account number" formControlName="prod_bankAccountNumber"/>
+        </md-form-field>
+      </md-grid-tile>
+      
+      <md-grid-tile>
+        <md-form-field class="leftField">
+          <input mdInput placeholder="Branch sort code" formControlName="prod_bankBranchSortCode"/>
+        </md-form-field>
+      </md-grid-tile>
+    
+    </md-grid-list>
+    <div class="tabNav">
+      <button (click)="setTab(6)" md-raised-button color="accent">
+        <md-icon class="buttonIcon">arrow_forward</md-icon>Next
+      </button>
+    </div>
+  </div>
+</md-tab>
+
+<md-tab label="Sign the contract">
+<div class="tabContainer tabWide">
+
+  <div class="leftColumn">
+    <div class="mat-title sub-heading">Sign the contract</div>
+
+    <div *ngIf="hasContract" class="adf-not-overlay-viewer">
+      <adf-viewer
+        [showViewer]="true"
+        [overlayMode]="false"
+        [showToolbar]="false"
+        [fileNodeId]="bpmContractUUID">
+      </adf-viewer>
+    </div>
+    
+  </div>
+ 
+  <div class="rightColumn">
+    
+        <!-- process-file [noUpload]="true" [deleteOption]="false" [explainText]="'Draft Contract and supporting documentation for download.'"  [bpmPackage]="bpmPackage"></process-file -->   
+    
+       <div class="signatureSection">
+        <div class="sub-heading">If you wish to accept this position print your name below and sign the contract.  The contract will be forwarded to the production manager who will make the final checks before on boarding.</div>
+          <div class="signatureBox">{{ this.taskForm.value.signature }}</div>
+          <md-form-field>
+             <input  mdInput placeholder="Print name here" formControlName="signature" />
+          </md-form-field>
+          <div *ngIf="hasSigned" class="signingId">Unique signing number {{ this.signingId }}</div>
+          <button *ngIf="!hasSigned" md-raised-button color="primary" (click)="onSign()" ><md-icon class="buttonIcon">create</md-icon>Sign the agreement</button>
+        
+          <div *ngIf="hasSigned">You have now signed the contract. The production company will complete the on-boarding process and confirm the start date by email</div>
+      </div>
+  </div>
+</div>
+</md-tab>
+
+</md-tab-group>
+
+</div>
+
+<div *ngIf="completeAccepted">
+  <div class="signingId">Unique signing number {{ this.signingId }}</div>
+  <div *ngIf="hasSigned">You have now accepted the position. The production company will complete the on-boarding process and confirm the start date by email</div>
+</div>
+
+<div *ngIf="completeRejected"></div>
+</form>

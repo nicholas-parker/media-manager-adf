@@ -1,0 +1,307 @@
+<form [formGroup]="taskForm" novalidate>
+  <md-toolbar color="primary">
+    <div class="taskTitle">Review and accept {{ contract_serviceName }} crew position</div>
+    <span class="toolbar-spacer"></span>
+    <button md-button (click)="onSave()"><md-icon class="buttonIcon">save</md-icon>Save</button>
+    <button md-button (click)="onCancel()"><md-icon class="buttonIcon">close</md-icon>Close</button>
+  </md-toolbar>
+
+<div class="taskDescriptionContainer">
+  <div class="taskActions">
+    <button md-raised-button color="primary" class="taskActionButton" (click)="onAccept()"><md-icon class="buttonIcon">done</md-icon>Accept crew position</button>
+    <button md-raised-button color="primary" class="taskActionButton"  (click)="onDecline()"><md-icon class="buttonIcon">highlight_off</md-icon>Decline crew position</button>
+    <button md-raised-button color="primary" class="taskActionButton"  (click)="onRequestInfo()"><md-icon class="buttonIcon">reply</md-icon>Request further information</button>
+  </div>
+  <div class="taskDesciption">
+    <ul>
+      <li>Review the assignment details below</li>
+      <li>Enter your personal details in the YOUR DETAILS section</li>
+      <li>Complete the RIGHT TO WORK section providing proof of identity</li>
+      <li>Provide BANK DETAILS for payment</li>
+  </ul>
+  </div>
+</div>
+
+
+
+<md-tab-group [selectedIndex]="selectedTab">
+
+  <md-tab label="Role">
+  <div class="tabContent">
+    <fieldset disabled="true">
+    <md-grid-list cols="1" rowHeight="12:1">
+    
+      <md-grid-tile>
+        <md-form-field class="wfInput">
+          <input mdInput placeholder="Position" formControlName="contract_serviceName" />
+          <span class="mdl-textfield__error">Only alphabet please!</span>
+        </md-form-field>
+      </md-grid-tile>
+      
+      <md-grid-tile>
+        <md-form-field class="wfInput">
+          <textarea class="wfInput" mdInput placeholder="Description" formControlName="contract_serviceDescription"></textarea>
+          <span class="mdl-textfield__error">Only alphabet please!</span>
+        </md-form-field>   
+      </md-grid-tile>
+      
+      <md-grid-tile>
+        <md-form-field class="wfInput">
+          <input mdInput [mdDatepicker]="picker1" placeholder="Start date" formControlName="contract_serviceStart" />
+          <md-datepicker-toggle mdSuffix [for]="picker1"></md-datepicker-toggle>
+          <md-datepicker #picker1></md-datepicker>
+        </md-form-field>
+      </md-grid-tile>
+      
+      <md-grid-tile>
+        <md-form-field class="wfInput">
+          <input mdInput [mdDatepicker]="picker2" placeholder="End date" formControlName="contract_serviceEnd" />
+          <md-datepicker-toggle mdSuffix [for]="picker2"></md-datepicker-toggle>
+          <md-datepicker #picker2></md-datepicker>
+        </md-form-field>
+      </md-grid-tile >
+
+      <md-grid-tile>
+        <md-form-field class="wfInput">
+         <input mdInput formControlName="contract_location" placeholder="Location" />
+        </md-form-field>
+      </md-grid-tile>      
+    
+    </md-grid-list>
+    </fieldset>
+    </div>
+</md-tab>
+
+<md-tab label="Financials">
+<div class="tabContent">
+  <fieldset disabled="true">
+  <md-grid-list cols="1" rowHeight="12:1">
+  
+   <md-grid-tile>
+      <div class="inRow">
+        <md-select disabled="true" placeholder="Currency" formControlName="contract_contractValueCurrency">
+          <md-option *ngFor="let type of currencyList" [value]="type">{{type}}</md-option>
+        </md-select>
+      </div>
+      <div class="inRow">
+        <md-form-field>
+          <input mdInput placeholder="Contract value" formControlName="contract_contractValue"  />
+        </md-form-field>
+      </div>
+      <div class="lastInRow">
+        <md-select disabled="true" placeholder="Rate period" formControlName="contract_ratePeriodSpecifier">
+          <md-option *ngFor="let type of ratePeriodList" [value]="type">{{type}}</md-option>
+        </md-select>
+      </div>
+   </md-grid-tile>
+   <md-grid-tile>
+      <md-select disabled="true" class="wfInput" mdInput id="PAYE" formControlName="contract_PAYEstatus" placeholder="PAYE or Contract">
+          <md-option *ngFor="let type of PAYEStatusList" [value]="type.value">{{type.text}}</md-option>
+      </md-select>
+   </md-grid-tile>
+   
+   <md-grid-tile>
+        <md-select disabled="true" class="wfInput" placeholder="Payment period" formControlName="contract_paymentPeriodSpecifier">
+           <md-option *ngFor="let type of paymentPeriodList" [value]="type.value">{{type.text}}</md-option>
+        </md-select>
+   </md-grid-tile>
+   
+   <md-grid-tile>
+      <md-radio-group placeholder="Overtime payable" class="wfInput" formControlName="contract_overtimePayable">
+        <md-radio-button value="YES">Yes</md-radio-button>
+        <md-radio-button value="NO">No</md-radio-button>
+      </md-radio-group>
+   </md-grid-tile>
+   
+   <md-grid-tile>
+        <md-form-field class="wfInput">
+        <input class="wfInput" mdInput placeholder="Overtime rate" formControlName="contract_overtimeRate" />
+      </md-form-field>
+   </md-grid-tile>     
+                
+   <md-grid-tile>
+     <md-form-field class="wfInput">
+        <input class="wfInput" placeholder="Holiday pay rate" mdInput formControlname="contract_holidayRate" />
+     </md-form-field>
+   </md-grid-tile>
+
+
+   <md-grid-tile>
+      <md-form-field class="wfInput">
+        <input class="wfInput" placeholder="Notice period" mdInput formControlName="contract_noticePeriod" />
+      </md-form-field>
+   </md-grid-tile> 
+   
+  </md-grid-list>
+  </fieldset>    
+</div>
+</md-tab>
+<md-tab label="Personal details">
+ <div class="tabContent">
+  <md-grid-list cols="1" rowHeight="12:1">
+    <md-grid-tile>
+      <md-form-field class="wfInput">
+        <input mdInput placeholder="First name" formControlName="contract_supplierFirstName" />
+      </md-form-field>
+    </md-grid-tile>
+    <md-grid-tile>
+        <md-form-field class="wfInput">
+        <input placeholder="Last name" mdInput formControlName="contract_supplierLastName" />
+      </md-form-field>
+    </md-grid-tile>
+    <md-grid-tile>
+      <md-form-field class="wfInput">
+        <input mdInput placeholder="your@email" formControlName="contract_supplierEmail" />
+      </md-form-field>
+    </md-grid-tile>
+    
+    <md-grid-tile>
+        <md-form-field class="wfInput">
+          <input mdInput [mdDatepicker]="pickerDOB" placeholder="Date of birth" formControlName="contract_dateOfBirth" />
+          <md-datepicker-toggle mdSuffix [for]="pickerDOB"></md-datepicker-toggle>
+          <md-datepicker #pickerDOB></md-datepicker>
+        </md-form-field>
+    </md-grid-tile>
+    
+    <md-grid-tile>
+      <md-form-field class="wfInput">
+        <input mdInput placeholder="Town of birth" formControlName="contract_townOfBirth" />
+      </md-form-field>
+    </md-grid-tile>
+
+    <md-grid-tile>
+      <md-form-field class="wfInput">
+        <input mdInput placeholder="Country of birth" formControlName="contract_countryOfBirth" />
+      </md-form-field>
+    </md-grid-tile>
+    
+</md-grid-list>
+</div>
+</md-tab>
+<md-tab label="Contact details">
+ <div class="tabContent">
+  <md-grid-list cols="1" rowHeight="12:1">
+    
+    <md-grid-tile>
+      <md-form-field class="wfInput">
+        <input  mdInput placeholder="Mobile" formControlName="contract_supplierMobile" />
+      </md-form-field>
+    </md-grid-tile>
+    <md-grid-tile>
+      <md-form-field class="wfInput">
+        <input  mdInput placeholder="Address" formControlName="contract_supplierAddress1" />
+      </md-form-field>
+    </md-grid-tile>
+    <md-grid-tile>
+      <md-form-field class="wfInput">
+        <input  mdInput placeholder="Address" formControlName="contract_supplierAddress2" />
+      </md-form-field>
+    </md-grid-tile>
+    <md-grid-tile>
+      <md-form-field class="wfInput">
+        <input  mdInput placeholder="Address" formControlName="contract_supplierAddress3" />
+      </md-form-field>
+    </md-grid-tile>
+    <md-grid-tile>
+      <md-form-field class="wfInput">
+        <input  mdInput placeholder="Post code" formControlName="contract_supplierPostCode" />
+      </md-form-field>
+    </md-grid-tile>
+    
+  </md-grid-list> 
+</div>
+</md-tab>
+<md-tab label="Right to work">
+<div class="tabContent">
+  <md-list class="formList">
+
+ 
+    <md-list-item>
+      <md-form-field class="wfInput">
+        <input mdInput placeholder="National insurance number" formControlName="contract_nationalInsuranceNumber" />
+      </md-form-field>
+    </md-list-item>
+
+    <md-list-item>
+      <process-file #passport [explainText]="'As proof of identity please provide a scan of your passport'" [bpmPackage]="bpmPackage"></process-file>
+    </md-list-item>
+
+    <md-list-item>
+      <md-form-field class="wfInput">
+        <input mdInput placeholder="Passport number" formControlName="contract_identityDocumentReference" />
+      </md-form-field>
+    </md-list-item>
+    
+    <md-list-item>
+      <div class="explainText">If you have a visa to work in the UK please provide a scan of the visa</div>
+      <alfresco-upload-button #uploadButton2 (onSuccess)="onFileUploadSuccess($event)" [rootFolderId]="bpmPackage">
+      </alfresco-upload-button>
+    </md-list-item>
+
+    <md-list-item>
+      <md-form-field class="wfInput">
+        <input mdInput placeholder="Visa number" formControlName="contract_visaNumber" />
+      </md-form-field>
+    </md-list-item>
+
+      <md-list-item>
+        <md-form-field class="wfInput">
+          <input mdInput [mdDatepicker]="pickerExp" placeholder="Visa expiry date" formControlName="contract_visaExpiryDate" />
+          <md-datepicker-toggle mdSuffix [for]="pickerExp"></md-datepicker-toggle>
+          <md-datepicker #pickerExp></md-datepicker>
+        </md-form-field>
+      </md-list-item>
+    
+  </md-list>
+</div>
+</md-tab>
+<md-tab label="Bank details">
+  <div class="tabContent">
+    <md-list>
+ 
+      <md-list-item>
+        <md-form-field class="wfInput">
+          <input mdInput placeholder="Bank name" formControlName="prod_bankName"/>
+        </md-form-field>
+      </md-list-item>
+    
+      <md-list-item>
+        <md-form-field class="wfInput">
+          <input mdInput placeholder="Bank account name" formControlName="prod_bankAccountName"/>
+        </md-form-field>
+      </md-list-item>
+      
+      <md-list-item>
+        <md-form-field class="wfInput">
+          <input mdInput placeholder="Account number" formControlName="prod_bankAccountNumber"/>
+        </md-form-field>
+      </md-list-item>
+      
+      <md-list-item>
+        <md-form-field class="wfInput">
+          <input mdInput placeholder="Branch sort code" formControlName="prod_bankBranchSortCode"/>
+        </md-form-field>
+      </md-list-item>
+    
+    </md-list>
+  </div>
+</md-tab>
+<md-tab label="Sign the contract">
+<div class="tabContent">
+  <md-list>
+   <md-list-item>
+          <process-file [noUpload]="true" [deleteOption]="false" [explainText]="'Draft Contract and supporting documentation.'"  [bpmPackage]="bpmPackage"></process-file>   
+   </md-list-item>
+   <md-list-item>
+      <div *ngIf="hasSigned">This contract has been signed.  Please accept the position.</div>
+      <button *ngIf="hasSigned" md-raised-button color="primary" (click)="onAccept()" ><md-icon class="buttonIcon">send</md-icon>Accept the position</button>
+      <div *ngIf="!hasSigned">Digitally sign the agreement to accept the position</div>
+      <button *ngIf="!hasSigned" md-raised-button color="primary" (click)="onSign()" ><md-icon class="buttonIcon">create</md-icon>Sign the agreement</button>
+   </md-list-item>
+
+  </md-list>
+</div>
+</md-tab>
+
+</md-tab-group>
+</form>

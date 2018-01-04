@@ -1,0 +1,32 @@
+.main {
+	height: 100%;
+	margin: 0;
+	background-image: url('images/media-production-11.png');
+	padding-top: 200px;
+}
+
+.panel {
+	margin: auto;
+	width: 400px;
+	background: #ffffff;
+	padding: 15px;
+}
+
+.title {
+	font-size: 30pt;
+	color: #444444;
+	background: #ffda23;
+	height: 50px;
+	width: 400px;
+	text-align: center;
+}
+
+.form {
+	text-align: center;
+	padding-top:15px;
+}
+
+.input {
+	padding-top: 15px;
+	text-align: center;
+}

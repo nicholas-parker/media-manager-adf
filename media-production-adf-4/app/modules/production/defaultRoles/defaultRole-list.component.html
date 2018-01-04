@@ -1,0 +1,43 @@
+<md-table #table [dataSource]="data" mdSort>
+  <ng-container cdkColumnDef="name">
+      <md-header-cell *cdkHeaderCellDef md-sort-header>Name</md-header-cell>
+      <md-cell *cdkCellDef="let row"> {{row.nvpList_typeName}}</md-cell>
+  </ng-container>
+  <ng-container cdkColumnDef="paye">
+      <md-header-cell *cdkHeaderCellDef md-sort-header>PAYE</md-header-cell>
+      <md-cell *cdkCellDef="let row"> {{row.nvpList_typePAYEStatus}}</md-cell>
+  </ng-container>
+  <ng-container cdkColumnDef="budget">
+      <md-header-cell *cdkHeaderCellDef md-sort-hegeCoader>Budget</md-header-cell>
+      <md-cell *cdkCellDef="let row"> {{row.nvpList_typeCurrency}} {{row.nvpList_typeBudgetMin}}-{{row.nvpList_typeBudgetMin}} {{row.nvpList_typeRatePeriod}}</md-cell>
+  </ng-container>
+  <ng-container cdkColumnDef="chargeCode">
+      <md-header-cell *cdkHeaderCellDef md-sort-header>Charge code</md-header-cell>
+      <md-cell *cdkCellDef="let row"> {{row.nvpList_typeChargeCode}}</md-cell>
+  </ng-container>
+  <ng-container cdkColumnDef="deliverable">
+      <md-header-cell *cdkHeaderCellDef md-sort-header>Service / Deliverable</md-header-cell>
+      <md-cell *cdkCellDef="let row"> {{row.nvpList_typeDeliverableType}}</md-cell>
+  </ng-container>
+  <ng-container cdkColumnDef="menu">
+      <md-header-cell *cdkHeaderCellDef md-sort-header></md-header-cell>
+      <md-cell *cdkCellDef="let row">
+        <button md-icon-button [md-menu-trigger-for]="menu">
+          <md-icon>more_vert</md-icon>
+        </button>
+        <md-menu #menu="mdMenu">
+          <button md-menu-item (click)="onDelete(row)">
+            <md-icon>delete</md-icon>
+            <span>Delete</span>
+          </button>
+		  <button md-menu-item (click)="onEdit(row)">
+		    <md-icon>assignment</md-icon>
+		    <span>Edit</span>
+		  </button>
+		</md-menu>
+      </md-cell>
+  </ng-container>
+  <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
+  <md-row *cdkRowDef="let row; columns: displayedColumns;"></md-row>
+</md-table>
+

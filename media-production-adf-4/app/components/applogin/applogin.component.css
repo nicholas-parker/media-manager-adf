@@ -1,0 +1,21 @@
+.main {
+	height: 100%;
+	margin: 0;
+	background-image: url('images/media-production-11.png');
+	padding-top: 200px;
+}
+
+.panel {
+	margin: auto;
+	width: 400px;
+	background: #ffffff;
+}
+
+.title {
+	font-size: 30pt;
+	color: #444444;
+	background: #ffda23;
+	height: 50px;
+	width: 400px;
+	text-align: center;
+}

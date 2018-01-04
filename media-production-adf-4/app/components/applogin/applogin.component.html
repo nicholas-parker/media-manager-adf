@@ -1,0 +1,23 @@
+<div class="main">
+    <div class="panel">
+    
+    <div>
+       <alfresco-login #alfrescologin
+                [providers]="providers"
+                [fieldsValidation]="customValidation"
+                [disableCsrf]="disableCsrf"
+                (onSuccess)="onLogin($event)"
+                (onError)="onError($event)"
+                [showLoginActions]="false"
+                [showRememberMe]="false"
+                [logoImageUrl]="'images/PRODUCTION_header_2.png'"
+                [backgroundImageUrl]="'../assets/mylogo.svg'"
+                [copyrightText]="'\u00A9 2017-2018 Nick Parker & Robert Chester'">
+       </alfresco-login>
+       
+
+       
+       
+    </div>
+  </div>
+</div>    

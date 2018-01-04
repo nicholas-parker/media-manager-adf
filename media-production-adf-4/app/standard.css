@@ -1,0 +1,12 @@
+.loadingIndicator {
+	position: fixed;
+	z-index: 999;
+	height: 2em;
+	widthe: 2em;
+	overflow: show;
+	margin: 0 auto;
+    }
+    
+.menubarTitle {
+	margin-right: 15px;
+}

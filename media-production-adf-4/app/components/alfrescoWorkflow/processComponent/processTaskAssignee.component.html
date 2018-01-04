@@ -1,0 +1,9 @@
+<div>
+  <span>{{name}}</span>
+  <button md-icon-button #task [disabled]="taskDisabled" (click)="launchTask()">
+    <md-icon>assignment</md-icon>
+  </button> 
+  ({{assignee}} <button md-icon-button #assign [disabled]="assignDisabled">
+    <md-icon>assignment_ind</md-icon>
+  </button> ) 
+</div>

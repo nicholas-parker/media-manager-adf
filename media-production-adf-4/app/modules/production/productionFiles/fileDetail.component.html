@@ -1,0 +1,56 @@
+<adf-toolbar [color]="'accent'">
+  <adf-toolbar-title>
+    <span *ngIf="nodeName">{{ nodeName }}</span>
+  </adf-toolbar-title>
+  <button *ngIf="isFile"
+          md-icon-button
+          mdTooltip="Download this file"
+          (click)="onDownload($event)">
+    <md-icon>file_download</md-icon>
+  </button>
+  <button md-icon-button
+          mdTooltip="Delete this content item"
+          (click)="onDelete($event)">
+    <md-icon>delete</md-icon>
+  </button>
+  <adf-toolbar-divider></adf-toolbar-divider>
+  <button md-icon-button
+          class="adf-viewer-close-button"
+          mdTooltip="Close and go back to document list"
+          (click)="onGoBack($event)"
+          aria-label="Close">
+    <md-icon>close</md-icon>
+  </button>
+</adf-toolbar>
+<!-- adf-breadcrumb [folderNode]="parentFolder"></adf-breadcrumb -->
+<md-tab-group>
+  <!-- Currently the Preview has to be the first tab -->
+  <md-tab label="Preview" *ngIf="isFile">
+    <div class="adf-not-overlay-viewer">
+      <adf-viewer
+        [showViewer]="true"
+        [overlayMode]="false"
+        [showToolbar]="false"
+        [fileNodeId]="nodeId">
+      </adf-viewer>
+    </div>
+  </md-tab>
+  <md-tab label="Properties (metadata)">
+    <md-card class="adf-card-container">
+      <md-card-content>
+        <adf-card-view
+          [properties]="properties"
+          [editable]="true">
+        </adf-card-view>
+        <button
+          md-icon-button
+          md-raised-button
+          mdTooltip="Save changes to properties"
+          [disabled]="isSaveDisabled()"
+          (click)="onSave($event)">
+          <md-icon>save</md-icon>
+        </button>
+      </md-card-content>
+    </md-card>
+  </md-tab>
+</md-tab-group>

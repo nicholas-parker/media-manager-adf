@@ -1,0 +1,33 @@
+<div class="main">
+    <div class="panel">
+    <div class="title">PRODUCTION</div>
+    <div #welcome>
+       <h3>Welcome</h3>
+       You have now arrived at the Production portal.
+       Before reviewing your offer please update your password to something you can remember.
+       <div *ngIf="!membershipActivated">Activating your membership</div>
+       <div *ngIf="membershipActivationProblem">There was a problem activating your membership</div>
+       <div *ngIf="membershipActivated">Your membership has been activated. Please enter a new password below</div>
+       <form class="input">
+       <md-list>
+         <h4 mdSubheader>Reset password</h4>
+         <md-list-item>
+           <md-form-field hintLabel="Minimum 8 characters" class="input">
+             <input #password1 mdInput placeholder="New password" [ngModel]="password1.value" name="password1" required minlength="8">
+             <md-hint align="end">{{password1.value?.length || 0}} characters</md-hint>
+           </md-form-field>
+         </md-list-item>
+         <md-list-item>
+           <md-form-field class="input">
+             <input #password2 mdInput placeholder="Re-enter password" [ngModel]="password2.value" name="password1" required minlength=8>
+           </md-form-field>
+         </md-list-item>
+         <md-list-item>
+           <button  class="input" md-button #update (click)="onPasswordUpdate()">Update password</button>
+         </md-list-item>
+         
+       </md-list>
+       </form>
+    </div>
+  </div>
+</div>    

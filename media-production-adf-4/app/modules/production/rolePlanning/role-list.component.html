@@ -1,0 +1,84 @@
+<md-table #table [dataSource]="roleData" mdSort>
+<ng-container cdkColumnDef="type">
+      <md-header-cell *cdkHeaderCellDef md-sort-header>Type</md-header-cell>
+      <md-cell *cdkCellDef="let row"> {{row.nvpList_roleType}}</md-cell>
+  </ng-container>
+  <ng-container cdkColumnDef="name">
+      <md-header-cell *cdkHeaderCellDef md-sort-header>Name</md-header-cell>
+      <md-cell *cdkCellDef="let row"> {{row.nvpList_roleName}}</md-cell>
+  </ng-container>
+  <ng-container cdkColumnDef="startDate">
+      <md-header-cell *cdkHeaderCellDef md-sort-header>Start date</md-header-cell>
+      <md-cell *cdkCellDef="let row"> {{row.nvpList_startDate | date: "dd/MM/yyyy"}}</md-cell>
+  </ng-container>
+  <ng-container cdkColumnDef="endDate">
+      <md-header-cell *cdkHeaderCellDef md-sort-header>End date</md-header-cell>
+      <md-cell *cdkCellDef="let row"> {{row.nvpList_endDate | date: "dd/MM/yyyy"}}</md-cell>
+  </ng-container>
+  <ng-container cdkColumnDef="currentTask">
+      <md-header-cell *cdkHeaderCellDef md-sort-header>Current task</md-header-cell>
+      <md-cell *cdkCellDef="let row">
+        <current-process-task *ngIf="row.bpm_status != 'Complete'"  [processId]="row.nvpList_contractProcessId"></current-process-task>
+        <span *ngIf="row.bpm_status == 'Complete'">{{ row.nvpList_roleStatus }}</span>
+      </md-cell>
+  </ng-container>
+  <ng-container cdkColumnDef="status">
+      <md-header-cell *cdkHeaderCellDef md-sort-header>Status</md-header-cell>
+      <md-cell *cdkCellDef="let row">
+        <md-icon *ngIf="accepted(row)">sentiment_very_satisfied</md-icon>
+        <md-icon *ngIf="declined(row)">sentiment_very_dissatisfied</md-icon>
+        <md-icon *ngIf="progress(row)">mode_edit</md-icon>
+      {{ row.nvpList_roleStatus }}</md-cell>
+  </ng-container>
+  
+  <ng-container cdkColumnDef="currency">
+      <md-header-cell *cdkHeaderCellDef md-sort-header>Currency</md-header-cell>
+      <md-cell *cdkCellDef="let row"> {{row.nvpList_currency}}</md-cell>
+  </ng-container>
+  <ng-container cdkColumnDef="budget">
+      <md-header-cell *cdkHeaderCellDef md-sort-header>Budget</md-header-cell>
+      <md-cell *cdkCellDef="let row"> {{row.nvpList_budgetMin}} - {{row.nvpList_budgetMax}} {{ row.nvpList_ratePeriod }}</md-cell>
+  </ng-container>
+  <ng-container cdkColumnDef="totalBudget">
+      <md-header-cell *cdkHeaderCellDef md-sort-header>Total budget</md-header-cell>
+      <md-cell *cdkCellDef="let row"> {{row.nvpList_totalBudgetMin}} - {{row.nvpList_totalBudgetMax}}</md-cell>
+  </ng-container>
+  <ng-container cdkColumnDef="actual">
+      <md-header-cell *cdkHeaderCellDef md-sort-header>Actual</md-header-cell>
+      <md-cell *cdkCellDef="let row"> {{ row.nvpList_totalContractsAmount }} </md-cell>
+  </ng-container>
+  <ng-container cdkColumnDef="chargeCode">
+      <md-header-cell *cdkHeaderCellDef md-sort-header>Charge Code</md-header-cell>
+      <md-cell *cdkCellDef="let row"> {{row.nvpList_chargeCode}}</md-cell>
+  </ng-container>
+  <ng-container cdkColumnDef="PAYEStatus">
+      <md-header-cell *cdkHeaderCellDef md-sort-header>Employed</md-header-cell>
+      <md-cell *cdkCellDef="let row"> {{row.nvpList_PAYEStatus}}</md-cell>
+  </ng-container>
+  
+  <ng-container cdkColumnDef="menu">
+      <md-header-cell *cdkHeaderCellDef md-sort-header>Action</md-header-cell>
+      <md-cell *cdkCellDef="let row">
+        <button md-icon-button [md-menu-trigger-for]="menu">
+          <md-icon>more_vert</md-icon>
+        </button>
+        <md-menu #menu="mdMenu">
+          <button md-menu-item (click)="onWithdraw(row)">
+            <md-icon>delete</md-icon>
+            <span>Withdraw offer</span>
+          </button>
+		  <button md-menu-item (click)="onWorkflow(row)">
+		    <md-icon>assignment</md-icon>
+		    <span>View current task</span>
+		  </button>
+		  <button md-menu-item (click)="onEdit(row)">
+		    <md-icon>people_outline</md-icon>
+		    <span>Reassign task</span>
+		  </button>
+		</md-menu>
+      </md-cell>
+  </ng-container>
+  <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
+  <md-row *cdkRowDef="let row; columns: displayedColumns;" ></md-row>
+</md-table>
+

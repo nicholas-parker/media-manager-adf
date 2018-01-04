@@ -1,0 +1,39 @@
+<div class="new-production">
+
+</div>
+<md-grid-list cols="3">
+  <md-grid-tile *ngFor="let production of productions | async">
+
+    <md-card class="production-card">
+       <md-card-title>{{ production.title }}</md-card-title>
+       <img class="production-image" md-card-image src="/images/board2.jpeg">
+       <md-card-content>
+       Second series of 8-bit games TV show.  Production starts on 5th March 2018
+       </md-card-content>
+       <md-card-actions>
+         <button [routerLink]="['/production', production.id]" md-raised-button color="accent">
+           <md-icon>arrow_forward</md-icon>
+         Enter</button>
+       </md-card-actions>
+    </md-card>
+  
+  </md-grid-tile>
+  <md-grid-tile>
+  
+     
+    <md-card class="production-card">
+       <md-card-title>New production</md-card-title>
+       <img class="production-image" md-card-image src="/images/new-production.jpeg">
+       <md-card-content>
+       Create a new production and manage your crew and contracts
+       </md-card-content>
+       <md-card-actions>
+         <button [routerLink]="['production']" md-raised-button color="primary">
+           <md-icon>create</md-icon>
+         More</button>
+       </md-card-actions>
+    </md-card>
+ 
+  </md-grid-tile>
+
+</md-grid-list>

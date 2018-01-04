@@ -1,0 +1,44 @@
+.production-card {
+	flex: 0.15 2 250px;
+	height: 300px;
+}
+
+.production-image {
+	height: 150px;
+}
+
+.title {
+	margin-right: auto;
+	padding-top: 17px;
+	padding-left: 17px;
+}
+
+.tabContainer {
+	padding-left: 100px;
+}
+
+.sub-heading {
+	padding-top:30px;
+	margin-right: auto;
+}
+
+.content {
+	padding-top: 30px;
+	margin-right: auto;
+	width: 450px;
+	font-size: 16px;
+	line-height: 28px;
+}
+
+.tabNav {
+	padding-top: 10px;
+	margin-left: auto;
+	padding-right: 100px;
+}
+
+.rightField {
+	paddinig-right: 20px;
+}
+.leftField {
+	margin-right: auto;
+}

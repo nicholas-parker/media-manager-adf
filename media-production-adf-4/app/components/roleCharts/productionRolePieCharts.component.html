@@ -1,0 +1,22 @@
+Sausage
+<md-grid-list cols="2">
+
+  <md-grid-tile>
+  <canvas baseChart
+              [data]="roleCompletionData"
+              [labels]="roleCompletionLabels"
+              [chartType]="doughnutChartType"
+              (chartHover)="roleCompletionHovered($event)"
+              (chartClick)="roleCompletionClicked($event)"></canvas>
+  </md-grid-tile>
+  
+  <md-grid-tile>
+  <canvas baseChart
+              [data]="roleFinanceData"
+              [labels]="roleFinanceLabels"
+              [chartType]="doughnutChartType"
+              (chartHover)="roleFinanceHovered($event)"
+              (chartClick)="roleFinanceClicked($event)"></canvas>
+  </md-grid-tile>
+
+</md-grid-list>

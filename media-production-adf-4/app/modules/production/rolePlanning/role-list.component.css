@@ -1,0 +1,47 @@
+.mat-column-name {
+	flex: 0.25 0 200px;
+    }
+
+.mat-column-status {
+	flex: 0.25 2 100px;
+    }
+    
+.mat-column-currentTask {
+	flex: 0.25 2 200px;
+    }
+    
+ .mat-column-currency {
+    flex: 0 0 60px;
+    }
+    
+.mat-column-budget {
+	flex: 0.25 0 110px; 
+     }
+     
+.mat-column-actual {
+	flex: 0.25 0 70px; 
+     }
+     
+.mat-column-chargeCode {
+	flex: 0.25 0 70px; 
+     }
+
+.mat-column-PAYEStatus {
+	flex: 0.25 0 70px; 
+     }
+
+.mat-column-startDate {
+	flex: 0.25 0 70px; 
+     }
+     
+.mat-column-endDate {
+	flex: 0.25 0 70px; 
+     }
+
+
+.mat-column-menu {
+	flex: 0.25 0 40px; 
+     }
+
+
+ 

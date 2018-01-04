@@ -1,0 +1,17 @@
+<md-card>
+  <md-card-title class="mdl-card__title mdl-card--expand mdl-color--teal-300">Tasks</md-card-title>
+  <md-card-content>
+    <md-list>
+      <md-list-item *ngFor="let task of tasks | async">
+        <div class="taskListEntry">
+          <div class="taskListIcon"><md-icon class="material-icons md-36 primary">{{ taskIcon(task) }}</md-icon></div>
+          <div class="taskListText">
+            <span class="taskListTitle" (click)="onSelectTask(task)">{{task.name}}</span><br/>
+            <span class="taskListDescription">{{task.description}}</span>
+          </div>
+        </div>
+        <div class="clear"></div>
+      </md-list-item>
+    </md-list>
+  </md-card-content>
+</md-card>

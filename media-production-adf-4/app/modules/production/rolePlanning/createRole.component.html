@@ -1,0 +1,65 @@
+<form novalidate>
+  <md-toolbar color="primary">
+    <div class="taskTitle">Create a new crew position</div>
+    <span class="toolbar-spacer"></span>
+    <button md-button (click)="onCancel()"><md-icon class="buttonIcon">close</md-icon></button>
+  </md-toolbar>
+<div class="taskDescriptionContainer">
+  <div class="taskActions">
+    <button md-raised-button color="primary" class="taskActionButton" (click)="onCreate()"><md-icon class="buttonIcon">save</md-icon>Create crew position</button>
+    <button md-raised-button color="primary" class="taskActionButton" (click)="onCancel()"><md-icon class="buttonIcon">close</md-icon>Cancel</button>
+  </div>
+  <div class="taskDesciption" *ngIf="!busy">
+    <ul>
+      <li>Add a new crew position to your team</li>
+      <li>Enter the name of the position</li>
+      <li>Creating the position starts the crew management process</li>
+  </ul>
+  </div>
+  <div class="taskDescription" *ngIf="busy">
+     <md-spinner ></md-spinner>
+     Creating new crew position, starting management process, assigning next task to admin team
+  </div>
+</div>
+
+<md-grid-list cols="1" rowHeight="12:1">
+    
+    <md-grid-tile>
+      <md-select class="wfInput" placeholder="Role type" id="role" [(ngModel)]="role.nvpList_roleType" (ngModelChange)="selectDefaultRole($event)" name="role">
+           <md-option *ngFor="let role of defaultRoles" [value]="role.nvpList_typeName">{{role.nvpList_typeName}}</md-option>
+      </md-select>
+    </md-grid-tile>
+    
+    <md-grid-tile>
+      <md-form-field class="wfInput">
+        <input mdInput placeholder="Role name" id="roleName" [(ngModel)]="role.nvpList_roleName" name="roleName" />
+        <span class="mdl-textfield__error">Only alphabet please!</span>
+      </md-form-field>
+    </md-grid-tile>
+    
+    <md-grid-tile>
+      <md-form-field class="wfInput">
+        <input mdInput [mdDatepicker]="pickerStart" placeholder="Crew start date" id="startDate" [(ngModel)]="role.nvpList_startDate" name="startDate"/>
+        <md-datepicker-toggle mdSuffix [for]="pickerStart"></md-datepicker-toggle>
+        <md-datepicker #pickerStart></md-datepicker>
+      </md-form-field>
+    </md-grid-tile>
+    
+    <md-grid-tile>
+      <md-form-field class="wfInput">
+        <input mdInput [mdDatepicker]="pickerEnd" placeholder="Crew end date" id="endDate" [(ngModel)]="role.nvpList_endDate" name="endDate"/>
+        <md-datepicker-toggle mdSuffix [for]="pickerEnd"></md-datepicker-toggle>
+        <md-datepicker #pickerEnd></md-datepicker>
+      </md-form-field>
+    </md-grid-tile>
+
+    <md-grid-tile>
+        <md-select class="wfInput" placeholder="Select a contract" id="contract-document" [(ngModel)]="role.nvpList_contractTemplate" (ngModelChange)="selectTemplate($event)" name="nvpList_contractTemplate">
+          <md-option *ngFor="let template of contractTemplateService.connect() | async" [value]="template.id">{{ template.name }}</md-option>
+        </md-select>
+    </md-grid-tile>
+  
+  </md-grid-list>
+  
+  
+</form>

@@ -1,0 +1,128 @@
+<md-toolbar>
+  <adf-breadcrumb class="files-breadcrumb" [target]="documentList" [folderNode]="documentList.folderNode">
+  </adf-breadcrumb>
+  <button md-button (click)="onCreateNewFolder()">
+    <md-icon>create_new_folder</md-icon>
+  </button>
+  <button md-button (click)="onDelete()">
+    <md-icon>delete</md-icon>
+  </button>
+  <button md-button>My Profile</button>
+</md-toolbar>
+<!-- alfresco-upload-drag-area
+    [parentId]="documentList.currentFolderId"
+    [versioning]="versioning"
+    [enabled]="documentList.hasCreatePermission()" -->
+<adf-document-list
+      #documentList
+      [permissionsStyle]="permissionsStyle"
+     
+      [currentFolderId]="currentFolderId"
+      [contextMenuActions]="true"
+      [contentActions]="true"
+      [allowDropFiles]="true"
+      [selectionMode]="selectionMode"
+      [multiselect]="multiselect"
+      (error)="onNavigationError($event)"
+      (success)="resetError()"
+      (preview)="showFile($event)"
+      (permissionError)="handlePermissionError($event)">
+      <data-columns>
+        <data-column
+          key="$thumbnail"
+          type="image"
+          [sortable]="false"
+          class="image-table-cell">
+        </data-column>
+        <data-column
+          title="{{'DOCUMENT_LIST.COLUMNS.DISPLAY_NAME' | translate}}"
+          key="name"
+          class="full-width ellipsis-cell">
+        </data-column>
+        <!-- Notes: has performance overhead due to multiple files/folders causing separate HTTP calls to get tags -->
+        <!--
+        <data-column
+            title="{{'DOCUMENT_LIST.COLUMNS.TAG' | translate}}"
+            key="id"
+            class="full-width ellipsis-cell">
+            <template let-entry="$implicit">
+                <alfresco-tag-node-list  [nodeId]="entry.data.getValue(entry.row, entry.col)"></alfresco-tag-node-list>
+            </template>
+        </data-column>
+        -->
+        <data-column
+          title="{{'DOCUMENT_LIST.COLUMNS.CREATED_BY' | translate}}"
+          key="createdByUser.displayName"
+          class="desktop-only">
+        </data-column>
+        <data-column
+          title="{{'DOCUMENT_LIST.COLUMNS.CREATED_ON' | translate}}"
+          key="createdAt"
+          type="date"
+          format="medium"
+          class="desktop-only">
+        </data-column>
+      </data-columns>
+
+      <content-actions>
+        <!-- folder actions -->
+        <content-action
+          icon="content_copy"
+          target="folder"
+          title="{{'DOCUMENT_LIST.ACTIONS.FOLDER.COPY' | translate}}"
+          permission="update"
+          [disableWithNoPermission]="true"
+          handler="copy">
+        </content-action>
+        <content-action
+          icon="redo"
+          target="folder"
+          title="{{'DOCUMENT_LIST.ACTIONS.FOLDER.MOVE' | translate}}"
+          permission="update"
+          [disableWithNoPermission]="true"
+          handler="move">
+        </content-action>
+        <content-action
+          icon="delete"
+          target="folder"
+          permission="delete"
+          [disableWithNoPermission]="true"
+          title="{{'DOCUMENT_LIST.ACTIONS.FOLDER.DELETE' | translate}}"
+          (permissionEvent)="handlePermissionError($event)"
+          handler="delete">
+        </content-action>
+        <!-- document actions -->
+        <content-action
+          icon="file_download"
+          target="document"
+          title="{{'DOCUMENT_LIST.ACTIONS.DOCUMENT.DOWNLOAD' | translate}}"
+          handler="download">
+        </content-action>
+        <content-action
+          icon="content_copy"
+          target="document"
+          title="{{'DOCUMENT_LIST.ACTIONS.DOCUMENT.COPY' | translate}}"
+          permission="update"
+          [disableWithNoPermission]="true"
+          handler="copy">
+        </content-action>
+        <content-action
+          icon="redo"
+          target="document"
+          title="{{'DOCUMENT_LIST.ACTIONS.DOCUMENT.MOVE' | translate}}"
+          permission="update"
+          [disableWithNoPermission]="true"
+          handler="move">
+        </content-action>
+        <content-action
+          icon="delete"
+          target="document"
+          permission="delete"
+          [disableWithNoPermission]="true"
+          (permissionEvent)="handlePermissionError($event)"
+          title="{{'DOCUMENT_LIST.ACTIONS.DOCUMENT.DELETE' | translate}}"
+          handler="delete">
+        </content-action>
+      </content-actions>
+    </adf-document-list>
+<!-- /alfresco-upload-drag-area -->

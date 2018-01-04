@@ -1,0 +1,88 @@
+.toolbar-icon {
+  padding: 0 14px;
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+.right-block {
+  vertical-align: top;
+  float: right;
+}
+
+.left-block {
+  vertical-align: top;
+  float: left;
+}
+
+.clear {
+	clear: both;
+}
+
+.form-header {
+	margin-top: 9px;
+} 
+
+.formInput {
+	clear: both;
+	align: left;
+}
+
+.wfInput {
+	width: 80%;
+}
+
+.tabContent {
+	margin-top: 15px;
+	height:60vh;
+	overflow: auto;
+}
+
+.buttonIcon {
+	margin-right: 5px;
+}
+
+.formList {
+	width: 80%;
+	margin: 0 auto;
+}
+
+.taskDescriptionContainer {
+	margin-top: 10px;
+	display: flex;
+}
+
+.taskActions {
+	flex-basis: 30%;
+	margin-left: 15px;
+}
+
+.taskActionButton {
+	margin-bottom: 20px;
+	display: block;
+	width: 240px;
+}
+
+.taskDesciption {
+	flex-basis: 70%;
+	padding-left: 30px;
+}
+
+.taskTitle {
+	font-size: 16px;
+	font-style: bold;
+}
+
+.row {
+	display: fles;
+}
+
+.inRow {
+	margin-right: 10px;
+	flex-basis: 30%;
+}
+
+.lastInRow {
+	flex-basis: 30%;
+}

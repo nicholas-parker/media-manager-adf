@@ -1,0 +1,30 @@
+<div *ngIf="hasNotification" class="notificationGroup">
+
+<md-grid-list cols="3">
+<md-grid-tile>
+
+    <md-card class="production-card">
+       <md-card-title>{{ notification.title }}</md-card-title>
+       <img class="production-image" md-card-image src="/images/job.jpeg">
+       <md-card-content>
+       {{ notification.description }}
+       </md-card-content>
+       <md-card-actions>
+         <a  [routerLink]="['opportunity', notification.task.id]" (click)="selectTask()" md-raised-button color="accent">
+           <md-icon>arrow_forward</md-icon>
+         More</a>
+       </md-card-actions>
+    </md-card>
+  
+  </md-grid-tile>
+
+</md-grid-list>
+
+<!-- div class="notificationContainer">
+    <img src="/images/job.jpeg" class="jobImage" />
+  <span class="title">{{ notification.title }}</span>
+  <span class="description">{{ notification.description }}</span>
+  <button md-button (click)="viewTask()">More</button>
+</div -->
+
+</div>

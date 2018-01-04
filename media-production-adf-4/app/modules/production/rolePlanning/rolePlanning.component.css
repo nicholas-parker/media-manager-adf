@@ -1,0 +1,8 @@
+.crewList {
+    height: 100%;
+	overflow: scroll;
+}
+
+.buttonText {
+	vertical:align: middle;
+}

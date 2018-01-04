@@ -1,0 +1,30 @@
+.toolbar-icon {
+  padding: 0 14px;
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+.right-block {
+  vertical-align: top;
+  float: right;
+}
+
+.left-block {
+  vertical-align: top;
+  float: left;
+}
+
+.clear {
+	clear: both;
+}
+
+.form-header {
+	margin-top: 9px;
+} 
+
+.formInput {
+	clear: both;
+	align: left;
+}

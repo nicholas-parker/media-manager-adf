@@ -1,0 +1,33 @@
+{
+    "ADF_FILE_UPLOAD": {
+        "BUTTON": {
+            "MINIMIZE": "Minimizzare",
+            "MAXIMIZE": "Massimizzare",
+            "CLOSE": "Vicino",
+            "CANCEL_ALL": "Annulla i caricamenti"
+        },
+        "STATUS": {
+            "FILE_CANCELED_STATUS": "Annullato"
+        }
+    },
+    "FILE_UPLOAD": {
+        "BUTTON": {
+            "UPLOAD_FILE": "Carica un file",
+            "UPLOAD_FOLDER": "Carica una cartella"
+        },
+        "MESSAGES": {
+            "UPLOAD_CANCELED": "Carica annullata",
+            "UPLOAD_COMPLETED": "Caricato {{ completed }} / {{ total }}",
+            "UPLOAD_PROGRESS": "Caricamento {{ completed }} / {{ total }}",
+            "UPLOAD_ERROR": "{{ total }} errore",
+            "UPLOAD_ERRORS": "{{ total }} errori",
+            "PROGRESS": "caricamento in corso...",
+            "FOLDER_ALREADY_EXIST": "Cartella {0} già presente",
+            "FOLDER_NOT_SUPPORTED": "L' upload di cartelle non é supportato dal tuo browser",
+            "REMOVE_FILE_ERROR": "Errore durante la rimozione del file {{ fileName }}"
+        },
+        "ACTION": {
+            "UNDO": "Annulla"
+        }
+    }
+}

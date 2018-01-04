@@ -1,0 +1,131 @@
+<div>
+<form novalidate>
+  <md-toolbar color="primary">
+    <div class="taskTitle">
+      <span *ngIf="create">Create a new crew template {{ defaultRole.nvpList_typeName }}</span>
+      <span *ngIf="!create">Edit crew template</span>
+    </div>
+    <span class="toolbar-spacer"></span>
+    <button md-button (click)="onCancel()"><md-icon class="buttonIcon">close</md-icon></button>
+  </md-toolbar>
+<div class="taskDescriptionContainer">
+  <div class="taskActions">
+    <button md-raised-button color="primary" class="taskActionButton" (click)="onSave()">
+      <md-icon class="buttonIcon">save</md-icon>
+      <span *ngIf="create">Create crew template</span>
+      <span *ngIf="!create">Save crew template</span>
+    </button>
+    <button md-raised-button color="primary" class="taskActionButton" (click)="onCancel()"><md-icon class="buttonIcon">close</md-icon>Cancel</button>
+  </div>
+  <div class="taskDesciption" *ngIf="!busy">
+    <ul>
+      <li>A crew template defines a type of crew member you will need in your production crew
+      <li>Later on you will add crew members based on these templates</li>
+  </ul>
+  </div>
+  <div class="taskDescription" *ngIf="busy">
+     <md-spinner ></md-spinner>
+     Creating new template role
+  </div>
+</div>
+
+
+
+<md-dialog-content>
+  <div class="tabContent">
+    <md-grid-list cols="1" rowHeight="12:1">  
+    
+      <md-grid-tile>
+        <md-form-field class="wfInput">
+          <input mdInput placeholder="Position" id="name" [(ngModel)]="defaultRole.nvpList_typeName" name="nvpList_typeName" pattern="[A-Z,a-z,_]*" />
+          <span class="mdl-textfield__error">Only alphabet please!</span>
+        </md-form-field>
+      </md-grid-tile>
+      
+      <md-grid-tile>
+        <md-form-field class="wfInput">
+          <textarea rows="3" mdInput placeholder="Description" id="description" [(ngModel)]="defaultRole.nvpList_typeDescription" name="nvpList_typeDescription" pattern="[A-Z,a-z,0-9,_]*"></textarea>
+          <span class="mdl-textfield__error">Only alphabet please!</span>
+        </md-form-field>
+      </md-grid-tile>
+    
+     <md-grid-tile>
+        <md-select class="wfInput" placeholder="Role provides service or product" id="deliverable-type" [(ngModel)]="defaultRole.nvpList_typeDeliverableType" name="nvpList_typeDeliverableType">
+          <md-option *ngFor="let type of deliverableTypeList" [value]="type.value">{{type.text}}</md-option>
+        </md-select>
+     </md-grid-tile>
+
+      <md-grid-tile>
+        <md-form-field class="wfInput">
+          <input mdInput placeholder="Charge code" id="charge-code" [(ngModel)]="defaultRole.nvpList_typeChargeCode" name="nvpList_typeChargeCode" pattern="[0-9]*"/>
+          <span class="mdl-textfield__error">Only alphabet please!</span>
+        </md-form-field>
+      </md-grid-tile>
+
+      <md-grid-tile>
+        <md-select class="wfInput" placeholder="Engaged as PAYS or freelance/contract" id="PAYE-status" [(ngModel)]="defaultRole.nvpList_typePAYEStatus" name="nvpList_typePAYEStatus">
+          <md-option *ngFor="let type of PAYEStatusList" [value]="type.value">{{type.text}}</md-option>
+        </md-select>
+      </md-grid-tile>
+
+      <md-grid-tile>
+        <md-select class="wfInput" placeholder="Expected working week" id="working-week" [(ngModel)]="defaultRole.nvpList_typeWorkingWeek" name="nvpList_typeWorkingWeek">
+          <md-option *ngFor="let type of workingWeekList" [value]="type">{{type}}</md-option>
+        </md-select>
+      </md-grid-tile>
+
+      <md-grid-tile>
+        <md-form-field class="wfInput">
+          <input mdInput placeholder="Minimum budget" id="budget-min" [(ngModel)]="defaultRole.nvpList_typeBudgetMin" name="nvpList_typeBudgetMin" pattern="[0-9]*" />
+          <span class="mdl-textfield__error">Only alphabet please!</span>
+        </md-form-field>
+      </md-grid-tile>
+
+      <md-grid-tile>
+        <md-form-field class="wfInput">
+          <input mdInput placeholder="Maximum budget"  id="budget-max" [(ngModel)]="defaultRole.nvpList_typeBudgetMax" name="nvpList_typeBudgetMax" pattern="[0-9]*" />
+          <span class="mdl-textfield__error">Only alphabet please!</span>
+        </md-form-field>
+      </md-grid-tile>
+
+      <md-grid-tile>
+        <md-select class="wfInput" placeholder="Budget rate period" id="rate-period" [(ngModel)]="defaultRole.nvpList_typeRatePeriod" name="nvpList_typeRatePeriod">
+          <md-option *ngFor="let type of ratePeriodList" [value]="type">{{type}}</md-option>
+        </md-select>
+      </md-grid-tile>
+
+     <md-grid-tile>
+        <md-select class="wfInput" placeholder="Payment period" id="payment-period" [(ngModel)]="defaultRole.nvpList_typePaymentPeriod" name="nvpList_typePaymentPeriod">
+          <md-option *ngFor="let type of paymentPeriodList" [value]="type.value">{{type.text}}</md-option>
+        </md-select>
+      </md-grid-tile>
+    
+      <md-grid-tile>
+        <md-select class="wfInput" placeholder="Payment currency" id="type-currency" [(ngModel)]="defaultRole.nvpList_typeCurrency" name="nvpList_typeCurrency">
+          <md-option *ngFor="let type of currencyList" [value]="type">{{type}}</md-option>
+        </md-select>
+      </md-grid-tile>
+      
+      <md-grid-tile>
+        <md-select class="wfInput" placeholder="When offering position the following process will run" id="process-name" [(ngModel)]="defaultRole.nvpList_typeProcessName" name="nvpList_typeProcessName">
+          <md-option *ngFor="let type of managementProcessList" [value]="type">{{type}}</md-option>
+        </md-select>
+      </md-grid-tile>
+      
+      <md-grid-tile>
+        <md-select class="wfInput" placeholder="Fulfilling the position will be managed by" id="administration-team" [(ngModel)]="defaultRole.nvpList_typeAdministrationTeam" name="nvpList_typeAdministrationTeam">
+          <md-option *ngFor="let type of adminTeamList" [value]="type">{{type}}</md-option>
+        </md-select>
+      </md-grid-tile>
+
+      <md-grid-tile>
+        <md-select class="wfInput" placeholder="Select a contract template" id="contract-template" [(ngModel)]="defaultRole.nvpList_typeContractTemplate" name="nvpList_typeContractTemplate">
+          <md-option *ngFor="let template of contractTemplateService.connect() | async" [value]="template.id">{{ template.name }}</md-option>
+        </md-select>
+      </md-grid-tile>
+    </md-grid-list>
+    
+
+</div>
+</md-dialog-content>
+</form>
