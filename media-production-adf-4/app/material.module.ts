@@ -16,35 +16,36 @@
  */
 
 
-import { CdkTableModule } from '@angular/cdk/table';
-import { NgModule } from '@angular/core';
-import { MdDialogModule, MdInputModule, MdSelectModule, MdSlideToggleModule, MdSortModule, MdTableModule, MdCardModule, MdButtonModule } from '@angular/material';
-import { MdDatepickerModule, MdMenuModule, MdIconModule, MdTabsModule, MdGridListModule, MdProgressSpinnerModule, MdRadioModule } from '@angular/material';
+import {CdkTableModule} from '@angular/cdk/table';
+import {NgModule} from '@angular/core';
+import {MdDialogModule, MdInputModule, MdSelectModule, MdSlideToggleModule, MdSortModule, MdTableModule, MdCardModule, MdButtonModule} from '@angular/material';
+import {MdDatepickerModule, MdMenuModule, MdIconModule, MdTabsModule, MdListModule, MdGridListModule, MdProgressSpinnerModule, MdRadioModule} from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 const MATERIAL_MODULES = [
-    CdkTableModule, 
-    MdSlideToggleModule,
-    MdInputModule,
-    MdSelectModule,
-    MdDialogModule,
-    MdSortModule,
-    MdTableModule,
-    MdCardModule,
-    MdButtonModule,
-    MdSelectModule,
-    MdDatepickerModule,
-    MdMenuModule,
-    MdIconModule,
-    MdTabsModule,
-    MdGridListModule,
-    MdProgressSpinnerModule,
-    MdRadioModule,
-    BrowserAnimationsModule
+  CdkTableModule,
+  MdSlideToggleModule,
+  MdInputModule,
+  MdSelectModule,
+  MdDialogModule,
+  MdSortModule,
+  MdTableModule,
+  MdCardModule,
+  MdButtonModule,
+  MdSelectModule,
+  MdDatepickerModule,
+  MdMenuModule,
+  MdIconModule,
+  MdTabsModule,
+  MdGridListModule,
+  MdProgressSpinnerModule,
+  MdRadioModule,
+  MdListModule,
+  BrowserAnimationsModule
 ];
 
 @NgModule({
-    imports: MATERIAL_MODULES,
-    exports: MATERIAL_MODULES
+  imports: MATERIAL_MODULES,
+  exports: MATERIAL_MODULES
 })
 export class MaterialModule {}

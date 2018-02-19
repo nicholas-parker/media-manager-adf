@@ -1,5 +1,5 @@
 
-<form [formGroup]="taskForm" novalidate>
+<form [formGroup]="taskForm" novalidate #form>
   <md-toolbar color="accent">
     <div class="taskTitle">{{ model.contract_serviceName }}</div>
     <span class="toolbar-spacer"></span>
@@ -17,6 +17,7 @@
       <li>Complete the RIGHT TO WORK section providing proof of identity</li>
       <li>Provide BANK DETAILS for payment</li>
   </ul>
+  <button md-button (click)="onDecline()"><md-icon class="buttonIcon">thumb_down</md-icon>Decline offer</button>
   </div>
 </div>
 
@@ -233,6 +234,12 @@
         <input mdInput placeholder="Passport number" formControlName="contract_identityDocumentReference" />
       </md-form-field>
     </md-grid-tile>
+
+    <md-grid-tile [rowspan]="2">
+      <span class="leftField">
+        <process-file #passport [docType]="'Passport'" [aspects]="passportAspects" [properties]="passportProperties" [deleteOption]="true" [maxFiles]="1" [fieldDescription]="'Scan of passport'" [explainText]="'Upload a scan of your passport'" [bpmPackage]="bpmPackage"></process-file>
+      </span>
+    </md-grid-tile>
     
     <md-grid-tile *ngIf="isNotUKNational">
       <md-form-field class="leftField">
@@ -247,21 +254,12 @@
           <md-datepicker #pickerExp></md-datepicker>
       </md-form-field>
     </md-grid-tile>
-      
-    <md-grid-tile [rowspan]="2">
-      <span class="leftField">
-        <process-file #documents [docType]="'Passport'" [aspects]="passportAspects" [properties]="passportProperties" [deleteOption]="true" [maxFiles]="1" [fieldDescription]="'Scan of passport'" [explainText]="'Upload a scan of your passport'" [bpmPackage]="bpmPackage"></process-file>
-      </span>
-    </md-grid-tile>
     
     <!-- md-grid-tile *ngIf="isNotUKNational">
-      <div class="leftField mat-body-1">If you have a visa to work in the UK please provide a scan of the visa</div>
-      <alfresco-upload-button #uploadButton2 (onSuccess)="onFileUploadSuccess($event)" [rootFolderId]="bpmPackage"></alfresco-upload-button>
-    </md-grid-tile-->
-
-    
-
-    
+      <span class="leftField">
+        <process-file #visa [docType]="'Visa'" [aspects]="visaAspects" [properties]="visaProperties" [deleteOption]="true" [maxFiles]="0" [fieldDescription]="'Scan of visa'" [explainText]="'Upload a scan of your visa or work permit'" [bpmPackage]="bpmPackage"></process-file>
+      </span>
+    </md-grid-tile -->
     
   </md-grid-list>
   <div class="tabNav">
@@ -323,7 +321,7 @@
         [showViewer]="true"
         [overlayMode]="false"
         [showToolbar]="false"
-        [fileNodeId]="bpmContractUUID">
+        [fileNodeId]="'03cfa710-b065-49a6-879d-a4f7285a578b'">
       </adf-viewer>
     </div>
     

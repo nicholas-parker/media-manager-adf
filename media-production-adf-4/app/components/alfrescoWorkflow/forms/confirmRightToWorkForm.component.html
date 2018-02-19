@@ -1,4 +1,4 @@
-<form [formGroup]="taskForm" novalidate>
+<!-- form [formGroup]="taskForm" novalidate -->
   <md-toolbar color="primary">
     <div class="taskTitle">Ensure that the supplier has a right to work in the UK</div>
     <span class="toolbar-spacer"></span>
@@ -34,214 +34,308 @@
   </ul>
   </div>
 </div>
-<md-tab-group>
-
+<md-tab-group [selectedIndex]="selectedTab">
   <md-tab label="Role">
-  <div class="tabContent">
-    <fieldset disabled="true">
+  <div class="tabContainer">
+    <div class="mat-title sub-heading">Role details</div>
     <md-grid-list cols="1" rowHeight="12:1">
     
       <md-grid-tile>
-        <md-form-field class="wfInput">
-          <input mdInput placeholder="Position" formControlName="contract_serviceName" />
-          <span class="mdl-textfield__error">Only alphabet please!</span>
-        </md-form-field>
+        <div class="leftField">
+        <span class="mat-body-1">{{ model.contract_serviceName }}</span>
+        </div>
       </md-grid-tile>
       
       <md-grid-tile>
-        <md-form-field class="wfInput">
-          <textarea class="wfInput" mdInput placeholder="Description" formControlName="contract_serviceDescription"></textarea>
-          <span class="mdl-textfield__error">Only alphabet please!</span>
-        </md-form-field>   
+      <div class="leftField mat-body-1">
+        {{ model.contract_serviceDescription }}
+      </div>   
       </md-grid-tile>
       
       <md-grid-tile>
-        <md-form-field class="wfInput">
-          <input mdInput [mdDatepicker]="picker1" placeholder="Start date" formControlName="contract_serviceStart" />
-          <md-datepicker-toggle mdSuffix [for]="picker1"></md-datepicker-toggle>
-          <md-datepicker #picker1></md-datepicker>
-        </md-form-field>
+      <div class="leftField mat-body-1">
+        <md-icon class="buttonIcon">date_range</md-icon>
+        {{ model.contract_serviceStart | date: 'dd/MM/yyyy' }} - {{ model.contract_serviceEnd | date: 'dd/MM/yyyy'}}
+      </div>
       </md-grid-tile>
       
       <md-grid-tile>
-        <md-form-field class="wfInput">
-          <input mdInput [mdDatepicker]="picker2" placeholder="End date" formControlName="contract_serviceEnd" />
-          <md-datepicker-toggle mdSuffix [for]="picker2"></md-datepicker-toggle>
-          <md-datepicker #picker2></md-datepicker>
-        </md-form-field>
-      </md-grid-tile >
-
-      <md-grid-tile>
-        <md-form-field class="wfInput">
-         <input mdInput formControlName="contract_location" placeholder="Location" />
-        </md-form-field>
+      <div class="leftField mat-body-1">
+        <md-icon class="buttonIcon">location_on</md-icon>
+        {{ model.contract_location }}
+      </div>
       </md-grid-tile>      
     
     </md-grid-list>
-    </fieldset>
+    <div class="tabNav">
+      <button (click)="setTab(1)" md-raised-button color="accent">
+        <md-icon class="buttonIcon">arrow_forward</md-icon>Next
+      </button>
     </div>
-</md-tab>
-
-<md-tab label="Personal details">
- <div class="tabContent">
-  <fieldset disabled="true">
-  <md-grid-list cols="1" rowHeight="12:1">
-    <md-grid-tile>
-      <md-form-field class="wfInput">
-        <input mdInput placeholder="First name" formControlName="contract_supplierFirstName" />
-      </md-form-field>
-    </md-grid-tile>
-    <md-grid-tile>
-        <md-form-field class="wfInput">
-        <input placeholder="Last name" mdInput formControlName="contract_supplierLastName" />
-      </md-form-field>
-    </md-grid-tile>
-    <md-grid-tile>
-      <md-form-field class="wfInput">
-        <input  mdInput placeholder="Address" formControlName="contract_supplierAddress1" />
-      </md-form-field>
-    </md-grid-tile>
-    <md-grid-tile>
-      <md-form-field class="wfInput">
-        <input  mdInput placeholder="Address" formControlName="contract_supplierAddress2" />
-      </md-form-field>
-    </md-grid-tile>
-    <md-grid-tile>
-      <md-form-field class="wfInput">
-        <input  mdInput placeholder="Address" formControlName="contract_supplierAddress3" />
-      </md-form-field>
-    </md-grid-tile>
-    <md-grid-tile>
-      <md-form-field class="wfInput">
-        <input  mdInput placeholder="Post code" formControlName="contract_supplierPostCode" />
-      </md-form-field>
-    </md-grid-tile>
     
-  </md-grid-list> 
- </fieldset>
-</div>
-</md-tab>
-<md-tab label="Supporting Documentation">
-<div class="tabContent">
- <fieldset>
-  <md-list class="formList">
+  </div>
+  </md-tab>
 
-      <md-list-item>
-        <md-form-field class="wfInput">
-          <input mdInput [mdDatepicker]="pickerDOB" placeholder="Date of birth" formControlName="contract_dateOfBirth" />
-          <md-datepicker-toggle mdSuffix [for]="pickerDOB"></md-datepicker-toggle>
-          <md-datepicker #pickerDOB></md-datepicker>
-        </md-form-field>
-      </md-list-item>>
-
-    <md-list-item>
-      <md-form-field class="wfInput">
-        <input mdInput placeholder="Town of birth" formControlName="contract_townOfBirth" />
-      </md-form-field>
-    </md-list-item>
-
-    <md-list-item>
-      <md-form-field class="wfInput">
-        <input mdInput placeholder="Country of birth" formControlName="contract_countryOfBirth" />
-      </md-form-field>
-    </md-list-item>
-
-    <md-list-item>
-      <md-form-field class="wfInput">
-        <input mdInput placeholder="National insurance number" formControlName="contract_nationalInsuranceNumber" />
-      </md-form-field>
-    </md-list-item>
-
-    <md-list-item>
-      <process-file #passport [explainText]="'As proof of identity please provide a scan of your passport'" [bpmPackage]="bpmPackage" [noUpload]="true"></process-file>
-    </md-list-item>
-
-    <md-list-item>
-      <md-form-field class="wfInput">
-        <input mdInput placeholder="Passport number" formControlName="contract_identityDocumentReference" />
-      </md-form-field>
-    </md-list-item>
-    
-    <md-list-item>
-      <div class="explainText">If you have a visa to work in the UK please provide a scan of the visa</div>
-      <alfresco-upload-button #uploadButton2 (onSuccess)="onFileUploadSuccess($event)" [rootFolderId]="'-my-'">
-      </alfresco-upload-button>
-    </md-list-item>
-
-    <md-list-item>
-      <md-form-field class="wfInput">
-        <input mdInput placeholder="Visa number" formControlName="contract_visaNumber" />
-      </md-form-field>
-    </md-list-item>
-
-      <md-list-item>
-        <md-form-field class="wfInput">
-          <input mdInput [mdDatepicker]="pickerExp" placeholder="Visa expiry date" formControlName="contract_visaExpiryDate" />
-          <md-datepicker-toggle mdSuffix [for]="pickerExp"></md-datepicker-toggle>
-          <md-datepicker #pickerExp></md-datepicker>
-        </md-form-field>
-      </md-list-item>
-    
-  </md-list>
- </fieldset>
-</div>
-</md-tab>
-<md-tab label="Financials">
-<div class="tabContent">
-  <fieldset disabled="true">
-  <md-grid-list cols="1" rowHeight="12:1">
+  <md-tab label="Financials">
+  <div class="tabContainer">
+  <div class="mat-title sub-heading">Financial information</div>
+  <div class="mat-body-1">The following has been accepted by the candidate</div>
+    <md-grid-list cols="1" rowHeight="12:1">
   
-  <md-grid-tile>
-    <md-form-field class="wfInput">
-        <input class="wfInput" mdInput placeholder="Value" formControlName="contract_contractValue" />
-        <input class="wfInput" mdInput formControlName="contract_ratePeriodSpecifier" />
-      </md-form-field>
+   <md-grid-tile>
+   <div class="leftField mat-body-1">
+   		<md-icon class="buttonIcon">account_balance</md-icon>
+        {{ model.contract_contractValueCurrency }} {{ model.contract_contractValue }} {{ model.contract_ratePeriodSpecifier }}
+   </div>
    </md-grid-tile>
    <md-grid-tile>
-      <md-select disabled="true" class="wfInput" mdInput id="PAYE" formControlName="contract_PAYEstatus" placeholder="PAYE or Contract">
-          <md-option *ngFor="let type of PAYEStatusList" [value]="type.value">{{type.text}}</md-option>
-      </md-select>
-   </md-grid-tile>
-   
-   <md-grid-tile>
-        <md-select disabled="true" class="wfInput" placeholder="Payment period" formControlName="contract_paymentPeriodSpecifier">
-           <md-option *ngFor="let type of paymentPeriodList" [value]="type.value">{{type.text}}</md-option>
-        </md-select>
+   <div class="leftField mat-body-1">
+        <md-icon class="buttonIcon">query_builder</md-icon>
+        Employment status: {{ model.contract_PAYEstatus }}
+   </div>
    </md-grid-tile>
    
    <md-grid-tile>
-        <md-select disabled="true" class="wfInput" placeholder="Currency" formControlName="contract_contractValueCurrency">
-          <md-option *ngFor="let type of currencyList" [value]="type">{{type}}</md-option>
-        </md-select>
+   <div class="leftField  mat-body-1">
+        <md-icon class="buttonIcon">date_range</md-icon>        
+        Paid {{ model.contract_paymentPeriodSpecifier }}
+   </div>
    </md-grid-tile>
    
    <md-grid-tile>
-      <md-checkbox formControlName="contract_overtimePayable">Overtime payable</md-checkbox>
+   <div class="leftField  mat-body-1">
+   		<md-icon class="buttonIcon">network_check</md-icon>
+        Paid overtime: {{ model.contract_overtimePayable }} <span *ngIf="model.contract_overtimePayable === 'YES'">{{ model.contract_overtimeRate }}</span> 
+   </div>
    </md-grid-tile>
    
    <md-grid-tile>
-        <md-form-field class="wfInput">
-        <input class="wfInput" mdInput placeholder="Overtime rate" formControlName="contract_overtimeRate" />
-      </md-form-field>
+   <div class="leftField  mat-body-1">
+        <md-icon class="buttonIcon">beach_access</md-icon>
+        Days paid leave: {{ model.contract_holidayRate }}
+   </div>
    </md-grid-tile>     
                 
    <md-grid-tile>
-     <md-form-field class="wfInput">
-        <input class="wfInput" placeholder="Holiday pay rate" mdInput formControlname="contract_holidayRate" />
-     </md-form-field>
+   <div class="leftField  mat-body-1">
+        <md-icon class="buttonIcon">do_not_disturb</md-icon>
+        Termination notice period: {{ model.contract_noticePeriod }} days
+   </div>
    </md-grid-tile>
-
-
-   <md-grid-tile>
-      <md-form-field class="wfInput">
-        <input class="wfInput" mdInput formControlName="contract_noticePeriod" />
-      </md-form-field>
-   </md-grid-tile> 
    
   </md-grid-list>
-  </fieldset>    
+      <div class="tabNav">
+      <button (click)="setTab(2)" md-raised-button color="accent">
+        <md-icon class="buttonIcon">arrow_forward</md-icon>Next
+      </button>
+    </div>
 </div>
 </md-tab>
 
+<md-tab label="Personal details">
+ <div class="tabContainer">
+ <div class="mat-title sub-heading">Personal details</div>
+ <div class="mat-body-1">Ensure all personal information has been provided</div>
+  <md-grid-list cols="1" rowHeight="14:1">
+    <md-grid-tile>
+      <div class="leftField  mat-body-1">
+        <md-icon class="buttonIcon">do_not_disturb</md-icon>
+        First name: {{ model.contract_supplierFirstName }}
+      </div>
+      </md-grid-tile>
+
+    <md-grid-tile>
+      <div class="leftField  mat-body-1">
+        <md-icon class="buttonIcon">do_not_disturb</md-icon>
+        Last name: {{ model.contract_supplierLastName }}
+      </div>
+    </md-grid-tile>
+    
+    <md-grid-tile>
+          <div class="leftField  mat-body-1">
+        <md-icon class="buttonIcon">do_not_disturb</md-icon>
+        Email: {{ model.contract_supplierEmail }}
+      </div>
+    </md-grid-tile>
+    
+    <md-grid-tile>
+      <div class="leftField  mat-body-1">
+        <md-icon class="buttonIcon">do_not_disturb</md-icon>
+        DOB: {{ model.contract_dateOfBirth }}
+      </div>
+    
+    </md-grid-tile>
+
+    <md-grid-tile>
+      <div class="leftField  mat-body-1">
+        <md-icon class="buttonIcon">do_not_disturb</md-icon>
+        Town of birth: {{ model.contract_townOfBirth }}
+      </div>
+    </md-grid-tile>
+
+    <md-grid-tile>
+      <div class="leftField  mat-body-1">
+        <md-icon class="buttonIcon">do_not_disturb</md-icon>
+        First name: {{ model.contract_countryOfBirth }}
+      </div>
+    </md-grid-tile>
+     
+</md-grid-list>
+<div class="tabNav">
+      <button (click)="setTab(3)" md-raised-button color="accent">
+        <md-icon class="buttonIcon">arrow_forward</md-icon>Next
+      </button>
+    </div>
+</div>
+</md-tab>
+
+<md-tab label="Contact details">
+ <div class="tabContainer">
+ <div class="mat-title sub-heading">Contact details</div>
+ <div class="mat-body-1">Ensure adequate contact details provided</div>
+  <md-grid-list cols="1" rowHeight="14:1">
+    <md-grid-tile>
+      <div class="leftField  mat-body-1">
+        <md-icon class="buttonIcon">do_not_disturb</md-icon>
+        Mobile: {{ model.contract_supplierMobile }}
+      </div>
+    </md-grid-tile>
+
+    <md-grid-tile>
+      <div class="leftField  mat-body-1">
+        <md-icon class="buttonIcon">do_not_disturb</md-icon>
+        Address: {{ model.contract_supplierAddress1 }}
+      </div>
+    </md-grid-tile>
+
+    <md-grid-tile>
+      <div class="leftField  mat-body-1">
+        <md-icon class="buttonIcon">do_not_disturb</md-icon>
+        Address: {{ model.contract_supplierAddress2 }}
+      </div>
+    </md-grid-tile>
+    <md-grid-tile>
+      <div class="leftField  mat-body-1">
+        <md-icon class="buttonIcon">do_not_disturb</md-icon>
+        Address: {{ model.contract_supplierAddress3 }}
+      </div>
+    </md-grid-tile>
+    <md-grid-tile>
+      <div class="leftField  mat-body-1">
+        <md-icon class="buttonIcon">do_not_disturb</md-icon>
+        Post code: {{ model.contract_supplierPostCode }}
+      </div>
+    </md-grid-tile>
+    
+  </md-grid-list> 
+  <div class="tabNav">
+      <button (click)="setTab(4)" md-raised-button color="accent">
+        <md-icon class="buttonIcon">arrow_forward</md-icon>Next
+      </button>
+  </div>
+</div>
+</md-tab>
+
+<md-tab label="Right to work">
+<div class="tabContainer">
+ <div class="mat-title sub-heading">Right to work</div>
+ <div class="mat-body-1">Confirm the candidate has the right to work in the UK</div>
+
+  <md-grid-list cols="1" rowHeight="12:1">
+ 
+    <md-grid-tile>
+      <div class="leftField  mat-body-1">
+        <md-icon class="buttonIcon">do_not_disturb</md-icon>
+        UK National: {{ model.contract_rightToWorkAsserted }}
+      </div>
+    </md-grid-tile>
+    
+    <md-grid-tile *ngIf="isUKNational">
+      <div class="leftField  mat-body-1">
+        <md-icon class="buttonIcon">do_not_disturb</md-icon>
+        NI Number: {{ model.contract_nationalInsuranceNumber }}
+      </div>
+    </md-grid-tile>
+
+    <md-grid-tile>
+      <div class="leftField  mat-body-1">
+        <md-icon class="buttonIcon">do_not_disturb</md-icon>
+        Passport number: {{ model.contract_identityDocumentReference }}
+      </div>
+    </md-grid-tile>
+
+    <md-grid-tile *ngIf="isNotUKNational">
+      <div class="leftField  mat-body-1">
+        <md-icon class="buttonIcon">do_not_disturb</md-icon>
+        Visa number: {{ model.contract_visaNumber }}
+      </div>
+    </md-grid-tile>
+
+    <md-grid-tile *ngIf="isNotUKNational">
+      <div class="leftField  mat-body-1">
+        <md-icon class="buttonIcon">do_not_disturb</md-icon>
+        Visa number: {{ model.contract_visaExpiryDate }}
+      </div>
+    </md-grid-tile>
+
+    <md-grid-tile [rowspan]="2">
+      <span class="leftField">
+        <process-file #passport [docType]="'Passport'" [deleteOption]="false" [maxFiles]="0" [fieldDescription]="'Right to work documentation'" [explainText]="''" [bpmPackage]="bpmPackage"></process-file>
+      </span>
+    </md-grid-tile>
+    
+    
+  </md-grid-list>
+  <div class="tabNav">
+      <button (click)="setTab(5)" md-raised-button color="accent">
+        <md-icon class="buttonIcon">arrow_forward</md-icon>Next
+      </button>
+    </div>
+</div>
+</md-tab>
+<md-tab label="Bank details">
+  <div class="tabContainer">
+    <div class="mat-title sub-heading">Bank details</div>
+    <div class="mat-body-1">Check bank details have been provided</div>
+
+  
+    <md-grid-list cols="1" rowHeight="14:1">
+ 
+      <md-grid-tile>
+        <div class="leftField  mat-body-1">
+        <md-icon class="buttonIcon">do_not_disturb</md-icon>
+        Bank name: {{ model.prod_bankName }}
+      </div>
+      </md-grid-tile>
+    
+      <md-grid-tile>
+        <div class="leftField  mat-body-1">
+        <md-icon class="buttonIcon">do_not_disturb</md-icon>
+        Bank account: {{ model.prod_bankAccountName }}
+      </div>
+      </md-grid-tile>
+      
+      <md-grid-tile>
+        <div class="leftField  mat-body-1">
+        <md-icon class="buttonIcon">do_not_disturb</md-icon>
+        Account number: {{ model.prod_bankAccountNumber }}
+      </div>
+      </md-grid-tile>
+      
+      <md-grid-tile>
+        <div class="leftField  mat-body-1">
+        <md-icon class="buttonIcon">do_not_disturb</md-icon>
+        Sort code: {{ model.prod_bankBranchSortCode }}
+      </div>
+      </md-grid-tile>
+    
+    </md-grid-list>
+    <div class="tabNav">
+      <button (click)="setTab(6)" md-raised-button color="accent">
+        <md-icon class="buttonIcon">arrow_forward</md-icon>Next
+      </button>
+    </div>
+  </div>
+</md-tab>
 </md-tab-group>
-</form>
+<!-- /form -->

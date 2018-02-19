@@ -9,6 +9,8 @@ import {Observable} from 'rxjs/Rx';
 import {Production} from './production';
 import {AlfrescoProductionService} from './alfrescoProduction.service';
 import {Router} from '@angular/router';
+import {ProductionProperties} from './productionProperties';
+import {ServicePeriod} from './servicePeriod';
 
 // Import RxJs required methods
 import 'rxjs/add/operator/map';
@@ -66,6 +68,20 @@ export class NewProductionComponent implements OnInit {
    */
   private selectedTab;
 
+  /**
+   * 
+   * production properties
+   * 
+   */
+  private properties: ProductionProperties;
+
+  /**
+   * 
+   * production periods
+   * 
+   */
+  private periods: ServicePeriod[];
+
   constructor(private fb: FormBuilder,
     private service: AlfrescoProductionService,
     private snackBar: MdSnackBar,
@@ -73,7 +89,7 @@ export class NewProductionComponent implements OnInit {
 
     this.productionForm = this.fb.group({
 
-      prod_productionTitle: '',
+      prod_productionName: '',
       prod_productionDescription: '',
 
       prod_preProductionStartDate: null,
@@ -146,49 +162,87 @@ export class NewProductionComponent implements OnInit {
    */
   public createProduction() {
 
-    console.log(this.productionForm);
+    /**
+     * map form to ProductionProperties
+     */
+    this.properties = new ProductionProperties();
+    this.properties.prod_productionName = this.productionForm.value['prod_productionName'];
+    this.properties.prod_productionDescription = this.productionForm.value['prod_productionDescription'];
+
+    this.properties.contract_registeredName = this.productionForm.value['contract_registeredName'];
+    this.properties.contract_taxNumber = this.productionForm.value['contract_taxNumber'];
+    this.properties.contract_registeredNum = this.productionForm.value['contract_registeredNum'];
+    this.properties.contract_formalAddress = this.productionForm.value['contract_formalAddress'];
+    this.properties.contract_formalPostCode = this.productionForm.value['contract_formalPostCode'];
+    this.properties.contract_orgContactEmail = this.productionForm.value['contract_orgContactEmail'];
+    this.properties.contract_orgContactTel = this.productionForm.value['contract_orgContactTel'];
+
+    // Fields not captured in the UI form
+    // properties.contract_operatingName = this.productionForm.value['contract_operatingName'];
+    // properties.contract_registerOrg = this.productionForm.value['contract_registerOrg'];
+    // properties.contract_registerRegion = this.productionForm.value['contract_registerRegion'];
+    // properties.prod_productionAddress1 = this.productionForm.value['contract_productionAddress1'];
+    // properties.prod_productionAddress2 = this.productionForm.value['contract_productionAddress2'];
+    // properties.prod_productionAddress3 = this.productionForm.value['contract_productionAddress3'];
+    // properties.prod_productionCountry = this.productionForm.value['contract_productionCountry'];
+    // properties.prod_productionPOCode = this.productionForm.value['contract_productionPOCode'];
+
+    /**
+     * create the production periods
+     */
+    this.periods = new Array();
+
+    let preProduction = new ServicePeriod();
+    preProduction.contract_serviceName = 'Pre production';
+    preProduction.contract_serviceDescription = '';
+    preProduction.contract_serviceStart = this.productionForm.value['prod_preProductionStartDate'];
+    preProduction.contract_serviceEnd = this.productionForm.value['prod_preProductionEndDate'];
+    this.periods.push(preProduction);
+
+    let production = new ServicePeriod();
+    production.contract_serviceName = 'Production';
+    production.contract_serviceDescription = '';
+    production.contract_serviceStart = this.productionForm.value['prod_productionStartDate'];
+    production.contract_serviceEnd = this.productionForm.value['prod_productionEndDate'];
+    this.periods.push(production);
+
+    let postProduction = new ServicePeriod();
+    postProduction.contract_serviceName = 'Post production';
+    postProduction.contract_serviceDescription = '';
+    postProduction.contract_serviceStart = this.productionForm.value['prod_postProductionStartDate'];
+    postProduction.contract_serviceEnd = this.productionForm.value['prod_postProductionEndDate'];
+    this.periods.push(postProduction);
 
     this.snackBar.open('Creating your new production area');
-    this.service.createSite(this.productionForm.value.prod_productionTitle,
-      this.productionForm.value.prod_productionTitle,
-      null).subscribe(
+    this.service.createSite(this.properties).subscribe(
       data => {
-
-        console.log(data);
-        this.snackBar.open('Applying product settings');
 
         /*
          * 
-         * site created, now apply the product settings
+         * site created, now create the production periods
          * 
          */
-        this.siteShortName = data.entry.id;
-        this.service.applyProduction(this.siteShortName, this.productCode).subscribe(
-          prodData => {
+        console.log(data);
+        for (let i = 0; i < this.periods.length; i++) {
 
-            /**
-             * 
-             * site created, product settings applied, add aspects
-             * 
-             */
-            this.snackBar.open('Production area created');
-            this.router.navigate(['/production', this.siteShortName]);
 
-          },
-          prodErr => {
+          this.service.addProductionPeriod(data.entry.name, this.periods[i]).subscribe(
+            ppData => {
 
-            /**
-             * 
-             * error applying the product settings
-             * 
-             */
-            this.snackBar.open('Unable to apply the product settings');
+              console.log('Added production period ' + this.periods[i].contract_serviceName);
 
-          }
-        );
+            },
+            err => {
+
+              console.log('Error adding production period ');
+              console.log(err);
+
+            });
+        }
+
+        this.router.navigate(['/production/', data.entry.name]);
 
       },
-
       err => {
 
         /**
@@ -198,7 +252,6 @@ export class NewProductionComponent implements OnInit {
          */
         console.log(err);
         this.snackBar.open('Unable to create your production area', '{ duration: 500}');
-
       });
 
   }

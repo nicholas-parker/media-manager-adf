@@ -150,6 +150,27 @@ export class AlfrescoService {
   }
 
   /**
+   * deletes the message as a JSON body to the /alfresco/<servicePath>
+   * 
+   * @returns Observable which resolves to an object posted back in the response
+   * 
+   */
+  public deleteHeaderAuth(servicePath: string): Observable<any> {
+
+    let url = this.createURL_noTicket(servicePath);
+    let ecmTicket = this.apiService.getInstance().ecmAuth.getTicket();
+    let headers = new Headers({'Authorization': 'Basic ' + btoa(ecmTicket)}); // ... Set content type to JSON
+    let options = new RequestOptions({headers: headers}); // Create a request option
+
+    let result: Observable<any> = this.http.delete(url, options)
+      .map((res: Response) => res.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+
+    return result;
+
+  }
+
+  /**
    * puts the message as a JSON body to the /alfresco/<servicePath>
    * 
    * @returns Observable which resolves to an object posted back in the response
@@ -206,5 +227,17 @@ export class AlfrescoService {
       + AlfrescoService.CONTEXT_ROOT
       + service;
 
+  }
+
+  public transform(source: any): any {
+
+    let names = Object.getOwnPropertyNames(source);
+    let result = {};
+    for (let i = 0; i < names.length; i++) {
+
+      let newName = names[i].replace('_', ':');
+      result[newName] = source[names[i]];
+    }
+    return result;
   }
 }

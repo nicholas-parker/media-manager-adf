@@ -4,10 +4,12 @@ import {RouterModule, Routes} from '@angular/router';
 import {ProductionDashboardComponent} from './production-dashboard.component';
 import {ProductionComponent} from './production.component';
 import {DefaultRoleComponent} from './defaultRoles/defaultRole.component';
-import {RolePlanningComponent} from './rolePlanning/rolePlanning.component';
+import {RoleListComponent} from './rolePlanning/role-list.component';
+import {RoleDetailComponent} from './rolePlanning/roleDetail.component';
 import {ProductionFilesComponent} from './productionFiles/productionFiles.component';
 import {FileDetailComponent} from './productionFiles/fileDetail.component';
 import {AdminComponent} from './admin/admin.component';
+import {CompanyComponent} from './admin/company/company.component';
 
 const productionRoutes: Routes = [
   {
@@ -18,19 +20,23 @@ const productionRoutes: Routes = [
         path: '',
         children: [
           {
-            path: ':id/defaultRoles',
+            path: 'defaultRoles',
             component: DefaultRoleComponent
           },
           {
-            path: ':id/rolePlanning',
-            component: RolePlanningComponent
+            path: 'rolePlanning',
+            component: RoleListComponent
+          },
+          {
+            path: 'roleDetails/:roleId',
+            component: RoleDetailComponent
           },
           {
             path: '',
             component: ProductionDashboardComponent
           },
           {
-            path: ':id/documents',
+            path: 'documents',
             component: ProductionFilesComponent
           },
           {
@@ -40,6 +46,10 @@ const productionRoutes: Routes = [
           {
             path: 'admin',
             component: AdminComponent
+          },
+          {
+            path: 'admin/company',
+            component: CompanyComponent
           }
         ]
       }

@@ -1,3 +1,25 @@
+<md-toolbar color="primary">  
+  <md-icon>menu</md-icon>
+  <span class="menubarTitle">Production Team</span>
+  <button   md-button [matMenuTriggerFor]="viewMenu"><md-icon class="buttonIcon">view_week</md-icon></button>
+  <md-menu #viewMenu>
+    Views
+    <md-divider></md-divider>
+    <button md-menu-item (click)="viewChanged('planning')">
+      <md-icon>recent_actors</md-icon>
+      <span>Production view</span>
+      <md-icon *ngIf="managementView">done</md-icon>
+    </button>
+    <button md-menu-item (click)="viewChanged('finance')">
+      <md-icon>attach_money</md-icon>
+      <span>Financial view</span>
+      <md-icon *ngIf="financeView">done</md-icon>
+    </button>
+  </md-menu>
+  <span class="fill"></span>
+  <button  (click)="onCreateRole()" md-button><md-icon class="buttonIcon" (click)="onCreateRole()">person_add</md-icon></button>
+  <button  (click)="filterDialogOpen()" md-button><md-icon class="buttonIcon">filter_list</md-icon></button>
+</md-toolbar>
 <md-table #table [dataSource]="roleData" mdSort>
 <ng-container cdkColumnDef="type">
       <md-header-cell *cdkHeaderCellDef md-sort-header>Type</md-header-cell>
@@ -25,27 +47,54 @@
   <ng-container cdkColumnDef="status">
       <md-header-cell *cdkHeaderCellDef md-sort-header>Status</md-header-cell>
       <md-cell *cdkCellDef="let row">
+        <md-icon *ngIf="supplierReview(row)">visibility</md-icon>
         <md-icon *ngIf="accepted(row)">sentiment_very_satisfied</md-icon>
-        <md-icon *ngIf="declined(row)">sentiment_very_dissatisfied</md-icon>
+        <md-icon *ngIf="declined(row)">warning</md-icon>
         <md-icon *ngIf="progress(row)">mode_edit</md-icon>
+        <md-icon *ngIf="approved(row)">done</md-icon>
       {{ row.nvpList_roleStatus }}</md-cell>
   </ng-container>
-  
   <ng-container cdkColumnDef="currency">
       <md-header-cell *cdkHeaderCellDef md-sort-header>Currency</md-header-cell>
       <md-cell *cdkCellDef="let row"> {{row.nvpList_currency}}</md-cell>
   </ng-container>
+  <ng-container cdkColumnDef="tags">
+      <md-header-cell *cdkHeaderCellDef md-sort-header>Tags</md-header-cell>
+      <md-cell *cdkCellDef="let row">
+        <adf-tag-node-list [nodeId]="row.cm_name"></adf-tag-node-list>
+        <md-icon mdTooltip="Add tag" [mdTooltipPosition]="'above'" (click)="tagDialogOpen(row)">style</md-icon>
+      </md-cell>
+  </ng-container>
   <ng-container cdkColumnDef="budget">
       <md-header-cell *cdkHeaderCellDef md-sort-header>Budget</md-header-cell>
-      <md-cell *cdkCellDef="let row"> {{row.nvpList_budgetMin}} - {{row.nvpList_budgetMax}} {{ row.nvpList_ratePeriod }}</md-cell>
+      <md-cell *cdkCellDef="let row">
+        <div *ngIf="showBudgetPeriod(row)">{{row.nvpList_budgetMin}} - {{row.nvpList_budgetMax}} {{ row.nvpList_ratePeriod }}</div>
+        <div *ngIf="showBudgetTotal(row) || showContractAmount(row)" mdTooltip="{{row.nvpList_budgetMin}} - {{row.nvpList_budgetMax}} {{ row.nvpList_ratePeriod }}" [mdTooltipPosition]="'above'">
+        {{row.nvpList_totalBudgetMin}} - {{row.nvpList_totalBudgetMax}}
+        </div>
+      </md-cell>
   </ng-container>
   <ng-container cdkColumnDef="totalBudget">
-      <md-header-cell *cdkHeaderCellDef md-sort-header>Total budget</md-header-cell>
-      <md-cell *cdkCellDef="let row"> {{row.nvpList_totalBudgetMin}} - {{row.nvpList_totalBudgetMax}}</md-cell>
+      <md-header-cell *cdkHeaderCellDef md-sort-header>Budget</md-header-cell>
+      <md-cell *cdkCellDef="let row">
+        <div *ngIf="showBudgetPeriod(row)">{{row.nvpList_budgetMin}} - {{row.nvpList_budgetMax}} {{row.nvpList_ratePeriod }}</div>
+        <div *ngIf="showBudgetTotal(row)" mdTooltip="{{row.nvpList_budgetMin}} - {{row.nvpList_budgetMax}} {{ row.nvpList_ratePeriod }}" [mdTooltipPosition]="'above'">
+        {{row.nvpList_totalBudgetMin}} - {{row.nvpList_totalBudgetMax}}
+        </div>
+        <div *ngIf="showContractAmount(row)" mdTooltip="{{row.nvpList_budgetMin}} - {{row.nvpList_budgetMax}} {{ row.nvpList_ratePeriod }} / {{row.nvpList_totalBudgetMin}} - {{row.nvpList_totalBudgetMax}}" [mdTooltipPosition]="'above'">
+        {{ row.nvpList_totalContractsAmount }}
+        </div>
+      </md-cell>
   </ng-container>
   <ng-container cdkColumnDef="actual">
       <md-header-cell *cdkHeaderCellDef md-sort-header>Actual</md-header-cell>
-      <md-cell *cdkCellDef="let row"> {{ row.nvpList_totalContractsAmount }} </md-cell>
+      <md-cell *cdkCellDef="let row">{{ row.nvpList_totalContractsAmount }}</md-cell>
+  </ng-container>
+  <ng-container cdkColumnDef="variance">
+      <md-header-cell *cdkHeaderCellDef md-sort-header>Variance</md-header-cell>
+      <md-cell *cdkCellDef="let row">
+        <div *ngIf="showContractAmount(row)">{{row.nvpList_totalContractsAmount - row.nvpList_totalBudgetMax}}</div>
+      </md-cell>
   </ng-container>
   <ng-container cdkColumnDef="chargeCode">
       <md-header-cell *cdkHeaderCellDef md-sort-header>Charge Code</md-header-cell>
@@ -63,22 +112,22 @@
           <md-icon>more_vert</md-icon>
         </button>
         <md-menu #menu="mdMenu">
-          <button md-menu-item (click)="onWithdraw(row)">
+          <button md-menu-item (click)="withdrawRole(row)">
             <md-icon>delete</md-icon>
-            <span>Withdraw offer</span>
+            <span>Withdraw role</span>
           </button>
-		  <button md-menu-item (click)="onWorkflow(row)">
-		    <md-icon>assignment</md-icon>
-		    <span>View current task</span>
+		  <button md-menu-item (click)="withdrawOffer(row)" [disabled]="withdrawDisabled(row)">
+		    <md-icon>replay</md-icon>
+		    <span>Withdraw offer</span>
 		  </button>
-		  <button md-menu-item (click)="onEdit(row)">
+		  <button md-menu-item (click)="details(row)">
 		    <md-icon>people_outline</md-icon>
-		    <span>Reassign task</span>
+		    <span>Details</span>
 		  </button>
 		</md-menu>
       </md-cell>
   </ng-container>
-  <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
+  <md-header-row *cdkHeaderRowDef="displayedColumns" ></md-header-row>
   <md-row *cdkRowDef="let row; columns: displayedColumns;" ></md-row>
 </md-table>
 

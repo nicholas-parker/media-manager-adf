@@ -14,7 +14,6 @@ import {WorkflowFormComponent} from './forms/workflowform.component';
 import {ReviewOfferFormComponent} from './forms/reviewOfferForm.component';
 import {ConfirmRightToWorkFormComponent} from './forms/confirmRightToWorkForm.component';
 
-
 @Component({
   selector: 'task-list',
   templateUrl: './taskList.component.html',
@@ -52,6 +51,7 @@ export class TaskListComponent implements OnInit {
     if (task.formResourceKey === this.SETUP_ROLE_FRMKEY) {
       this.dialogRef = this.dialog.open(WorkflowFormComponent);
       this.dialogRef.componentInstance.setTask(task.id);
+      this.dialogRef.afterClosed().subscribe(data => {this.taskData.refresh();});
       return;
     }
 
@@ -59,6 +59,7 @@ export class TaskListComponent implements OnInit {
     if (task.formResourceKey === this.REVIEW_ROLE_FRMKEY) {
       this.dialogRef = this.dialog.open(ReviewOfferFormComponent);
       this.dialogRef.componentInstance.setTask(task.id);
+      this.dialogRef.afterClosed().subscribe(data => {this.taskData.refresh();});
       return;
     }
 
@@ -66,6 +67,7 @@ export class TaskListComponent implements OnInit {
     if (task.formResourceKey === this.RTW_ROLE_FRMKEY) {
       this.dialogRef = this.dialog.open(ConfirmRightToWorkFormComponent);
       this.dialogRef.componentInstance.setTask(task.id);
+      this.dialogRef.afterClosed().subscribe(data => {this.taskData.refresh();});
       return;
     }
 

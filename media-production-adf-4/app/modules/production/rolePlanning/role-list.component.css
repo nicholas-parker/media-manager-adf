@@ -1,9 +1,30 @@
+.menubarTitle {
+	padding-left: 35px;
+}
+
+.actionIconContainer {
+	float: right;
+}
+
+.fill{
+ flex: 1 1 auto;	
+}
+
+.buttonIcon {
+	// padding-left: 20px;
+	// padding-right: 20px;
+}
+
 .mat-column-name {
 	flex: 0.25 0 200px;
     }
 
+.mat-column-tags {
+	flex: 0.25 0 400px;
+    }
+
 .mat-column-status {
-	flex: 0.25 2 100px;
+	flex: 0.25 2 150px;
     }
     
 .mat-column-currentTask {
@@ -37,7 +58,6 @@
 .mat-column-endDate {
 	flex: 0.25 0 70px; 
      }
-
 
 .mat-column-menu {
 	flex: 0.25 0 40px; 

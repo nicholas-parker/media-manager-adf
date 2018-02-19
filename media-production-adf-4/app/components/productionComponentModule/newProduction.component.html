@@ -80,7 +80,7 @@
       <md-grid-list cols="1" rowHeight="14:1">
         <md-grid-tile>
           <md-form-field class="leftField">
-            <input mdInput placeholder="Production title" formControlName="prod_productionTitle" />
+            <input mdInput placeholder="Production title" formControlName="prod_productionName" />
           </md-form-field>
         </md-grid-tile>
         <md-grid-tile>
@@ -123,7 +123,7 @@
           </md-form-field>
           
           <md-form-field class="leftField">
-            <input mdInput [mdDatepicker]="pickerProdEnd" placeholder="Production end date" formControlName="prod_preProductionEndDate" />
+            <input mdInput [mdDatepicker]="pickerProdEnd" placeholder="Production end date" formControlName="prod_productionEndDate" />
               <md-datepicker-toggle mdSuffix [for]="pickerProdEnd"></md-datepicker-toggle>
               <md-datepicker #pickerProdEnd></md-datepicker>
           </md-form-field>    

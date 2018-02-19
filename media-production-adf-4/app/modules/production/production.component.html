@@ -32,10 +32,10 @@
         </header>
         <nav *ngIf="loaded" class="demo-navigation mdl-navigation mdl-color--blue-grey-800">
           <a class="mdl-navigation__link" [routerLink]="['.']"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">apps</i>Dashboard</a>
-          <a class="mdl-navigation__link" [routerLink]="[ production.id, 'rolePlanning']"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">people</i>Crew</a>
-          <a class="mdl-navigation__link" [routerLink]="[ production.id, 'documents']"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">folder</i>Documents</a>
+          <a class="mdl-navigation__link" [routerLink]="['rolePlanning']"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">people</i>Production Team</a>
+          <a class="mdl-navigation__link" [routerLink]="['documents']"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">folder</i>Documents</a>
           <!-- a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">inbox</i>All Tasks</a -->
-          <a class="mdl-navigation__link" [routerLink]="[production.id, 'defaultRoles']"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">people_outline</i>Crew Templates</a>
+          <a class="mdl-navigation__link" [routerLink]="['defaultRoles']"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">people_outline</i>Crew Templates</a>
           <a class="mdl-navigation__link" [routerLink]="['admin']"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">build</i>Admin</a>
           
           <div class="mdl-layout-spacer"></div>

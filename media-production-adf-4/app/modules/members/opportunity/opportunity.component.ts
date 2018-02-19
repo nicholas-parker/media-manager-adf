@@ -17,7 +17,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ContentModelConstraints} from '../../../components/alfrescoModel/contentModelConstraints';
 import {Router, ActivatedRoute, ParamMap} from '@angular/router';
 import {ProcessFileFormComponent} from '../../../components/alfrescoWorkflow/forms/processFileForm.component';
-import {OpportunityModel} from './opportunityModel';
+import {OpportunityModel} from '../../../components/alfrescoWorkflow/forms/opportunity/opportunityModel';
 import {ViewerModule} from 'ng2-alfresco-viewer';
 import {NodesApiService} from 'ng2-alfresco-core';
 
@@ -57,9 +57,14 @@ export class OpportunityComponent {
    * 
    */
   @ViewChild(ProcessFileFormComponent)
-  private documents: ProcessFileFormComponent;
+  private passport: ProcessFileFormComponent;
   private passportProperties;
   private passportAspects;
+
+  @ViewChild(ProcessFileFormComponent)
+  private visa: ProcessFileFormComponent;
+  private visaProperties;
+  private visaAspects;
 
   /**
    * 
@@ -133,8 +138,8 @@ export class OpportunityComponent {
   protected loaded: boolean = false;
   protected taskModel: TaskVar[];
   private reviewStatusOutcome = 'reviewStatusOutcome';
-  private roleAccepted = 'Accepted';  // same as ProductionRoleModel
-  private roleDeclined = 'Declined';  // same as ProductionRoleModel
+  private roleAccepted = 'Accepted';  // same as ProductionRoleModel.ROLE_STATUS_APPROVED
+  private roleDeclined = 'Declined';  // same as ProductionRoleModel.ROLE_STATUS_DECLINED
   public signature;
   public signingId = '';
 
@@ -182,9 +187,14 @@ export class OpportunityComponent {
       this.passportAspects = ['prod:document'];
       this.passportProperties = {'prod:docType': 'Passport', 'prod:docCategory': 'Proof of identity'};
 
+      /** aspects & properties for the visa documents */
+      this.visaAspects = ['prod:document'];
+      this.visaProperties = {'prod:docType': 'Visa', 'prod:docCategory': 'Proof of identity'};
+
     }
 
   }
+
   /**
    * 
    * we only have on observable to destroy
@@ -262,27 +272,30 @@ export class OpportunityComponent {
     // this.passport.processId = this.service.getTaskVar('processId');
     let bpmPackageNodeRef: string = this.service.getTaskVar('bpm_package');
     this.bpmPackage = bpmPackageNodeRef.substring(24, 60);
-    let bpmPackageChildren_obs = this.nodeService.getNodeChildren(this.bpmPackage);
-    bpmPackageChildren_obs.subscribe(
+    this.bpmContractUUID = this.service.getTaskVar('contract_contractDocumentNodeId');
+    this.hasContract = true;
 
-      results => {
-        for (let item of results.list.entries) {
-
-          if (item.entry.properties['prod:docName'] === 'Employment contract') {
-            this.bpmContractUUID = item.entry.id;
-            this.hasContract = true;
-            console.log('Employment UUID is ' + this.bpmContractUUID);
-          }
-
-        }
-
-      },
-
-      err => {
-
-      }
-    );
-
+    //    let bpmPackageChildren_obs = this.nodeService.getNodeChildren(this.bpmPackage);
+    //    bpmPackageChildren_obs.subscribe(
+    //
+    //      results => {
+    //        for (let item of results.list.entries) {
+    //
+    //          if (item.entry.properties['prod:docName'] === 'Employment contract') {
+    //            this.bpmContractUUID = item.entry.id;
+    //            this.hasContract = true;
+    //            console.log('Employment UUID is ' + this.bpmContractUUID);
+    //          }
+    //
+    //        }
+    //
+    //      },
+    //
+    //      err => {
+    //
+    //      }
+    //    );
+    //    
 
 
     this.model.contract_serviceName = this.service.getTaskVar('contract_serviceName');
@@ -301,6 +314,22 @@ export class OpportunityComponent {
     this.model.contract_overtimePayable = this.service.getTaskVar('contract_overtimePayable');
     this.model.contract_overtimeRate = this.service.getTaskVar('contract_overtimeRate');
     this.model.contract_ratePeriodSpecifier = this.service.getTaskVar('contract_ratePeriodSpecifier');
+
+    /**
+     * 
+     * set the flags which drive the UI content for UK/ Not UK national
+     * 
+     */
+    this.model.contract_rightToWorkAsserted = this.service.getTaskVar('contract_rightToWorkAsserted');
+    if (this.model.contract_rightToWorkAsserted === 'YES') {
+
+      this.isUKNational = true;
+
+    } else {
+
+      this.isNotUKNational = true;
+
+    }
 
 
   }
@@ -325,8 +354,6 @@ export class OpportunityComponent {
 
     this.isUKNational = true;
     this.isNotUKNational = false;
-    this.documents.explainText = 'Upload a scan of your passport';
-    this.documents.maxFiles = 1;
 
   }
 
@@ -339,8 +366,6 @@ export class OpportunityComponent {
 
     this.isUKNational = false;
     this.isNotUKNational = true;
-    this.documents.explainText = 'Upload a scan of your passport and visa';
-    this.documents.maxFiles = 2;
 
   }
 

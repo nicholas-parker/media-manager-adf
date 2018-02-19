@@ -104,6 +104,12 @@ export class TaskService {
     }
   }
 
+  public loadTaskModel(data) {
+
+    this.taskModel = data;
+
+  }
+
   /** 
    * 
    * informs the user there was an error getting the variables for the task
@@ -120,7 +126,17 @@ export class TaskService {
    */
   public getTaskVar(name: string): any {
 
+    if (this.taskModel === undefined) {
+      console.log('WARNING: TaskService - attempting to getTaskVar when taskModel is not defined');
+      return '';
+    }
+
     let r = this.taskModel.filter(m => m.name === name);
+    if (r.length === 0) {
+      console.log('WARNING: TaskService - task does not contain variable [' + name + ']');
+      return '';
+    }
+
     if (undefined !== r[0].value) {
       return r[0].value;
     } else {
@@ -154,6 +170,8 @@ export class TaskService {
    *  
    */
   protected updateModel() {
+
+    if (null == this.taskForm) {return;}
 
     Object.keys(this.taskForm.controls).forEach(key => {
       this.setTaskVar(key, this.taskForm.controls[key].value);

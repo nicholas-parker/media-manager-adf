@@ -20,6 +20,7 @@ import {DefaultRoleListComponent} from './defaultRoles/defaultRole-list.componen
 import {DefaultRoleFormComponent} from './defaultRoles/defaultRole-form.component';
 import {RolePlanningComponent} from './rolePlanning/rolePlanning.component';
 import {RoleListComponent} from './rolePlanning/role-list.component';
+import {RoleDetailComponent} from './rolePlanning/roleDetail.component';
 import {CreateRoleComponent} from './rolePlanning/createRole.component';
 import {ProductionFilesComponent} from './productionFiles/productionFiles.component';
 import {FileDetailComponent} from './productionFiles/fileDetail.component';
@@ -27,6 +28,11 @@ import {RoleService} from './rolePlanning/role.service';
 import {ProductionRoutingModule} from './production-routing.module';
 import {CardViewUpdateService} from 'ng2-alfresco-core';
 import {AdminComponent} from './admin/admin.component';
+import {RoleTagDialog} from './rolePlanning/roleTagDialog.component';
+import {RoleFilterDialog} from './rolePlanning/roleFilterDialog.component';
+import {RoleDeleteDialog} from './rolePlanning/roleDeleteDialog.component';
+import {WithdrawContractDialog} from './rolePlanning/withdrawContractDialog.component';
+import {CompanyComponent} from './admin/company/company.component';
 
 @NgModule({
   imports: [
@@ -54,10 +60,16 @@ import {AdminComponent} from './admin/admin.component';
     RolePlanningComponent,
     CreateRoleComponent,
     RoleListComponent,
+    RoleDetailComponent,
     ProductionFilesComponent,
     FileDetailComponent,
     ProductionRolePieChartsComponent,
-    AdminComponent
+    AdminComponent,
+    RoleTagDialog,
+    RoleFilterDialog,
+    RoleDeleteDialog,
+    WithdrawContractDialog,
+    CompanyComponent
   ],
   exports: [
     MdSortModule,
@@ -72,7 +84,11 @@ import {AdminComponent} from './admin/admin.component';
   ],
   entryComponents: [
     DefaultRoleFormComponent,
-    CreateRoleComponent
+    CreateRoleComponent,
+    RoleTagDialog,
+    RoleFilterDialog,
+    RoleDeleteDialog,
+    WithdrawContractDialog
   ],
   providers: [
     ContractTemplateService,

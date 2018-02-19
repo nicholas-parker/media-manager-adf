@@ -3,22 +3,22 @@
  * 
  * 
  */
-import { Observable } from 'rxjs/Observable';
-import { Component, OnInit } from '@angular/core';
-import { MdTabsModule, MdSelectModule, MdInputModule, MdDialogRef, MdListModule, MdCheckboxModule, MdDatepickerModule, MdSnackBar, MdRadioModule } from '@angular/material';
-import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
-import { Task } from '../task';
-import { TaskVar } from '../taskVar';
-import { AlfrescoService } from '../alfresco.service';
-import { AlfrescoWorkflowService } from '../alfrescoWorkflow.service';
-import { TaskService } from './taskService.service';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ContentModelConstraints } from '../../alfrescoModel/contentModelConstraints';
+import {Observable} from 'rxjs/Observable';
+import {Component, OnInit} from '@angular/core';
+import {MdTabsModule, MdSelectModule, MdInputModule, MdDialogRef, MdListModule, MdCheckboxModule, MdDatepickerModule, MdSnackBar, MdRadioModule} from '@angular/material';
+import {FormControl, FormGroup, FormBuilder} from '@angular/forms';
+import {Task} from '../task';
+import {TaskVar} from '../taskVar';
+import {AlfrescoService} from '../alfresco.service';
+import {AlfrescoWorkflowService} from '../alfrescoWorkflow.service';
+import {TaskService} from './taskService.service';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {ContentModelConstraints} from '../../alfrescoModel/contentModelConstraints';
 
 @Component({
-    selector: 'workflow-form',
-    templateUrl : './workflowform.component.html',
-    styleUrls: ['workflowform.component.css']
+  selector: 'workflow-form',
+  templateUrl: './workflowform.component.html',
+  styleUrls: ['workflowform.component.css']
 })
 export class WorkflowFormComponent {
 
@@ -32,7 +32,7 @@ export class WorkflowFormComponent {
   protected taskId: number;
   protected loaded: boolean = false;
   public canReasign: boolean = true;
-  
+
   /** 
    * 
    * form items
@@ -42,7 +42,7 @@ export class WorkflowFormComponent {
   public fields: string[] = [];
   public minBudget: number = 0;
   public maxBudget: number = 0;
-  
+
   /** 
    * 
    * content for the drop downs in the forms
@@ -56,28 +56,28 @@ export class WorkflowFormComponent {
   currencyList = ContentModelConstraints.contract_contractCurrencyConstraint;
   managementProcessList = ContentModelConstraints.contract_workflowNameConstraint;
   adminTeamList = ContentModelConstraints.contract_contractAdministrationTeamConstraint;
-  
+
   /**
    * 
    * nodeId of the workflow package
    */
   public bpmPackage;
-  
+
   constructor(private service: AlfrescoWorkflowService,
-              private taskService: TaskService,
-              private fb: FormBuilder,
-              private snackBar: MdSnackBar,
-              private dialogRef: MdDialogRef<WorkflowFormComponent>) {
+    private taskService: TaskService,
+    private fb: FormBuilder,
+    private snackBar: MdSnackBar,
+    private dialogRef: MdDialogRef<WorkflowFormComponent>) {
     this.createForm();
-   }
-  
+  }
+
   /** 
    * 
    * add the form controls to the form
    * 
    */
   private createForm() {
-    this.taskForm = this.fb.group( {
+    this.taskForm = this.fb.group({
       bpm_workflowPriority: '',
       contract_serviceName: '',
       contract_serviceDescription: '',
@@ -99,11 +99,11 @@ export class WorkflowFormComponent {
       contract_supplierLastName: '',
       contract_supplierEmail: ''
     });
-    
+
     this.taskService.taskForm = this.taskForm;
-    
+
   }
-  
+
   /**
    * 
    * extract specific display items from the process data
@@ -111,13 +111,13 @@ export class WorkflowFormComponent {
    * 
    */
   private setContent(data) {
-    
+
     this.minBudget = this.taskService.getTaskVar('nvpList_budgetMin');
     this.maxBudget = this.taskService.getTaskVar('nvpList_budgetMax');
-     
+
     let bpmPackageNodeRef: string = this.taskService.getTaskVar('bpm_package');
-    this.bpmPackage = bpmPackageNodeRef.substring(24,60);
-      
+    this.bpmPackage = bpmPackageNodeRef.substring(24, 60);
+
   }
   /**
    * 
@@ -127,48 +127,54 @@ export class WorkflowFormComponent {
    * 
    */
   public setTask(task: Task) {
-    
+
     console.log('setting task' + task);
     this.task = task;
     this.taskService.connect(task).subscribe(
-      data => { this.taskService.LoadTaskForm(data);
-                this.setContent(data);},
+      data => {
+        this.taskService.LoadTaskForm(data);
+        this.setContent(data);
+      },
       err => console.log(err)
-      );
-    
+    );
+
   }
-  
-  
+
+
   /** user closes the form */
   public onCancel() {
     this.dialogRef.close();
   }
-  
+
   /** user closes the form and wants model updated but is not completed */
   public onSave() {
-    
+
     this.taskService.Save().subscribe(
-      data => { this.snackBar.open('Task saved...', null, {duration: 3000});
-                this.dialogRef.close();},
-      err =>  { this.snackBar.open('ERROR saving task', err.message, {duration: 3000});});
-  
+      data => {
+        this.snackBar.open('Task saved...', null, {duration: 3000});
+        this.dialogRef.close();
+      },
+      err => {this.snackBar.open('ERROR saving task', err.message, {duration: 3000});});
+
   }
-  
+
   /** sets the task as complete */
   public onTaskComplete() {
-    
-    this.taskService.Save().subscribe( 
-        data => {
-                this.taskService.TaskComplete().subscribe(
-                       d => { this.snackBar.open('Role completed', null, {duration: 3000});
-                                 this.dialogRef.close();},
-                       err =>  { this.snackBar.open('ERROR completing role', err.message, {duration: 3000});});
-                },
-        error => { this.snackBar.open('ERROR comleting role', error.message, {duration: 3000});});
-    
-    
-    
+
+    this.taskService.Save().subscribe(
+      data => {
+        this.taskService.TaskComplete().subscribe(
+          d => {
+            this.snackBar.open('Details sent to candidate', null, {duration: 3000});
+            this.dialogRef.close();
+          },
+          err => {this.snackBar.open('ERROR completing role', err.message, {duration: 3000});});
+      },
+      error => {this.snackBar.open('ERROR comleting role', error.message, {duration: 3000});});
+
+
+
   }
-  
- 
+
+
 }

@@ -1,0 +1,24 @@
+.tabContainer {
+	padding-left: 100px;
+	width: 800px;
+}
+
+.sub-heading {
+	padding-top:30px;
+	margin-right: auto;
+}
+
+.leftField {
+	margin-right: auto;
+}
+
+.buttonIcon {
+	margin-right: 5px;
+}
+
+.tabNav {
+	padding-top: 10px;
+	margin-left: auto;
+	padding-right: 0px;
+}
+

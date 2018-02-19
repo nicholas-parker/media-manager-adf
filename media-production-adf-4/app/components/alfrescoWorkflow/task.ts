@@ -3,10 +3,10 @@
  * 
  */
 export class Task {
-  
+
   public static STATE_UNCLAIMED = 'unclaimed';
   public static STATE_CLAIMED = 'claimed';
-  
+
   constructor(
     public id: string,
     public processId: string,
@@ -22,7 +22,8 @@ export class Task {
     public owner: string,
     public assignee: string,
     public formResourceKey: string,
-    public state: string
-    
+    public state: string,
+    public variables
+
   ) {}
 }

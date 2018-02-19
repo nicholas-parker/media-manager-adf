@@ -10,7 +10,7 @@
   </md-toolbar>
  <div class="taskDescriptionContainer">
   <div class="taskActions">
-    <button md-raised-button color="primary" class="taskActionButton" (click)="onTaskComplete()"><md-icon class="buttonIcon">done</md-icon>Make offer to supplier</button>
+    <button md-raised-button color="primary" class="taskActionButton" (click)="onTaskComplete()"><md-icon class="buttonIcon">done</md-icon>Make offer to candidate</button>
     <button md-raised-button color="primary" class="taskActionButton"  (click)="onDelete()"><md-icon class="buttonIcon">delete</md-icon>Withdraw crew position</button>
   </div>
   <div class="taskDesciption">
@@ -99,7 +99,7 @@
    </md-grid-tile>
    
    <md-grid-tile>
-        <md-select class="wfInput" placeholder="Type of deliverable" formControlName="contract_contractDeliverableType">
+        <md-select class="wfInput" placeholder="Service or Product" formControlName="contract_contractDeliverableType">
           <md-option *ngFor="let type of deliverableTypeList" [value]="type.value">{{type.text}}</md-option>
         </md-select>
    </md-grid-tile>
@@ -172,7 +172,7 @@
     <div class="tabContent">
       <md-list>
         <md-list-item>
-          <process-file #passport [deleteOption]="false" [explainText]="''" [fieldDescription]="'Draft Contract and supporting documentation.  You may upload additional documentation here.  This will be available to the candidate for review'"  [bpmPackage]="bpmPackage"></process-file>
+          <process-file #passport [deleteOption]="true" [explainText]="''" [fieldDescription]="'Draft Contract and supporting documentation.  You may upload additional documentation here.  This will be available to the candidate for review'"  [bpmPackage]="bpmPackage"></process-file>
         </md-list-item>
       </md-list>
     </div>
