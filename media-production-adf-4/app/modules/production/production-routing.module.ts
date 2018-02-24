@@ -10,6 +10,7 @@ import {ProductionFilesComponent} from './productionFiles/productionFiles.compon
 import {FileDetailComponent} from './productionFiles/fileDetail.component';
 import {AdminComponent} from './admin/admin.component';
 import {CompanyComponent} from './admin/company/company.component';
+import {ProductionPeriodComponent} from './admin/productionPeriod/productionPeriod.component';
 
 const productionRoutes: Routes = [
   {
@@ -50,6 +51,10 @@ const productionRoutes: Routes = [
           {
             path: 'admin/company',
             component: CompanyComponent
+          },
+          {
+            path: 'admin/periods',
+            component: ProductionPeriodComponent
           }
         ]
       }

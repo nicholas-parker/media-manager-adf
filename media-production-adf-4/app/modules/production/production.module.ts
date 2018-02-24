@@ -33,6 +33,7 @@ import {RoleFilterDialog} from './rolePlanning/roleFilterDialog.component';
 import {RoleDeleteDialog} from './rolePlanning/roleDeleteDialog.component';
 import {WithdrawContractDialog} from './rolePlanning/withdrawContractDialog.component';
 import {CompanyComponent} from './admin/company/company.component';
+import {ProductionPeriodComponent} from './admin/productionPeriod/productionPeriod.component';
 
 @NgModule({
   imports: [
@@ -69,7 +70,8 @@ import {CompanyComponent} from './admin/company/company.component';
     RoleFilterDialog,
     RoleDeleteDialog,
     WithdrawContractDialog,
-    CompanyComponent
+    CompanyComponent,
+    ProductionPeriodComponent
   ],
   exports: [
     MdSortModule,

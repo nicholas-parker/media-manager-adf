@@ -229,6 +229,11 @@ export class AlfrescoService {
 
   }
 
+  /**
+   * 
+   * transform 'x_x' notation to 'x:x'
+   * 
+   */
   public transform(source: any): any {
 
     let names = Object.getOwnPropertyNames(source);
@@ -240,4 +245,23 @@ export class AlfrescoService {
     }
     return result;
   }
+
+  /**
+   * 
+   * transforms 'x:x' notation to 'x_x'
+   * 
+   */
+  public unTransform(source: any): any {
+
+    let names = Object.getOwnPropertyNames(source);
+    let result = {};
+    for (let i = 0; i < names.length; i++) {
+
+      let newName = names[i].replace(':', '_');
+      result[newName] = source[names[i]];
+    }
+    return result;
+
+  }
+
 }

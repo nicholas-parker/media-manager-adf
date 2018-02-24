@@ -87,26 +87,8 @@ export class AlfrescoProductionService extends AlfrescoService {
    */
   public getProductionProperties(id): Observable<ProductionProperties> {
 
-    console.log('service:getProductionProperties [' + id + ']');
-
-    if (undefined === this.siteInfo || this.siteInfo.id !== id) {
-
-      console.log('service:getProductionProperties getting site info');
-
-      return this.getPrduction(id)
-        .map((data: any) => {return data.entry.guid;})
-        .flatMap(guid => {return Observable.fromPromise(this._apiService.nodesApi.getNode(guid));})
-        .map((data: any) => {return data.entry.properties;});
-
-    } else {
-
-      console.log('service:getProductionProperties getting node info');
-
-      return Observable.fromPromise(this._apiService.nodesApi.getNode())
-        .map((data: any) => {return data.entry.properties;});
-
-    }
-
+    return Observable.fromPromise(this._apiService.nodesApi.getNode(id))
+      .map((data: any) => {return data.entry.properties;});
 
   }
 
@@ -170,12 +152,15 @@ export class AlfrescoProductionService extends AlfrescoService {
   /**
    * 
    * add or update properties to an existing site
-   * NOT TESTED
+   * @siteNodeId: string the node id for the site
+   * @properties: the ProductionProperties object 
    * 
    */
-  public updateSiteProperties(site: string, properties: ProductionProperties): Observable<any> {
+  public updateSiteProperties(siteNodeId: string, properties: ProductionProperties): Observable<any> {
 
-    return Observable.fromPromise(this._apiService.nodesApi.getNode(site))
+    this.productionProperties = properties;
+
+    return Observable.fromPromise(this._apiService.nodesApi.getNode(siteNodeId))
       .flatMap((node: any) => {
         let update = {'aspectNames': '', 'properties': ''};
         update.aspectNames = node.entry.aspectNames.concat(this.productionAspects);
@@ -183,7 +168,7 @@ export class AlfrescoProductionService extends AlfrescoService {
         let mapped = this.transform(this.productionProperties);
         console.log(mapped);
         update.properties = Object.assign(node.entry.properties, mapped);
-        return Observable.fromPromise(this._apiService.nodesApi.updateNode(node.entry.guid, update));
+        return Observable.fromPromise(this._apiService.nodesApi.updateNode(node.entry.id, update));
       });
 
   }
@@ -235,6 +220,70 @@ export class AlfrescoProductionService extends AlfrescoService {
       });
   }
 
+
+  /**
+   * 
+   * get production periods for a production
+   * 
+   */
+  public orig_getProductionPeriods(siteNodeId: string): Observable<any> {
+
+    let opts = {'assocType': 'prod:subProjects'};
+    return Observable.fromPromise(this._apiService.getInstance().core.childAssociationsApi.listSecondaryChildAssociations(siteNodeId, opts))
+      .map((list: <any>) => {
+        let periods = [];
+        for (let i = 0; i < list.entries.length; i++) {
+          let period = new ServicePeriod();
+          period = this.transform(list.entries[i].entry.properties);
+          period.id = list.entries[i].entry.id;
+          periods.push(period);
+        }
+        return Observable.from(periods);
+      });
+
+  }
+
+  /**
+   * 
+   * given a nodeId returns the ServicePeriod class for the service period at that node
+   * 
+   */
+  public getProductionPeriod(nodeId: string): Observable<ServicePeriod> {
+
+    return Observable.fromPromise(this._apiService.nodesApi.getNode(nodeId))
+      .map(res => {
+        let sp = new ServicePeriod();
+        sp = this.unTransform(res.entry.properties);
+        sp.id = res.entry.id;
+        console.log(sp);
+        return sp;
+      });
+
+  }
+
+  public getProductionPeriods(siteNodeId: string): Observable<any> {
+
+    let opts = {'assocType': 'prod:subProjects'};
+    return Observable.fromPromise(this._apiService.getInstance().core.childAssociationsApi.listSecondaryChildAssociations(siteNodeId, opts))
+      .map((periodRefs: any) => {
+        let ids = [];
+        for (let i = 0; i < periodRefs.list.entries.length; i++) {
+          ids.push(periodRefs.list.entries[i].entry.id);
+        }
+        return ids;
+      })
+      .flatMap((ids: []) => {
+        if (ids.length > 0) {
+          return Observable.forkJoin(ids.map(id => {return this.getProductionPeriod(id);}));
+        }
+        return Observable.of([]);
+      })
+      .catch(err => {
+        console.log('ERROR servie error retrieveinf periods');
+        console.log(err);
+      });
+
+  }
 
   /**
    * NOT USED
