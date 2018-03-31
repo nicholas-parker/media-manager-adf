@@ -264,4 +264,19 @@ export class AlfrescoService {
 
   }
 
+  /**
+   * 
+   * create an association on a node
+   * 
+   */
+  public createChildAssociation(parent: string, target: string, assocType: string): Observable<any> {
+
+    let path = 'api/-default-/public/alfresco/versions/1/nodes/' + parent + '/secondary-children';
+    let body = {childId: '', assocType: ''};
+    body.childId = target;
+    body.assocType = assocType;
+    return this.postHeaderAuth(path, body);
+
+  }
+
 }

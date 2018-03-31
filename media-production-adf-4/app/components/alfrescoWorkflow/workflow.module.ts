@@ -32,7 +32,9 @@ import {ProcessFileFormComponent} from './forms/processFileForm.component';
 import {ProcessTaskAssigneeComponent} from './processComponent/processTaskAssignee.component';
 import {CurrentProcessTaskComponent} from './processComponent/currentProcessTask.component';
 import {OpportunityComponent} from './forms/opportunity/opportunity.component';
-import {OpportunityModel} from './forms/opportunity//opportunityModel';
+import {OpportunityModel} from './forms/opportunity/opportunityModel';
+import {ServicePeriodComponent} from './forms/servicePeriod/servicePeriod.component';
+import {ServicePeriodService} from './forms/servicePeriod/servicePeriod.service';
 
 @NgModule({
   imports: [
@@ -83,7 +85,8 @@ import {OpportunityModel} from './forms/opportunity//opportunityModel';
   providers: [
     AlfrescoService,
     AlfrescoWorkflowService,
-    TaskService
+    TaskService,
+    ServicePeriodService
   ]
 })
 export class WorkflowModule {}

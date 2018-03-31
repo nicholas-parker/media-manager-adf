@@ -215,21 +215,21 @@ export class NewProductionComponent implements OnInit {
 
     this.snackBar.open('Creating your new production area');
     this.service.createSite(this.properties).subscribe(
-      data => {
+      siteName => {
 
         /*
          * 
          * site created, now create the production periods
          * 
          */
-        console.log(data);
         for (let i = 0; i < this.periods.length; i++) {
 
 
-          this.service.addProductionPeriod(data.entry.name, this.periods[i]).subscribe(
+          this.service.addProductionPeriod(siteName, this.periods[i]).subscribe(
             ppData => {
 
               console.log('Added production period ' + this.periods[i].contract_serviceName);
+
 
             },
             err => {
@@ -240,7 +240,7 @@ export class NewProductionComponent implements OnInit {
             });
         }
 
-        this.router.navigate(['/production/', data.entry.name]);
+        this.router.navigate(['/production/', this.service.siteInfo.id]);
 
       },
       err => {

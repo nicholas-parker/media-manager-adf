@@ -28,7 +28,7 @@ export class AlfrescoProductionService extends AlfrescoService {
   private productions: Production[];
 
   private siteShortName: string;
-  private siteInfo;
+  public siteInfo;
 
   /**
    * 
@@ -145,6 +145,9 @@ export class AlfrescoProductionService extends AlfrescoService {
         let update = {'properties': ''};
         update.properties = this.transform(this.productionProperties);
         return Observable.fromPromise(this._apiService.nodesApi.updateNode(siteInfo.entry.guid, update));
+      })
+      .flatMap((data: any) => {
+        return this.applyProduct(this.siteInfo.id, this.productionProperties.productCode);
       });
 
   }
@@ -187,7 +190,9 @@ export class AlfrescoProductionService extends AlfrescoService {
     console.log('adding new production period to production [' + this.siteInfo.id + ']');
 
     /**
+     * 
      * create the production period
+     * 
      */
     let bodyProps = {};
     bodyProps['contract:serviceName'] = period.contract_serviceName;
@@ -286,17 +291,18 @@ export class AlfrescoProductionService extends AlfrescoService {
   }
 
   /**
-   * NOT USED
+   * 
    * add the product features to a site, called after createSite
+   * returns the siteName upon success
    * 
    */
-  // applyProduction(siteName: string, productCode: string): Observable<any> {
-  // 
-  //  let path = 's/mwt/production/setup/' + siteName + '/' + productCode;
-  //  let obs: Observable<Production> = this.get(path);
-  //  return obs;
-  //
-  // }
+  applyProduct(siteName: string, productCode: string): Observable<any> {
+
+    let path = 's/mwt/production/setup/' + siteName + '/' + productCode;
+    let obs: Observable<string> = this.get(path);
+    return obs;
+
+  }
 
   /**
    * 

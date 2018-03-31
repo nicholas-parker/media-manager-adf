@@ -6,6 +6,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {AlfrescoProductionService} from './alfrescoProduction.service';
 import {MyProductionsBigComponent} from './myProductionsBig.component';
 import {NewProductionComponent} from './newProduction.component';
+import {ProductionContext} from './productionContext';
 
 @NgModule({
   imports: [
@@ -23,6 +24,9 @@ import {NewProductionComponent} from './newProduction.component';
     NewProductionComponent,
     CommonModule,
     MaterialModule
+  ],
+  providers: [
+    ProductionContext
   ]
 })
 export class ProductionComponentModule {}

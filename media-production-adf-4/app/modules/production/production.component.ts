@@ -3,6 +3,7 @@ import {ActivatedRoute} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
 import {AlfrescoProductionService} from '../../components/productionComponentModule/alfrescoProduction.service';
 import {Production} from '../../components/productionComponentModule/production';
+import {ProductionContext} from '../../components/productionComponentModule/productionContext';
 import {ContractTemplateService} from './defaultRoles/contractTemplate.service';
 import {DefaultRoleService} from './defaultRoles/defaultRole.service';
 import {RoleService} from './rolePlanning/role.service';
@@ -21,6 +22,7 @@ export class ProductionComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
     private service: AlfrescoProductionService,
+    private context: ProductionContext;
     private defaultRoleService: DefaultRoleService,
     private contractTemplateService: ContractTemplateService,
     private roleService: RoleService) {
@@ -30,7 +32,9 @@ export class ProductionComponent implements OnInit {
   public ngOnInit() {
 
     this.productionId = this.route.params.map(p => p.id);
-    this.productionId.subscribe(id => this.getProduction(id));
+    this.productionId.subscribe(id => {
+      this.getProduction(id);
+    });
 
   }
 
@@ -52,6 +56,7 @@ export class ProductionComponent implements OnInit {
     this.defaultRoleService.setContext(this.production.id);
     this.roleService.setContext(this.production.id);
     this.contractTemplateService.setContext(this.production.id);
+    this.context.setProduction(this.production);
 
   }
 
