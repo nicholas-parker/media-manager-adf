@@ -50,7 +50,7 @@ export class TaskListComponent implements OnInit {
     /** SETUP_ROLE_FRMKEY */
     if (task.formResourceKey === this.SETUP_ROLE_FRMKEY) {
       this.dialogRef = this.dialog.open(WorkflowFormComponent);
-      this.dialogRef.componentInstance.setTask(task.id);
+      this.dialogRef.componentInstance.setTaskId(task.id);
       this.dialogRef.afterClosed().subscribe(data => {this.taskData.refresh();});
       return;
     }

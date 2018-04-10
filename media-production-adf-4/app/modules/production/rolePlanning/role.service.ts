@@ -11,6 +11,8 @@ import {RoleFilter} from './roleFilter';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
+
+
 @Injectable()
 export class RoleService extends DataSource<Role> {
 
@@ -40,7 +42,6 @@ export class RoleService extends DataSource<Role> {
   private roleFilter: RoleFilter;
   private filterOnTags: boolean = false;
   private filterOnStatus: boolean = false;
-
 
   /**
    * 
@@ -111,7 +112,7 @@ export class RoleService extends DataSource<Role> {
       + '?alf_ticket=' + ecmTicket;
 
     let obs: Observable<Role> = Observable.fromPromise(this.apiService.nodesApi.getNode(nodeId)).map(
-      node => {
+      (node: any) => {
         let role = new Role();
         role.nvpList_acceptedDate = node.entry.properties['nvpList:acceptedDate'];
         role.nvpList_budgetMax = node.entry.properties['nvpList:budgetMax'];
@@ -392,6 +393,8 @@ export class RoleService extends DataSource<Role> {
    */
   public deleteRoleDocumentation(role: Role) {
 
+
   }
+
 
 }

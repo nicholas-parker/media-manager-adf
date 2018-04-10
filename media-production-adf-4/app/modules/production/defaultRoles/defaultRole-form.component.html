@@ -37,7 +37,7 @@
     
       <md-grid-tile>
         <md-form-field class="wfInput">
-          <input mdInput placeholder="Position" id="name" [(ngModel)]="defaultRole.nvpList_typeName" name="nvpList_typeName" pattern="[A-Z,a-z,_]*" />
+          <input mdInput placeholder="Role name" id="name" [(ngModel)]="defaultRole.nvpList_typeName" name="nvpList_typeName" pattern="[A-Z,a-z,_]*" />
           <span class="mdl-textfield__error">Only alphabet please!</span>
         </md-form-field>
       </md-grid-tile>
@@ -49,6 +49,13 @@
         </md-form-field>
       </md-grid-tile>
     
+    <md-grid-tile>
+        <md-form-field class="wfInput">
+          <input mdInput placeholder="Role category" id="category" [(ngModel)]="defaultRole.nvpList_typeCategory" name="nvpList_typeCategory" pattern="[A-Z,a-z,0-9,_]*" />
+          <span class="mdl-textfield__error">Only alphabet please!</span>
+        </md-form-field>
+      </md-grid-tile>
+      
      <md-grid-tile>
         <md-select class="wfInput" placeholder="Role provides service or product" id="deliverable-type" [(ngModel)]="defaultRole.nvpList_typeDeliverableType" name="nvpList_typeDeliverableType">
           <md-option *ngFor="let type of deliverableTypeList" [value]="type.value">{{type.text}}</md-option>

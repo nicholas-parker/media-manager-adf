@@ -4,7 +4,7 @@
  * 
  */
 import {Observable} from 'rxjs/Observable';
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {MdTabsModule, MdSelectModule, MdInputModule, MdDialogRef, MdListModule, MdCheckboxModule, MdDatepickerModule, MdSnackBar, MdRadioModule} from '@angular/material';
 import {FormControl, FormGroup, FormBuilder} from '@angular/forms';
 import {Task} from '../task';
@@ -14,6 +14,7 @@ import {AlfrescoWorkflowService} from '../alfrescoWorkflow.service';
 import {TaskService} from './taskService.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ContentModelConstraints} from '../../alfrescoModel/contentModelConstraints';
+import {OpportunityComponent} from './opportunity/opportunity.component';
 
 @Component({
   selector: 'workflow-form',
@@ -23,120 +24,52 @@ import {ContentModelConstraints} from '../../alfrescoModel/contentModelConstrain
 export class WorkflowFormComponent {
 
   /*
-   * 
    * the task in hand
+   * TO-DO work out which items we can remove from below now we are using the opportunity component
    * 
    */
-  protected taskModel: TaskVar[];
-  public task: Task;
-  protected taskId: number;
+  protected taskId: Observable<number>;
+
+  // this is a flag which prevents content being loaded until it is ready, this should be refactored into a promise
   protected loaded: boolean = false;
   public canReasign: boolean = true;
 
-  /** 
+  /**
    * 
-   * form items
-   * 
+   * set the display content for the opportunity component.
+   * This is configured for setting up the role details
+   *  
    */
-  public taskForm: FormGroup;
-  public fields: string[] = [];
-  public minBudget: number = 0;
-  public maxBudget: number = 0;
-
-  /** 
-   * 
-   * content for the drop downs in the forms
-   * 
-   */
-  deliverableTypeList = ContentModelConstraints.contract_contractDeliverableTypeConstraint;
-  PAYEStatusList = ContentModelConstraints.nvp_PAYEStatusConstraint;
-  workingWeekList = ContentModelConstraints.contract_workingWeekConstraint;
-  paymentPeriodList = ContentModelConstraints.contract_periodSpecifiedConstraint;
-  ratePeriodList = ContentModelConstraints.contract_ratePeriodConstraint;
-  currencyList = ContentModelConstraints.contract_contractCurrencyConstraint;
-  managementProcessList = ContentModelConstraints.contract_workflowNameConstraint;
-  adminTeamList = ContentModelConstraints.contract_contractAdministrationTeamConstraint;
+  public displayOptions = {role: 'write', financials: 'write', employee: 'write', documents: 'write'};
 
   /**
    * 
-   * nodeId of the workflow package
+   * reference to the opportunity form
+   * 
    */
-  public bpmPackage;
+  @ViewChild(OpportunityComponent)
+  public opportunity: OpportunityComponent;
 
   constructor(private service: AlfrescoWorkflowService,
-    private taskService: TaskService,
-    private fb: FormBuilder,
     private snackBar: MdSnackBar,
     private dialogRef: MdDialogRef<WorkflowFormComponent>) {
-    this.createForm();
-  }
-
-  /** 
-   * 
-   * add the form controls to the form
-   * 
-   */
-  private createForm() {
-    this.taskForm = this.fb.group({
-      bpm_workflowPriority: '',
-      contract_serviceName: '',
-      contract_serviceDescription: '',
-      contract_serviceStart: null,
-      contract_serviceEnd: null,
-      contract_location: '',
-      contract_contractCode: '',
-      contract_PAYEstatus: '',
-      contract_contractDeliverableType: '',
-      contract_paymentPeriodSpecifier: '',
-      contract_contractValueCurrency: '',
-      contract_contractValue: '',
-      contract_holidayRate: '',
-      contract_noticePeriod: '',
-      contract_overtimePayable: '',
-      contract_overtimeRate: '',
-      contract_ratePeriodSpecifier: '',
-      contract_supplierFirstName: '',
-      contract_supplierLastName: '',
-      contract_supplierEmail: ''
-    });
-
-    this.taskService.taskForm = this.taskForm;
 
   }
+
+
 
   /**
    * 
-   * extract specific display items from the process data
-   * is called once form data is loaded
+   * Called by the parent component which opens this dialogue.
+   * Sets the taskId, the taskId must refer to an instance of the right task
+   * In this component we use the opportunity component to display the information,
+   * this component retrieves all the task details itself so all we need to do is pass
+   * it the taskId as an observable
    * 
    */
-  private setContent(data) {
+  public setTaskId(taskId: number) {
 
-    this.minBudget = this.taskService.getTaskVar('nvpList_budgetMin');
-    this.maxBudget = this.taskService.getTaskVar('nvpList_budgetMax');
-
-    let bpmPackageNodeRef: string = this.taskService.getTaskVar('bpm_package');
-    this.bpmPackage = bpmPackageNodeRef.substring(24, 60);
-
-  }
-  /**
-   * 
-   * provides the form with the outline task information.
-   * The full set of task variables are obtained from the TaskService
-   * [ common for all task forms ]
-   * 
-   */
-  public setTask(task: Task) {
-
-    console.log('setting task' + task);
-    this.task = task;
-    this.taskService.connect(task).subscribe(
-      data => {
-        this.taskService.LoadTaskForm(data);
-        this.setContent(data);
-      },
-      err => console.log(err)
-    );
+    this.taskId = Observable.of(taskId);
 
   }
 
@@ -149,31 +82,23 @@ export class WorkflowFormComponent {
   /** user closes the form and wants model updated but is not completed */
   public onSave() {
 
-    this.taskService.Save().subscribe(
-      data => {
-        this.snackBar.open('Task saved...', null, {duration: 3000});
+    this.opportunity.Save().subscribe(
+      d => {
+        this.snackBar.open('Task details updated', null, {duration: 3000});
         this.dialogRef.close();
       },
-      err => {this.snackBar.open('ERROR saving task', err.message, {duration: 3000});});
-
+      err => {this.snackBar.open('ERROR saving task detials', err.message, {duration: 3000});});
   }
 
   /** sets the task as complete */
   public onTaskComplete() {
 
-    this.taskService.Save().subscribe(
-      data => {
-        this.taskService.TaskComplete().subscribe(
-          d => {
-            this.snackBar.open('Details sent to candidate', null, {duration: 3000});
-            this.dialogRef.close();
-          },
-          err => {this.snackBar.open('ERROR completing role', err.message, {duration: 3000});});
+    this.opportunity.TaskSaveComplete().subscribe(
+      d => {
+        this.snackBar.open('Details sent to candidate', null, {duration: 3000});
+        this.dialogRef.close();
       },
-      error => {this.snackBar.open('ERROR comleting role', error.message, {duration: 3000});});
-
-
-
+      err => {this.snackBar.open('ERROR completing role', err.message, {duration: 3000});});
   }
 
 

@@ -20,72 +20,84 @@
   <button  (click)="onCreateRole()" md-button><md-icon class="buttonIcon" (click)="onCreateRole()">person_add</md-icon></button>
   <button  (click)="filterDialogOpen()" md-button><md-icon class="buttonIcon">filter_list</md-icon></button>
 </md-toolbar>
-<md-table #table [dataSource]="roleData" mdSort>
-<ng-container cdkColumnDef="type">
-      <md-header-cell *cdkHeaderCellDef md-sort-header>Type</md-header-cell>
-      <md-cell *cdkCellDef="let row"> {{row.nvpList_roleType}}</md-cell>
-  </ng-container>
-  <ng-container cdkColumnDef="name">
-      <md-header-cell *cdkHeaderCellDef md-sort-header>Name</md-header-cell>
-      <md-cell *cdkCellDef="let row"> {{row.nvpList_roleName}}</md-cell>
-  </ng-container>
-  <ng-container cdkColumnDef="startDate">
-      <md-header-cell *cdkHeaderCellDef md-sort-header>Start date</md-header-cell>
-      <md-cell *cdkCellDef="let row"> {{row.nvpList_startDate | date: "dd/MM/yyyy"}}</md-cell>
-  </ng-container>
-  <ng-container cdkColumnDef="endDate">
-      <md-header-cell *cdkHeaderCellDef md-sort-header>End date</md-header-cell>
-      <md-cell *cdkCellDef="let row"> {{row.nvpList_endDate | date: "dd/MM/yyyy"}}</md-cell>
-  </ng-container>
-  <ng-container cdkColumnDef="currentTask">
-      <md-header-cell *cdkHeaderCellDef md-sort-header>Current task</md-header-cell>
-      <md-cell *cdkCellDef="let row">
-        <current-process-task *ngIf="row.bpm_status != 'Complete'"  [processId]="row.nvpList_contractProcessId"></current-process-task>
-        <span *ngIf="row.bpm_status == 'Complete'">{{ row.nvpList_roleStatus }}</span>
-      </md-cell>
-  </ng-container>
-  <ng-container cdkColumnDef="status">
-      <md-header-cell *cdkHeaderCellDef md-sort-header>Status</md-header-cell>
-      <md-cell *cdkCellDef="let row">
-        <md-icon *ngIf="supplierReview(row)">visibility</md-icon>
-        <md-icon *ngIf="accepted(row)">sentiment_very_satisfied</md-icon>
-        <md-icon *ngIf="declined(row)">warning</md-icon>
-        <md-icon *ngIf="progress(row)">mode_edit</md-icon>
-        <md-icon *ngIf="approved(row)">done</md-icon>
-      {{ row.nvpList_roleStatus }}</md-cell>
-  </ng-container>
-  <ng-container cdkColumnDef="currency">
-      <md-header-cell *cdkHeaderCellDef md-sort-header>Currency</md-header-cell>
-      <md-cell *cdkCellDef="let row"> {{row.nvpList_currency}}</md-cell>
-  </ng-container>
-  <ng-container cdkColumnDef="tags">
-      <md-header-cell *cdkHeaderCellDef md-sort-header>Tags</md-header-cell>
-      <md-cell *cdkCellDef="let row">
-        <adf-tag-node-list [nodeId]="row.cm_name"></adf-tag-node-list>
-        <md-icon mdTooltip="Add tag" [mdTooltipPosition]="'above'" (click)="tagDialogOpen(row)">style</md-icon>
-      </md-cell>
-  </ng-container>
-  <ng-container cdkColumnDef="budget">
-      <md-header-cell *cdkHeaderCellDef md-sort-header>Budget</md-header-cell>
-      <md-cell *cdkCellDef="let row">
-        <div *ngIf="showBudgetPeriod(row)">{{row.nvpList_budgetMin}} - {{row.nvpList_budgetMax}} {{ row.nvpList_ratePeriod }}</div>
-        <div *ngIf="showBudgetTotal(row) || showContractAmount(row)" mdTooltip="{{row.nvpList_budgetMin}} - {{row.nvpList_budgetMax}} {{ row.nvpList_ratePeriod }}" [mdTooltipPosition]="'above'">
-        {{row.nvpList_totalBudgetMin}} - {{row.nvpList_totalBudgetMax}}
-        </div>
-      </md-cell>
-  </ng-container>
-  <ng-container cdkColumnDef="totalBudget">
-      <md-header-cell *cdkHeaderCellDef md-sort-header>Budget</md-header-cell>
-      <md-cell *cdkCellDef="let row">
-        <div *ngIf="showBudgetPeriod(row)">{{row.nvpList_budgetMin}} - {{row.nvpList_budgetMax}} {{row.nvpList_ratePeriod }}</div>
-        <div *ngIf="showBudgetTotal(row)" mdTooltip="{{row.nvpList_budgetMin}} - {{row.nvpList_budgetMax}} {{ row.nvpList_ratePeriod }}" [mdTooltipPosition]="'above'">
-        {{row.nvpList_totalBudgetMin}} - {{row.nvpList_totalBudgetMax}}
-        </div>
-        <div *ngIf="showContractAmount(row)" mdTooltip="{{row.nvpList_budgetMin}} - {{row.nvpList_budgetMax}} {{ row.nvpList_ratePeriod }} / {{row.nvpList_totalBudgetMin}} - {{row.nvpList_totalBudgetMax}}" [mdTooltipPosition]="'above'">
-        {{ row.nvpList_totalContractsAmount }}
-        </div>
-      </md-cell>
-  </ng-container>
+
+
+<md-accordion class="example-headers-align">
+  <div *ngFor=" let category of categories | async">  
+    <md-expansion-panel hideToggle="false">
+      <md-expansion-panel-header>
+        <md-panel-title>
+          {{category}}
+        </md-panel-title>
+      </md-expansion-panel-header>
+
+  
+    <md-table #table [dataSource]="categoryRoles(category)" mdSort>
+      <ng-container cdkColumnDef="type">
+        <md-header-cell *cdkHeaderCellDef md-sort-header>Type</md-header-cell>
+        <md-cell *cdkCellDef="let row"> {{row.nvpList_roleType}}</md-cell>
+      </ng-container>
+      <ng-container cdkColumnDef="name">
+        <md-header-cell *cdkHeaderCellDef md-sort-header>Name</md-header-cell>
+        <md-cell *cdkCellDef="let row"> {{row.nvpList_roleName}}</md-cell>
+      </ng-container>
+      <ng-container cdkColumnDef="startDate">
+        <md-header-cell *cdkHeaderCellDef md-sort-header>Start date</md-header-cell>
+        <md-cell *cdkCellDef="let row"> {{row.nvpList_startDate | date: "dd/MM/yyyy"}}</md-cell>
+      </ng-container>
+      <ng-container cdkColumnDef="endDate">
+        <md-header-cell *cdkHeaderCellDef md-sort-header>End date</md-header-cell>
+        <md-cell *cdkCellDef="let row"> {{row.nvpList_endDate | date: "dd/MM/yyyy"}}</md-cell>
+      </ng-container>
+      <ng-container cdkColumnDef="currentTask">
+        <md-header-cell *cdkHeaderCellDef md-sort-header>Current task</md-header-cell>
+        <md-cell *cdkCellDef="let row">
+          <current-process-task *ngIf="row.bpm_status != 'Complete'"  [processId]="row.nvpList_contractProcessId"></current-process-task>
+          <span *ngIf="row.bpm_status == 'Complete'">{{ row.nvpList_roleStatus }}</span>
+        </md-cell>
+      </ng-container>
+      <ng-container cdkColumnDef="status">
+        <md-header-cell *cdkHeaderCellDef md-sort-header>Status</md-header-cell>
+          <md-cell *cdkCellDef="let row">
+          <md-icon *ngIf="supplierReview(row)">visibility</md-icon>
+          <md-icon *ngIf="accepted(row)">sentiment_very_satisfied</md-icon>
+          <md-icon *ngIf="declined(row)">warning</md-icon>
+          <md-icon *ngIf="progress(row)">mode_edit</md-icon>
+          <md-icon *ngIf="approved(row)">done</md-icon>
+          {{ row.nvpList_roleStatus }}</md-cell>
+       </ng-container>
+       <ng-container cdkColumnDef="currency">
+         <md-header-cell *cdkHeaderCellDef md-sort-header>Currency</md-header-cell>
+         <md-cell *cdkCellDef="let row"> {{row.nvpList_currency}}</md-cell>
+       </ng-container>
+       <ng-container cdkColumnDef="tags">
+         <md-header-cell *cdkHeaderCellDef md-sort-header>Tags</md-header-cell>
+         <md-cell *cdkCellDef="let row">
+           <adf-tag-node-list [nodeId]="row.cm_name"></adf-tag-node-list>
+           <md-icon mdTooltip="Add tag" [mdTooltipPosition]="'above'" (click)="tagDialogOpen(row)">style</md-icon>
+         </md-cell>
+       </ng-container>
+       <ng-container cdkColumnDef="budget">
+         <md-header-cell *cdkHeaderCellDef md-sort-header>Budget</md-header-cell>
+         <md-cell *cdkCellDef="let row">
+           <div *ngIf="showBudgetPeriod(row)">{{row.nvpList_budgetMin}} - {{row.nvpList_budgetMax}} {{ row.nvpList_ratePeriod }}</div>
+           <div *ngIf="showBudgetTotal(row) || showContractAmount(row)" mdTooltip="{{row.nvpList_budgetMin}} - {{row.nvpList_budgetMax}} {{ row.nvpList_ratePeriod }}" [mdTooltipPosition]="'above'">
+            {{row.nvpList_totalBudgetMin}} - {{row.nvpList_totalBudgetMax}}
+           </div>
+         </md-cell>
+       </ng-container>
+       <ng-container cdkColumnDef="totalBudget">
+         <md-header-cell *cdkHeaderCellDef md-sort-header>Budget</md-header-cell>
+          <md-cell *cdkCellDef="let row">
+            <div *ngIf="showBudgetPeriod(row)">{{row.nvpList_budgetMin}} - {{row.nvpList_budgetMax}} {{row.nvpList_ratePeriod }}</div>
+            <div *ngIf="showBudgetTotal(row)" mdTooltip="{{row.nvpList_budgetMin}} - {{row.nvpList_budgetMax}} {{ row.nvpList_ratePeriod }}" [mdTooltipPosition]="'above'">
+            {{row.nvpList_totalBudgetMin}} - {{row.nvpList_totalBudgetMax}}
+            </div>
+            <div *ngIf="showContractAmount(row)" mdTooltip="{{row.nvpList_budgetMin}} - {{row.nvpList_budgetMax}} {{ row.nvpList_ratePeriod }} / {{row.nvpList_totalBudgetMin}} - {{row.nvpList_totalBudgetMax}}" [mdTooltipPosition]="'above'">
+            {{ row.nvpList_totalContractsAmount }}
+            </div>
+          </md-cell>
+      </ng-container>
   <ng-container cdkColumnDef="actual">
       <md-header-cell *cdkHeaderCellDef md-sort-header>Actual</md-header-cell>
       <md-cell *cdkCellDef="let row">{{ row.nvpList_totalContractsAmount }}</md-cell>
@@ -130,4 +142,7 @@
   <md-header-row *cdkHeaderRowDef="displayedColumns" ></md-header-row>
   <md-row *cdkRowDef="let row; columns: displayedColumns;" ></md-row>
 </md-table>
+</md-expansion-panel>
+  </div>
+</md-accordion>
 

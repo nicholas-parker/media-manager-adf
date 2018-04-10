@@ -196,7 +196,8 @@ export class TaskService {
       filter(m => m.name !== 'contract_productionRole').
       filter(m => m.name !== 'contract_contractSupplier').
       filter(m => m.name !== 'bpm_package').
-      filter(m => m.name !== 'nvpList_contractTemplate'));
+      filter(m => m.name !== 'nvpList_contractTemplate').
+      filter(m => m.name !== 'servicePeriods'));
   }
 
   /**

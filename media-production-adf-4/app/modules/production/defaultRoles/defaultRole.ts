@@ -4,10 +4,10 @@
  * 
  */
 export class DefaultRole {
-  
-    
+
+
   constructor(
-    
+
     public sys_nodedbid?: string,
     public nvpList_typeName?: string,
     public nvpList_typeDescription?: string,
@@ -22,14 +22,15 @@ export class DefaultRole {
     public nvpList_typeCurrency?: string,
     public nvpList_typeProcessName?: string,
     public nvpList_typeAdministrationTeam?: string,
-    public nvpList_typeContractTemplate?: string
-    
-  ) { 
-  
-  
-  
+    public nvpList_typeContractTemplate?: string,
+    public nvpList_typeCategory?: string
+
+  ) {
+
+
+
   }
-  
-  
-    
+
+
+
 }

@@ -23,7 +23,7 @@ export class Role {
   public nvpList_budgetMin: number;
   public nvpList_budgetMax: number;
   public nvpList_totalContractsValue: number;
-
+  public nvpList_roleCategory: string;
 
 
   // associations, not sure how to map yet

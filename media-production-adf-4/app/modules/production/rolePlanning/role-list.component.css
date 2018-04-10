@@ -6,6 +6,13 @@
 	float: right;
 }
 
+.categoryHeader {
+	padding-left: 24px;
+	display: flex;
+	height: 45px;
+	background-color: light-grey;	
+}
+
 .fill{
  flex: 1 1 auto;	
 }

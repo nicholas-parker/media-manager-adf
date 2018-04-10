@@ -20,6 +20,7 @@ import {CdkTableModule} from '@angular/cdk/table';
 import {NgModule} from '@angular/core';
 import {MdDialogModule, MdInputModule, MdSelectModule, MdSlideToggleModule, MdSortModule, MdTableModule, MdCardModule, MdButtonModule} from '@angular/material';
 import {MdDatepickerModule, MdMenuModule, MdIconModule, MdTabsModule, MdListModule, MdGridListModule, MdProgressSpinnerModule, MdRadioModule} from '@angular/material';
+import {MdExpansionModule} from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 const MATERIAL_MODULES = [
@@ -41,7 +42,8 @@ const MATERIAL_MODULES = [
   MdProgressSpinnerModule,
   MdRadioModule,
   MdListModule,
-  BrowserAnimationsModule
+  BrowserAnimationsModule,
+  MdExpansionModule
 ];
 
 @NgModule({

@@ -2,9 +2,11 @@ import {Observable} from 'rxjs/Observable';
 import {Component, OnInit, ViewChild, EventEmitter, Output, Input} from '@angular/core';
 import {Router, ActivatedRoute, ParamMap} from '@angular/router';
 import {CdkTableModule} from '@angular/cdk/table';
-import {MdTableModule, MdTable, MdSort, MdButton, MdDialog, MdMenuModule, MdIcon, MdSnackBar, MdDialogRef, MdHeaderRow, MdRow} from '@angular/material';
+import {MdTableModule, MdTable, MdSort, MdButton, MdDialog, MdMenuModule, MdIcon, MdSnackBar, MdDialogRef, MdHeaderRow, MdRow, MdExpansionModule} from '@angular/material';
 import {Role} from './role';
 import {RoleStatus} from './rolestatus';
+import {DefaultRoleService} from './../defaultRoles/defaultRole.service';
+import {FilteredRoleStream} from './FilteredRoleStream';
 import {RoleService} from './role.service';
 import {RoleTagDialog} from './roleTagDialog.component';
 import {RoleFilterDialog} from './roleFilterDialog.component';
@@ -26,7 +28,6 @@ import 'rxjs/add/operator/switchMap';
   templateUrl: './role-list.component.html',
   styleUrls: ['role-list.component.css']
 })
-
 export class RoleListComponent implements OnInit {
 
   /**
@@ -93,7 +94,23 @@ export class RoleListComponent implements OnInit {
    */
   public roleFilter: RoleFilter = null;
 
+  /**
+   * a collection of FilteredRoleStream, each category table uses a filtered role stream
+   * 
+   */
+  public streams: FilteredRoleStream[];
+
+  /**
+   * 
+   */
+  public get categories(): Observable<string[]> {
+
+    return this.defaultRoleService.getCategories();
+
+  }
+
   constructor(
+    public defaultRoleService: DefaultRoleService,
     public roleData: RoleService,
     public workflowService: AlfrescoWorkflowService,
     private route: ActivatedRoute,
@@ -108,8 +125,19 @@ export class RoleListComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
 
-    console.log('Role list,  role service context is ' + this.roleData.getContext());
+  /**
+   * 
+   * returns an observable for the roles in the given category
+   * 
+   */
+  public categoryRoles(category: string): DataSource<Role> {
+
+    let stream: FilteredRoleStream = new FilteredRoleStream();
+    stream.category = category;
+    stream.dataSource = this.roleData;
+    return stream;
 
   }
 

@@ -52,7 +52,9 @@ export class DefaultRoleService extends DataSource<DefaultRole> {
   url: string = '';
   ecmTicket: string = '';
 
+  private defaultRoles: DefaultRole[];
   private _defaultRoles: BehaviorSubject<DefaultRole[]> = new BehaviorSubject([]);
+  private _rolesCategories: BehaviorSubject<string[]> = new BehaviorSubject([]);
   private haveConsumer = false;
 
   /**
@@ -94,6 +96,16 @@ export class DefaultRoleService extends DataSource<DefaultRole> {
     console.log('someone is connecting...', obj);
     this.haveConsumer = true;
     return this._defaultRoles.asObservable();
+  }
+
+  /**
+   * access to the role categories via an observable
+   * 
+   */
+  public getCategories(): Observable<string[]> {
+
+    return this._rolesCategories.asObservable();
+
   }
 
   public gotData(d) {
@@ -173,7 +185,7 @@ export class DefaultRoleService extends DataSource<DefaultRole> {
     this.http.get(this.url).subscribe(
 
       (res: Response) => {
-        let listDefaultRoles = (<DefaultRole[]>res.json().items).map((item: any) =>
+        this.defaultRoles = (<DefaultRole[]>res.json().items).map((item: any) =>
           new DefaultRole(
             item['sys_node-uuid'],
             item.nvpList_typeName,
@@ -189,9 +201,11 @@ export class DefaultRoleService extends DataSource<DefaultRole> {
             item.nvpList_typeCurrency,
             item.nvpList_typeProcessName,
             item.nvpList_typeAdministrationTeam,
-            item.nvpList_typeContractTemplate
+            item.nvpList_typeContractTemplate,
+            item.nvpList_typeCategory
           ));
-        this._defaultRoles.next(listDefaultRoles);
+        this._defaultRoles.next(this.defaultRoles);
+        this.setCategories();
         console.log('DefaultRoleService... updated defaultRoles  consumer is ' + this.haveConsumer);
         console.log(this._defaultRoles);
       },
@@ -204,7 +218,19 @@ export class DefaultRoleService extends DataSource<DefaultRole> {
   }
 
 
+  /**
+   * 
+   * create a list of categories from the defaultRoles
+   * 
+   */
+  private setCategories(): void {
 
+    let categories: string[] = this.defaultRoles
+      .map((r: DefaultRole) => {return r.nvpList_typeCategory;});
+    let unique = Array.from(new Set(categories));
+    this._rolesCategories.next(unique);
+
+  }
 
 
 }
