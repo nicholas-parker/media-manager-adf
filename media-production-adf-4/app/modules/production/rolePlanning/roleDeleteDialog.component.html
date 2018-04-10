@@ -1,0 +1,15 @@
+<div class="container">
+<md-toolbar color="primary">
+  <div class="taskTitle">Delete {{role.nvpList_roleName}}</div>
+  <span class="toolbar-spacer"></span>
+  <button md-button (click)="cancel()"><md-icon class="buttonIcon">close</md-icon>Close</button>
+</md-toolbar>
+<p>
+If you delete this role it will be removed from the production.  This action cannot be undone.
+<div *ngIf="statusNotSetup">WARNING - this role has already been sent to a candidate.  You must inform them that the role is no longer available</div>
+<p>
+<div>
+  <span class="fill"></span>
+  <button md-button (click)="delete()"><md-icon class="buttonIcon">delete</md-icon>Delete</button>
+</div>
+</div>

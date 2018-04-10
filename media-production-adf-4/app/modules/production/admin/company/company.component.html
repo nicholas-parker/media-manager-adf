@@ -1,0 +1,36 @@
+<form [formGroup]="companyForm" novalidate #form>
+<md-toolbar color="primary">  
+  <md-icon>menu</md-icon>
+  <span class="menubarTitle">Production Company</span>
+  <span class="fill"></span>
+  <button md-button (click)="save()">
+   <md-icon>save</md-icon>
+  </button>
+</md-toolbar>
+<div class="content">
+        <div mdLine class="mat-title sub-heading">The legal entity for this production</div>      
+        <div class="leftField">
+          <md-form-field>
+            <input mdInput placeholder="Production company name" formControlName="contract_registeredName" />
+          </md-form-field>
+        </div>
+          <md-form-field class="leftField">
+            <input mdInput placeholder="VAT Number" formControlName="contract_taxNumber" />
+          </md-form-field>
+          <md-form-field class="leftField">
+            <input mdInput placeholder="Company registration number" formControlName="contract_registeredNum" />
+          </md-form-field>
+          <md-form-field class="leftField">
+            <input mdInput placeholder="Company address" formControlName="contract_formalAddress" />
+          </md-form-field>
+          <md-form-field class="leftField">
+            <input mdInput placeholder="Post code" formControlName="contract_formalPostCode" />
+          </md-form-field>
+          <md-form-field class="leftField">
+            <input mdInput placeholder="Email" formControlName="contract_orgContactEmail" />
+          </md-form-field>
+          <md-form-field class="leftField">
+            <input mdInput placeholder="Telephone" formControlName="contract_orgContactTel" />
+          </md-form-field>
+</div>
+</form>

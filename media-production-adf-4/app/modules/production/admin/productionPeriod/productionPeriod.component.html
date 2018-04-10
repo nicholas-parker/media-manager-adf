@@ -1,0 +1,46 @@
+<form [formGroup]="periodForm" novalidate #form>
+<md-toolbar color="primary">  
+  <md-icon>menu</md-icon>
+  <span class="menubarTitle">Production Periods</span>
+  <span class="fill"></span>
+  <button md-button (click)="add()">
+   <md-icon>add</md-icon>
+  </button>
+</md-toolbar>
+<div class="content">
+  <div mdLine class="mat-title sub-heading">Sub periods or sub projects</div>      
+        
+          <div formArrayName="formPeriods" *ngFor="let period of periodForm.get('formPeriods').controls; let i=index;">
+            <div [formGroupName]="i">   
+              <md-form-field>
+                <input mdInput placeholder="Name" [formControlName]="contract_serviceName" />
+              </md-form-field>
+           
+              <md-form-field>
+                <input mdInput placeholder="Description" [formControlName]="contract_serviceDescription" />
+              </md-form-field>
+          
+              <md-form-field>
+                <input mdInput [mdDatepicker]="contract_serviceStart" placeholder="Start date" [formControlName]="contract_serviceStart" />
+                <md-datepicker-toggle mdSuffix [for]="contract_serviceStart"></md-datepicker-toggle>
+                <md-datepicker #contract_serviceStart></md-datepicker>
+              </md-form-field>
+            
+              <md-form-field>
+                <input mdInput [mdDatepicker]="contract_serviceEnd" placeholder="Start date" [formControlName]="contract_serviceEnd" />
+                <md-datepicker-toggle mdSuffix [for]="contract_serviceEnd"></md-datepicker-toggle>
+                <md-datepicker #contract_serviceEnd></md-datepicker>
+              </md-form-field>
+            
+              <md-form-field>
+                <input mdInput placeholder="Type" [formControlName]="contract_serviceTypeCode" />
+              </md-form-field>
+              
+              <md-form-field>
+                <input mdInput placeholder="Id" [formControlName]="id" />
+              </md-form-field>
+            </div>
+          </div>
+    
+</div>
+</form>

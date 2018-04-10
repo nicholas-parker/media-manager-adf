@@ -1,0 +1,29 @@
+<div formArrayName="servicePeriods"
+	*ngFor="let period of servicePeriods.controls; let i=index;">
+	<div [formGroupName]="i">
+		<md-form-field> <input mdInput placeholder="Name"
+			[formControlName]="contract_servicePeriodName" /> </md-form-field>
+
+		<md-form-field> <input mdInput
+			placeholder="Description"
+			[formControlName]="contract_servicePeriodDescription" /> </md-form-field>
+
+		<md-form-field> <input mdInput
+			[mdDatepicker]="contract_serviceStart" placeholder="Start date"
+			[formControlName]="contract_serviceStart" /> <md-datepicker-toggle
+			mdSuffix [for]="contract_serviceStart"></md-datepicker-toggle> <md-datepicker
+			#contract_serviceStart></md-datepicker> </md-form-field>
+
+		<md-form-field> <input mdInput
+			[mdDatepicker]="contract_serviceEnd" placeholder="Start date"
+			[formControlName]="contract_serviceEnd" /> <md-datepicker-toggle
+			mdSuffix [for]="contract_serviceEnd"></md-datepicker-toggle> <md-datepicker
+			#contract_serviceEnd></md-datepicker> </md-form-field>
+
+		<md-form-field> <input mdInput placeholder="Type"
+			[formControlName]="contract_serviceTypeCode" /> </md-form-field>
+
+		<md-form-field> <input mdInput placeholder="Id"
+			[formControlName]="id" /> </md-form-field>
+	</div>
+</div>

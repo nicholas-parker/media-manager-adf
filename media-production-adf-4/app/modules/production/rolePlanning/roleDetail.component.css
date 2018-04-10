@@ -1,0 +1,129 @@
+.fill {
+ flex: 1 1 auto;	
+}
+
+.toolbar-icon {
+  padding: 0 14px;
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+.content {
+	float: left;
+	width: 800px;
+}
+
+.adminArea {
+	background-color: #eeeeee;
+	width: 300px;
+	float: right;
+}
+
+.adminItem {
+	padding: 5px;
+	border: 1px solid #cccccc;
+	clear: both;
+    height: 40px;
+}
+
+.adminIcon {
+	float: left;
+	clear: both;
+	padding-right: 10px;
+}
+
+.adminData {
+	font-weight: bold;
+}
+
+.adminTagContainer {
+	padding-left: 64px;
+	padding-top:25px;
+	padding-right: 5px;
+}
+
+.adminTagList {
+	padding-left: 35px;
+}
+
+
+.wfInput {
+	width: 80%;
+}
+.wfInput35A {
+	width: 35%;
+	margin-right:10%;
+}
+
+.wfInput35B {
+	width: 35%;
+}
+
+.wfInput25A {
+	width: 25%;
+	margin-right:5%;
+	float: left;
+	justify-content: left;
+}
+
+.wfInput25B {
+	width: 20%;
+}
+
+.tabContainer {
+	padding-left: 100px;
+	width: 800px;
+}
+
+.tabWide {
+	width: 80%;
+	display: flex;
+	flex-wrap: wrap;
+	height: 900px;
+}
+
+.sub-heading {
+	padding-top:30px;
+	margin-right: auto;
+}
+
+.rightField {
+	paddinig-right: 20px;
+}
+.leftField {
+	margin-right: auto;
+}
+
+.buttonIcon {
+	margin-right: 5px;
+}
+
+.taskDescriptionContainer {
+	margin-top: 10px;
+	display: flex;
+}
+
+.taskActions {
+	flex-basis: 30%;
+	margin-left: 15px;
+}
+
+.taskActionButton {
+	margin-bottom: 20px;
+	display: block;
+	width: 240px;
+}
+
+.taskDesciption {
+	flex-basis: 70%;
+	padding-left: 30px;
+}
+
+
+
+input {
+	font-family: inherit;
+	font-size: inherit;
+}

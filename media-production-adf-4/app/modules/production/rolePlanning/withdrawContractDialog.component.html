@@ -1,0 +1,16 @@
+<div class="container">
+<md-toolbar color="primary">
+  <div class="taskTitle">Withdraw offer for {{role.nvpList_roleName}}</div>
+  <span class="fill"></span>
+  <button md-button (click)="cancel()"><md-icon class="buttonIcon">close</md-icon>Close</button>
+</md-toolbar>
+<p>
+If you withdraw the offer from the candidate a message will be sent to the candidate and a new candidate can be selected.  This action cannot be undone.
+<p>
+
+<div>
+  <span class="fill"></span>
+  <button md-button (click)="withdraw()" class="right"><md-icon class="buttonIcon">replay</md-icon>Withdraw offer</button>
+</div>
+</div>
+

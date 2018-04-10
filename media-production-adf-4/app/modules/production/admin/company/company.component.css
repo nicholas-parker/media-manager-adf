@@ -1,0 +1,22 @@
+.menubarTitle {
+	padding-left: 35px;
+}
+
+.fill{
+ flex: 1 1 auto;	
+}
+
+.content {
+	float: left;
+	width: 800px;
+	padding-left: 20px;
+	padding-top: 20px;
+	display: flex;
+	flex-wrap: nowrap;
+	flex-flow: column;
+}
+
+.leftField {
+	float: left;
+	padding-bottom: 20px;
+}

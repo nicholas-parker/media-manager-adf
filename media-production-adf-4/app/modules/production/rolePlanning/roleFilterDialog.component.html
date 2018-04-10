@@ -1,0 +1,45 @@
+<md-toolbar color="primary">
+  <div class="taskTitle">Role filters</div>
+  <span class="toolbar-spacer"></span>
+  <button md-button (click)="onCancel()"><md-icon class="buttonIcon">close</md-icon>Close</button>
+</md-toolbar>
+<form>
+<md-grid-list cols="2" rowHeight="400px" class="selectionArea">
+  <md-grid-tile rowHeight="2">
+    Tags
+    <md-list>
+      <md-list-item *ngFor="let entry of listOfTags | async">
+        <md-checkbox [value]="entry.entry.tag"  (change)="tagChange($event)">{{ entry.entry.tag}}</md-checkbox>    
+      </md-list-item>
+    </md-list>
+  </md-grid-tile>
+  <md-grid-tile>
+    <md-list>
+      <md-list-item>
+        <md-checkbox [value]="'Set up'"  (change)="statusChange($event)">Setup</md-checkbox>    
+      </md-list-item>
+      <md-list-item>
+        <md-checkbox [value]="'Supplier review'"  (change)="statusChange($event)">Supplier review</md-checkbox>    
+      </md-list-item>
+      <md-list-item>
+        <md-checkbox [value]="'Accepted'"  (change)="statusChange($event)">Supplier accepted</md-checkbox>    
+      </md-list-item>
+      <md-list-item>
+        <md-checkbox [value]="'Rejected'"  (change)="statusChange($event)">Supplier rejected</md-checkbox>    
+      </md-list-item>
+      <md-list-item>
+        <md-checkbox [value]="'Approved'"  (change)="statusChange($event)">Approved</md-checkbox>    
+      </md-list-item>
+      <md-list-item>
+        <md-checkbox [value]="'Declined'"  (change)="statusChange($event)">Declined</md-checkbox>    
+      </md-list-item>
+
+    </md-list>
+  </md-grid-tile>
+  <md-grid-tile>
+    <md-form-field>
+      Charge code <input mdInput placehoder="Charge code" [(ngModel)]="chargeCode" name="chargeCode">
+    </md-form-field>
+  </md-grid-tile>
+</md-grid-list>
+</form> 

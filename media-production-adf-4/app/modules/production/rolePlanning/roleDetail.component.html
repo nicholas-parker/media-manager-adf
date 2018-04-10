@@ -1,0 +1,54 @@
+<md-toolbar color="primary">  <span class="menubarTitle">{{ role.nvpList_roleName }}</span>
+  <span class="fill"></span>
+  <button  (click)="withdraw()" md-button [disabled]="withdrawDisabled"><md-icon class="buttonIcon">replay</md-icon></button>
+  <button  (click)="delete()" md-button><md-icon class="buttonIcon">delete</md-icon></button>
+</md-toolbar>
+<div class="container">
+
+  <div class="content">
+    <div>
+      <opportunity [taskId]="taskId | async" [displayOptions]="displayOptions"></opportunity>
+    </div>
+  </div>  
+
+  <div class="adminArea">
+    <md-list>
+      <md-list-item>
+        <md-icon mdListIcon>folder</md-icon>
+        <div mdLine>Status</div>
+        <div mdLine>{{role.nvpList_roleStatus}}</div>
+      </md-list-item>
+      <div *ngIf="validTask">
+      <md-list-item>
+        <md-icon mdListIcon>assignment</md-icon>
+        <div mdLine>Current task</div>
+        <div mdLine>{{currentTask.name.substr(0,30)}}</div>
+      </md-list-item>
+      <md-list-item>
+        <md-icon mdListIcon>person</md-icon>
+        <div mdLine>Assigned to</div>
+        <div mdLine>{{currentTask.assignee}}</div>
+      </md-list-item>
+      <md-list-item>
+        <md-icon mdListIcon>schedule</md-icon>
+        <div mdLine>Started on</div>
+        <div mdLine>{{currentTask.startedAt}}</div>
+      </md-list-item>
+      </div>
+      <md-list-item>
+        <md-icon mdListIcon>date_range</md-icon>
+        <div mdLine>Role created</div>
+        <div mdLine>{{role.nvpList_createdDate}}</div>
+      </md-list-item>
+      <md-list-item>
+        <md-icon mdListIcon>date_range</md-icon>
+        <div mdLine>Role accepted</div>
+        <div mdLine>{{role.nvpList_acceptedDate}}</div>
+      </md-list-item>
+    </md-list>
+    <div class="adminTagContainer">
+      <div>Tags</div>
+      <adf-tag-node-actions-list [nodeId]="roleId"></adf-tag-node-actions-list>
+    </div>
+  </div>
+</div>

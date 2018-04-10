@@ -1,0 +1,8 @@
+<md-toolbar color="primary">
+  <div class="taskTitle">{{ role.nvpList_roleName }}</div>
+  <span class="toolbar-spacer"></span>
+  <button md-button (click)="onCancel()"><md-icon class="buttonIcon">close</md-icon>Close</button>
+</md-toolbar>
+<adf-tag-node-actions-list 
+    [nodeId]="role.cm_name">
+</adf-tag-node-actions-list>
