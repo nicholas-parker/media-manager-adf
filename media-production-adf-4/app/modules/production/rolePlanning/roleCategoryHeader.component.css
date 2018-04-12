@@ -1,0 +1,28 @@
+.header {
+	padding-left: 0px;
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+}
+
+.name {
+	font-size: 14pt;
+	flex-basis: auto;
+	width: 300px;
+}
+
+.summaryContainer {
+	font-size: 10pt;
+	font-color: grey;
+	display: flex;
+	width: 100%;
+}
+
+.noCrew {
+	font-size: 10pt;
+	font-color: grey;
+}
+
+.summaryItem {
+	padding-right: 24px;
+}
