@@ -57,12 +57,11 @@ export class CreateRoleComponent implements OnInit {
    */
   public selectDefaultRole(event) {
 
-
-
     let selectedRole: DefaultRole[] = this.defaultRoles.filter(currentItem => currentItem.nvpList_typeName === event);
     console.log(selectedRole);
     this.role.nvpList_contractTemplate = selectedRole[0].nvpList_typeContractTemplate;
     this.role.nvpList_roleName = '1st ' + selectedRole[0].nvpList_typeName;
+    this.role.nvpList_roleType = selectedRole[0].nvpList_typeName;
 
   }
 

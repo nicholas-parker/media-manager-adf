@@ -1,5 +1,5 @@
 import {DataSource, CollectionViewer} from '@angular/cdk/collections';
-import {Observable} from 'rxjs/Rx';
+import {Observable, BehaviorSubject} from 'rxjs/Rx';
 import {Role} from './role';
 
 export class FilteredRoleStream extends DataSource<Role> {
@@ -17,7 +17,6 @@ export class FilteredRoleStream extends DataSource<Role> {
    * 
    */
   public dataSource: DataSource<Role>;
-
 
   /**
    * 
@@ -53,10 +52,15 @@ export class FilteredRoleStream extends DataSource<Role> {
 
   }
 
-
   public disconnect(collectionViewer: CollectionViewer): void {
 
     this.dataSource.disconnect(collectionViewer);
+
+  }
+
+  public getRoleCount(): Observable<number> {
+
+    return this.roleCount.asObservable();
 
   }
 }

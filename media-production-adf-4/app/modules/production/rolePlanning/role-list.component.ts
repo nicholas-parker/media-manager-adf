@@ -14,7 +14,7 @@ import {RoleFilter} from './roleFilter';
 import {CreateRoleComponent} from './createRole.component';
 import {RoleDeleteDialog} from './roleDeleteDialog.component';
 import {WithdrawContractDialog} from './withdrawContractDialog.component';
-
+import {RoleCategoryHeaderComponent} from './roleCategoryHeader.component';
 import {AlfrescoWorkflowService} from '../../../components/alfrescoWorkflow/alfrescoWorkflow.service';
 import {ProcessTaskAssigneeComponent} from '../../../components/alfrescoWorkflow/processComponent/processTaskAssignee.component';
 import {CurrentProcessTaskComponent} from '../../../components/alfrescoWorkflow/processComponent/currentProcessTask.component';
@@ -96,6 +96,7 @@ export class RoleListComponent implements OnInit {
 
   /**
    * a collection of FilteredRoleStream, each category table uses a filtered role stream
+   * @deprecated
    * 
    */
   public streams: FilteredRoleStream[];
@@ -132,7 +133,7 @@ export class RoleListComponent implements OnInit {
    * returns an observable for the roles in the given category
    * 
    */
-  public categoryRoles(category: string): DataSource<Role> {
+  public categoryRoles(category: string): FilteredRoleStream {
 
     let stream: FilteredRoleStream = new FilteredRoleStream();
     stream.category = category;

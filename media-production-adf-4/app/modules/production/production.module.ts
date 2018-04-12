@@ -32,6 +32,7 @@ import {RoleTagDialog} from './rolePlanning/roleTagDialog.component';
 import {RoleFilterDialog} from './rolePlanning/roleFilterDialog.component';
 import {RoleDeleteDialog} from './rolePlanning/roleDeleteDialog.component';
 import {WithdrawContractDialog} from './rolePlanning/withdrawContractDialog.component';
+import {RoleCategoryHeaderComponent} from './rolePlanning/roleCategoryHeader.component';
 import {CompanyComponent} from './admin/company/company.component';
 import {ProductionPeriodComponent} from './admin/productionPeriod/productionPeriod.component';
 
@@ -71,7 +72,8 @@ import {ProductionPeriodComponent} from './admin/productionPeriod/productionPeri
     RoleDeleteDialog,
     WithdrawContractDialog,
     CompanyComponent,
-    ProductionPeriodComponent
+    ProductionPeriodComponent,
+    RoleCategoryHeaderComponent
   ],
   exports: [
     MdSortModule,

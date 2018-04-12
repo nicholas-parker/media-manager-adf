@@ -26,9 +26,7 @@
   <div *ngFor=" let category of categories | async">  
     <md-expansion-panel hideToggle="false">
       <md-expansion-panel-header>
-        <md-panel-title>
-          {{category}}
-        </md-panel-title>
+        <role-category-header [category]="category" [roles]="categoryRoles(category)"></role-category-header>
       </md-expansion-panel-header>
 
   
