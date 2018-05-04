@@ -7,7 +7,7 @@ import {TaskVar} from './taskVar';
 import {Task} from './task';
 import {AlfrescoService} from './alfresco.service';
 import {StartWorkflowMessage} from './startWorkflowMessage';
-
+import {StartWorkflowResponse} from './startWorkflowResponse';
 
 // Import RxJs required methods
 import 'rxjs/add/operator/map';
@@ -57,11 +57,11 @@ export class AlfrescoWorkflowService {
    * @itemId the node id of the item
    * 
    */
-  public addProcessItem(processId: number, itemId: string): Observable<any> {
+  public addProcessItem(processId: number, itemId: string): Observable<StartWorkflowResponse> {
 
     let url = AlfrescoWorkflowService.PROCESS_PATH + '/' + processId + '/items';
     let vars = {id: itemId};
-    let obs: Observable<TaskVar[]> = this.alfService.postHeaderAuth(url, vars);
+    let obs: Observable<StartWorkflowResponse> = this.alfService.postHeaderAuth(url, vars);
     return obs;
 
   }
@@ -72,7 +72,7 @@ export class AlfrescoWorkflowService {
    * -- needs to be refactored so it uses existing public REST API
    * 
    */
-  public startProcess(processName: string, properties: any): Observable<any> {
+  public startProcess(processName: string, properties: any): Observable<StartWorkflowResponse> {
 
     let url: string = this.createURL(AlfrescoWorkflowService.START_PROCESS_PATH);
 
@@ -83,8 +83,26 @@ export class AlfrescoWorkflowService {
     let headers = new Headers({'Content-Type': 'application/json'}); // ... Set content type to JSON
     let options = new RequestOptions({headers: headers}); // Create a request option
 
-    let obs: Observable<any> = this.http.post(url, bodyString, options);
-    return obs;
+    return this.http.post(url, bodyString, options)
+      .map(r => r.json())
+      .map((d: any) => {
+        let response = new StartWorkflowResponse();
+        response.status = d.status;
+        response.message = d.message;
+        response.processId = d.processId;
+        response.workflowName = processName;
+        response.properties = properties;
+        return response;
+      })
+      .catch(d => {
+        console.log(d);
+        let response: StartWorkflowResponse = new StartWorkflowResponse();
+        response.message = 'Did not start workflow ' + d.message;
+        response.status = StartWorkflowResponse.STATUS_FAIL;
+        response.properties = properties;
+        return Observable.of(response);
+      });
+
 
   }
 

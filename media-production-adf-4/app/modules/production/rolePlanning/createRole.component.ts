@@ -39,7 +39,7 @@ export class CreateRoleComponent implements OnInit {
     private snackBar: MdSnackBar,
     private productionService: AlfrescoProductionService) {
 
-    this.role.nvpList_contractTemplate = '44a0f707-052a-4404-934a-7e023a488286';
+
 
   }
 

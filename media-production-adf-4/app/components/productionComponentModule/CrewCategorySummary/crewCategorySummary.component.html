@@ -1,0 +1,61 @@
+<form #form="ngForm" (ngSubmit)="updateRoles(form)" novalidate>
+<md-table #table [dataSource]="summary" mdSort>
+  <ng-container cdkColumnDef="name">
+      <md-header-cell *cdkHeaderCellDef md-sort-header>Name</md-header-cell>
+      <md-cell *cdkCellDef="let row">{{row.roleName}}</md-cell>
+  </ng-container>
+  <ng-container cdkColumnDef="roleBudget">
+      <md-header-cell *cdkHeaderCellDef md-sort-hegeCoader>Budget per role</md-header-cell>
+      <md-cell *cdkCellDef="let row"> {{row.currency}} {{row.roleBudgetMin}}-{{row.roleBudgetMax}} {{row.ratePeriod}}</md-cell>
+  </ng-container>
+  <ng-container cdkColumnDef="contractTemplate">
+      <md-header-cell *cdkHeaderCellDef md-sort-header>Contract</md-header-cell>
+      <md-cell *cdkCellDef="let row"> {{row.contractTemplateName}}</md-cell>
+  </ng-container>
+  <ng-container cdkColumnDef="roleCount">
+      <md-header-cell *cdkHeaderCellDef md-sort-header>Crew count</md-header-cell>
+      <md-cell *cdkCellDef="let row"> {{row.roleCount}}</md-cell>
+  </ng-container>
+  <ng-container cdkColumnDef="roleCountInput">
+      <md-header-cell *cdkHeaderCellDef md-sort-header>Crew count</md-header-cell>
+      <md-cell *cdkCellDef="let row">
+      <md-form-field class="wfInput">
+        <input mdInput id="{{row.roleName}}_count" [ngModel]="row.roleCount" name="{{row.roleName}}" pattern="[0-9]*" />
+          <span class="mdl-textfield__error">Only alphabet please!</span>
+        </md-form-field>
+      </md-cell>
+  </ng-container>
+  <ng-container cdkColumnDef="summaryBudget">
+      <md-header-cell *cdkHeaderCellDef md-sort-header>Budget Min/Max</md-header-cell>
+      <md-cell *cdkCellDef="let row"> {{row.summaryBudgetMin}}-{{row.summaryBudgetMax}}</md-cell>
+  </ng-container>
+  <ng-container cdkColumnDef="confirmedBudget">
+      <md-header-cell *cdkHeaderCellDef md-sort-header>Confirmed Budget</md-header-cell>
+      <md-cell *cdkCellDef="let row"> {{row.summaryBudgetConfirmed}}</md-cell>
+  </ng-container>
+  <ng-container cdkColumnDef="menu">
+      <md-header-cell *cdkHeaderCellDef md-sort-header></md-header-cell>
+      <md-cell *cdkCellDef="let row">
+        <button md-icon-button [md-menu-trigger-for]="menu">
+          <md-icon>more_vert</md-icon>
+        </button>
+        <md-menu #menu="mdMenu">
+          <button md-menu-item (click)="add(row)">
+            <md-icon>add</md-icon>
+            <span>Add</span>
+          </button>
+		  <button md-menu-item (click)="delete(row)">
+		    <md-icon>delete</md-icon>
+		    <span>Delete</span>
+		  </button>
+		</md-menu>
+      </md-cell>
+  </ng-container>
+  <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
+  <md-row *cdkRowDef="let row; columns: displayedColumns;"></md-row>
+</md-table>
+<button type="submit">Make changes</button>
+</form>
+<div>
+  <div *ngFor="let msg of headcountMessage">{{msg}}</div>
+</div>

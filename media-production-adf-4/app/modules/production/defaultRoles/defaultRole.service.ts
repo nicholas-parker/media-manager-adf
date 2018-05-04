@@ -52,7 +52,6 @@ export class DefaultRoleService extends DataSource<DefaultRole> {
   url: string = '';
   ecmTicket: string = '';
 
-  private defaultRoles: DefaultRole[];
   private _defaultRoles: BehaviorSubject<DefaultRole[]> = new BehaviorSubject([]);
   private _rolesCategories: BehaviorSubject<string[]> = new BehaviorSubject([]);
   private haveConsumer = false;
@@ -66,8 +65,6 @@ export class DefaultRoleService extends DataSource<DefaultRole> {
     private logService: LogService,
     private http: Http) {
     super();
-    // this.siteId = 'mwt2';
-    // this._getDefaultRoles_Service();
   }
 
   /**
@@ -93,9 +90,14 @@ export class DefaultRoleService extends DataSource<DefaultRole> {
    * @return Observable<DefaultRole[]>
    */
   public connect(obj): Observable<DefaultRole[]> {
-    console.log('someone is connecting...', obj);
+
     this.haveConsumer = true;
     return this._defaultRoles.asObservable();
+
+  }
+
+  public disconnect() {
+
   }
 
   /**
@@ -108,12 +110,18 @@ export class DefaultRoleService extends DataSource<DefaultRole> {
 
   }
 
-  public gotData(d) {
-    console.log('DefaultRole observable new data [' + d + ']');
-  }
+  /**
+   * 
+   * return a specific default role by role name
+   * 
+   */
+  public getDefaultRoleByName(roleTypeName: string): Observable<DefaultRole> {
 
-  public disconnect() {
-
+    return this._defaultRoles.asObservable()
+      .take(1)
+      .map((dr: DefaultRole[]) => {
+        return dr.filter((r: DefaultRole) => {return r.nvpList_typeName === roleTypeName;})[0];
+      });
   }
 
   /**
@@ -182,32 +190,13 @@ export class DefaultRoleService extends DataSource<DefaultRole> {
       + DefaultRoleService.SERVICE_LIST_PATH_2
       + '?alf_ticket=' + ecmTicket;
 
+    /** custom service in Alfresco returns the properties of the defaultRoles as an array called items */
     this.http.get(this.url).subscribe(
 
       (res: Response) => {
-        this.defaultRoles = (<DefaultRole[]>res.json().items).map((item: any) =>
-          new DefaultRole(
-            item['sys_node-uuid'],
-            item.nvpList_typeName,
-            item.nvpList_typeDescription,
-            item.nvpList_typeDeliverableType,
-            item.nvpList_typeChargeCode,
-            item.nvpList_typePAYEStatus,
-            item.nvpList_typeWorkingWeek,
-            item.nvpList_typeBudgetMin,
-            item.nvpList_typeBudgetMax,
-            item.nvpList_typePaymentPeriod,
-            item.nvpList_typeRatePeriod,
-            item.nvpList_typeCurrency,
-            item.nvpList_typeProcessName,
-            item.nvpList_typeAdministrationTeam,
-            item.nvpList_typeContractTemplate,
-            item.nvpList_typeCategory
-          ));
-        this._defaultRoles.next(this.defaultRoles);
-        this.setCategories();
-        console.log('DefaultRoleService... updated defaultRoles  consumer is ' + this.haveConsumer);
-        console.log(this._defaultRoles);
+        let defaultRoles: DefaultRole[] = res.json().items;
+        this._defaultRoles.next(defaultRoles);
+        this._rolesCategories.next(this.getRoleCategories(defaultRoles));
       },
 
       err => {
@@ -223,12 +212,11 @@ export class DefaultRoleService extends DataSource<DefaultRole> {
    * create a list of categories from the defaultRoles
    * 
    */
-  private setCategories(): void {
+  private getRoleCategories(defaultRoles: DefaultRole[]): string[] {
 
-    let categories: string[] = this.defaultRoles
+    let categories: string[] = defaultRoles
       .map((r: DefaultRole) => {return r.nvpList_typeCategory;});
-    let unique = Array.from(new Set(categories));
-    this._rolesCategories.next(unique);
+    return Array.from(new Set(categories));
 
   }
 

@@ -55,7 +55,8 @@ export class RoleService extends DataSource<Role> {
    * data not loaded until siteId is set
    * 
    */
-  constructor(private apiService: AlfrescoApiService,
+  constructor(
+    private apiService: AlfrescoApiService,
     private logService: LogService,
     private http: Http) {
     super();
@@ -85,13 +86,15 @@ export class RoleService extends DataSource<Role> {
    */
   public connect(obj): Observable<Role[]> {
 
-    return this._roles.asObservable();
+    return this._roles.asObservable().do(d => {if (obj === 'stop') {console.log('roles observable is ' + d.length + ' long');} });
 
   }
 
   public disconnect(collectionViewer: CollectionViewer) {
 
   }
+
+
 
   /**
    * 
@@ -111,41 +114,50 @@ export class RoleService extends DataSource<Role> {
       + RoleService.SERVICE_PATH_2
       + '?alf_ticket=' + ecmTicket;
 
-    let obs: Observable<Role> = Observable.fromPromise(this.apiService.nodesApi.getNode(nodeId)).map(
+    return Observable.fromPromise(this.apiService.nodesApi.getNode(nodeId)).map(
       (node: any) => {
         let role = new Role();
+        role.sys_nodedbid = node.entry.id;
+        role.nvpList_roleType = node.entry.properties['nvpList:roleType'];
+        role.nvpList_roleName = node.entry.properties['nvpList:roleName'];
+        role.nvpList_roleDescription = node.entry.properties['nvpList:roleDescription'];
+        role.nvpList_createdDate = node.entry.properties['nvpList.createdDate'];
+        role.nvpList_offerDate = node.entry.properties['nvpList.offerDate'];
         role.nvpList_acceptedDate = node.entry.properties['nvpList:acceptedDate'];
+        role.nvpList_roleStatus = node.entry.properties['nvpList:roleStatus'];
+        role.nvpList_chargeCode = node.entry.properties['nvpList:chargeCode'];
+        role.nvpList_PAYEStatus = node.entry.properties['nvpList:PAYEStatus'];
+        role.nvpList_workingWeek = node.entry.properties['nvpList:workingWeek'];
+        role.nvpList_holidayPaidRate = node.entry.properties['nvpList:holidayPaidRate'];
+        role.nvpList_noticePeriod = node.entry.properties['nvpList:noticePeriod'];
+        role.nvpList_contractProcessId = node.entry.properties['nvpList:contractProcessId'];
+        role.nvpList_contractProcessName = node.entry.properties['nvpList:contractProccessName'];
+        role.nvpList_contractAdministrationTeam = node.entry.properties['nvpList:contractAdministrationTeam'];
+        role.nvpList_startDate = node.entry.properties['nvpList:startDate'];
+        role.nvpList_endDate = node.entry.properties['nvpList:endDate'];
+        role.nvpList_ratePeriod = node.entry.properties['nvpList:ratePeriod'];
+        role.nvpList_paymentPeriod = node.entry.properties['nvpList:paymentPeriod'];
         role.nvpList_budgetMax = node.entry.properties['nvpList:budgetMax'];
         role.nvpList_budgetMin = node.entry.properties['nvpList:budgetMin'];
-        role.nvpList_chargeCode = node.entry.properties['nvpList:chargeCode'];
-        role.nvpList_contractProcessId = node.entry.properties['nvpList:contractProcessId'];
-        role.nvpList_contractTemplate = node.entry.properties['nvpList.contractTemplate'];
-        role.nvpList_createdDate = node.entry.properties['nvpList.createdDate'];
-        role.nvpList_endDate = node.entry.properties['nvpList.endDate'];
+        role.nvpList_totalBudgetMax = node.entry.properties['nvpList:totalBudgetMax'];
+        role.nvpList_totalBudgetMin = node.entry.properties['nvpList:totalBudgetMin'];
+        role.nvpList_currency = node.entry.properties['nvpList:currency'];
+        role.nvpList_totalContractsAmount = node.entry.properties['nvpList:totalContractsAmount'];
+        role.nvpList_roleCategory = node.entry.properties['nvpList.roleCategory'];
         role.nvpList_location = node.entry.properties['nvpList:location'];
-        role.nvpList_offerDate = node.entry.properties['nvpList.offerDate'];
-        role.nvpList_roleName = node.entry.properties['nvpList:roleName'];
-        role.nvpList_PAYEStatus = node.entry.properties['nvpList:PAYEStatus'];
-        role.nvpList_roleStatus = node.entry.properties['nvpList:roleStatus'];
-        role.nvpList_roleType = node.entry.properties['nvpList:roleType'];
-        role.nvpList_serviceDescription = node.entry.properties['nvpList:serviceDescription'];
-        role.nvpList_startDate = node.entry.properties['nvpList:startDate'];
-        role.nvpList_totalContractsValue = node.entry.properties['nvpList:totalContractsValue'];
-        role.sys_nodedbid = node.entry.id;
+        // role.nvpList_contractTemplate = node.entry.properties['nvpList.contractTemplate'];
         return role;
-      },
-      err => {console.log('ERROR: unable to retrieve role node');}
-    );
-    return obs;
+      });
+
 
   }
 
   /**
    * 
-   * Writes a new default role to the back end store and updates the observable list
+   * Writes a new role to the back end store and updates the observable list
    * 
    */
-  public writeRole(role: Role): Observable<any> {
+  public writeRole(role: Role): Observable<Role> {
 
     let ecmTicket = this.apiService.getInstance().ecmAuth.getTicket();
 
@@ -162,13 +174,16 @@ export class RoleService extends DataSource<Role> {
     let options = new RequestOptions({headers: headers}); // Create a request option
 
 
-    let obs: Observable<any> = this.http.post(url, bodyString, options);
-    obs.subscribe(
-      res => {
-        this._getRoles_Service();
-      }
-    );
-    return obs;
+    /** service returns a JSON payload of the new role */
+    return <Observable<Role>>this.http.post(url, bodyString, options)
+      .map((response: Response) => {
+        let data = response.json().items;
+        role.sys_nodedbid = response.json().items['sys_node-uuid'];
+        role['sys_node-uuid'] = response.json().items['sys_node-uuid'];
+        return role;
+      })
+      .do(d => {this.refresh();});
+
   }
 
   /**
@@ -396,5 +411,42 @@ export class RoleService extends DataSource<Role> {
 
   }
 
+  /**
+   * 
+   * transform 'x_x' notation to 'x:x'
+   * 
+   */
+  private transform(source: any): any {
+
+    let names = Object.getOwnPropertyNames(source);
+    let result = {};
+    for (let i = 0; i < names.length; i++) {
+
+      let newName = names[i].replace('_', ':');
+      result[newName] = source[names[i]];
+    }
+    return result;
+  }
+
+  /**
+   * 
+   * take a source object and map the values of properties which exist
+   * in the source and target into the target
+   * 
+   */
+  public mapToObject(source: any, target: any) {
+
+    let names = Object.getOwnPropertyNames(target);
+    let result = {};
+    for (let i = 0; i < names.length; i++) {
+
+      if (source.hasOwnProperty(names[i])) {
+        result[names[i]] = source[names[i]];
+      }
+
+    }
+    return result;
+
+  }
 
 }

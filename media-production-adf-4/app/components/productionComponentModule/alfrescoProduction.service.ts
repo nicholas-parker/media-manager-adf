@@ -67,7 +67,7 @@ export class AlfrescoProductionService extends AlfrescoService {
 
   /**
    * 
-   * given the production id (shortName) returns the full data model
+   * given the production id (shortName) returns the full data modelAddress
    * This can be extended to provide containers and members
    * 
    */
@@ -88,7 +88,9 @@ export class AlfrescoProductionService extends AlfrescoService {
   public getProductionProperties(id): Observable<ProductionProperties> {
 
     return Observable.fromPromise(this._apiService.nodesApi.getNode(id))
-      .map((data: any) => {return data.entry.properties;});
+      .map((data: any) => {
+        return this.mapToObject(data.entry.properties, new ProductionProperties());
+      });
 
   }
 
@@ -296,7 +298,7 @@ export class AlfrescoProductionService extends AlfrescoService {
    * returns the siteName upon success
    * 
    */
-  applyProduct(siteName: string, productCode: string): Observable<any> {
+  public applyProduct(siteName: string, productCode: string): Observable<any> {
 
     let path = 's/mwt/production/setup/' + siteName + '/' + productCode;
     let obs: Observable<string> = this.get(path);
@@ -309,12 +311,33 @@ export class AlfrescoProductionService extends AlfrescoService {
    * delete a site
    * 
    */
-  deleteSite(siteName: string): Observable<any> {
+  public deleteSite(siteName: string): Observable<any> {
 
     let apiServiceInstance = this._apiService.getInstance();
     return Observable.fromPromise(apiServiceInstance.core.sitesApi.deleteSite(siteName));
 
   }
 
+  /**
+   * 
+   * take a source object and map the values of properties which exist
+   * in the source and target into the target
+   * 
+   */
+  private mapToObject(source: any, target: any) {
+
+    let names = Object.getOwnPropertyNames(target);
+    let result = {};
+    for (let i = 0; i < names.length; i++) {
+
+      let sourceName = names[i].replace('_', ':');
+      if (source.hasOwnProperty(sourceName)) {
+        result[names[i]] = source[sourceName];
+      }
+
+    }
+    return result;
+
+  }
 
 }

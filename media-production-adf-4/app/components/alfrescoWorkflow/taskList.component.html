@@ -1,18 +1,12 @@
-<md-card>
-  <md-card-title class="mdl-card__title mdl-card--expand mdl-color--teal-300">Tasks</md-card-title>
-  <md-card-content>
+<div class="width mdl-color--teal-300">Tasks</div>
     <md-list>
       <md-list-item *ngFor="let task of tasks | async">
-        <!-- div class="taskListEntry">
-          <div class="taskListIcon"><md-icon class="material-icons md-36 primary">{{ taskIcon(task) }}</md-icon></div>
-          <div mdLine class="taskListText" (click)="onSelectTask(task)">{{task.name}}</div>
-          <div mdLine class="taskListDescription">{{task.description.substring(0,33)}}</div>
-          </div>
-        <div class="clear"></div -->
-        <md-icon mdListIcon class="material-icons md-36 primary">{{ taskIcon(task) }}</md-icon>
-        <div mdLine (click)="onSelectTask(task)">{{task.name}}</div>
-        <div mdLine>{{task.description.substring(0,33)}}</div>
+        <div class="taskListEntry">
+          <md-icon class="taskListIcon">{{ taskIcon(task) }}</md-icon>
+          <div class="taskListItem"></div>
+            <div (click)="onSelectTask(task)" class="taskListTitle">{{task.name}}</div>
+            <div class="taskListDescription">{{task.description.substring(0,33)}}</div>
+        </div>
       </md-list-item>
     </md-list>
-  </md-card-content>
-</md-card>
+

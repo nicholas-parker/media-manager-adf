@@ -1,0 +1,8 @@
+<div class="container">
+<md-toolbar color="primary">
+  <div class="taskTitle">{{category}}</div>
+  <span class="fill"></span>
+  <button md-button (click)="close()"><md-icon class="buttonIcon">close</md-icon>Close</button>
+</md-toolbar>
+<crew-category-summary [category]="category"></crew-category-summary>
+</div>

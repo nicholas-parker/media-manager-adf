@@ -20,6 +20,13 @@ export class ProductionComponent implements OnInit {
   public production: Production;
   public loaded = false;
 
+  /**
+   * 
+   * a flag which indicates if this production has any crew members
+   * 
+   */
+  public hasCrew: boolean = false;
+
   constructor(private route: ActivatedRoute,
     private service: AlfrescoProductionService,
     private context: ProductionContext;
@@ -29,6 +36,12 @@ export class ProductionComponent implements OnInit {
 
   }
 
+  /**
+   * 
+   * subscribe to the routing to get the production Id from the route,
+   * when we have the productionId, get the production details
+   * 
+   */
   public ngOnInit() {
 
     this.productionId = this.route.params.map(p => p.id);
@@ -38,6 +51,11 @@ export class ProductionComponent implements OnInit {
 
   }
 
+  /**
+   * 
+   * get the production details for the given production id
+   * 
+   */
   private getProduction(id) {
 
     let obs: Observable<Production> = this.service.getPrduction(id);

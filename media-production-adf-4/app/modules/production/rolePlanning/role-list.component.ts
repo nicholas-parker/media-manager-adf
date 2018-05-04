@@ -18,6 +18,8 @@ import {RoleCategoryHeaderComponent} from './roleCategoryHeader.component';
 import {AlfrescoWorkflowService} from '../../../components/alfrescoWorkflow/alfrescoWorkflow.service';
 import {ProcessTaskAssigneeComponent} from '../../../components/alfrescoWorkflow/processComponent/processTaskAssignee.component';
 import {CurrentProcessTaskComponent} from '../../../components/alfrescoWorkflow/processComponent/currentProcessTask.component';
+import {CategoryRoleDialog} from './categoryRoleDialog.component';
+
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/observable/merge';
 import 'rxjs/add/operator/map';

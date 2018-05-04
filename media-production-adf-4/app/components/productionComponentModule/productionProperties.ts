@@ -12,30 +12,30 @@ export class ProductionProperties {
    * properties provided by contract_registeredOrg aspect
    *
    */
-  contract_registeredName;
-  contract_operatingName;
-  contract_formalAddress;
-  contract_formalPostCode;
-  contract_registeredNum;
-  contract_registerOrg;
-  contract_registerRegion;
-  contract_taxNumber;
-  contract_taxRegion;
-  contract_orgContactEmail;
-  contract_orgContactTel;
+  contract_registeredName = '';
+  contract_operatingName = '';
+  contract_formalAddress = '';
+  contract_formalPostCode = '';
+  contract_registeredNum = '';
+  contract_registerOrg = '';
+  contract_registerRegion = '';
+  contract_taxNumber = '';
+  contract_taxRegion = '';
+  contract_orgContactEmail = '';
+  contract_orgContactTel = '';
 
   /**
    * 
    * properties provided by prod_mediaProduction aspect
    * 
    */
-  prod_productionName;
-  prod_productionDescription;
-  prod_productionAddress1;
-  prod_productionAddress2;
-  prod_productionAddress3;
-  prod_productionPOCode;
-  prod_productionCountry;
+  prod_productionName = '';
+  prod_productionDescription = '';
+  prod_productionAddress1 = '';
+  prod_productionAddress2 = '';
+  prod_productionAddress3 = '';
+  prod_productionPOCode = '';
+  prod_productionCountry = '';
 
 
 

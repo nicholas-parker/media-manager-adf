@@ -105,6 +105,22 @@ export class AlfrescoService {
 
   }
 
+  public getHeaderAuth(servicePath: string): Observable<any> {
+
+    let url = this.createURL_noTicket(servicePath);
+    let ecmTicket = this.apiService.getInstance().ecmAuth.getTicket();
+    let headers = new Headers({'Authorization': 'Basic ' + btoa(ecmTicket)}); // ... Set content type to JSON
+    let options = new RequestOptions({headers: headers}); // Create a request option
+
+    return this.http.get(url, options)
+      .map((res: Response) => res.json())
+      .catch((error: any) => {
+        console.log(error);
+        return Observable.throw(error.json().error || 'Server error');
+      });
+
+  }
+
   public getListHeaderAuth(servicePath: string): Observable<any> {
 
     let url = this.createURL_noTicket(servicePath);
@@ -276,6 +292,33 @@ export class AlfrescoService {
     body.childId = target;
     body.assocType = assocType;
     return this.postHeaderAuth(path, body);
+
+  }
+
+  /**
+   * 
+   * create a target association on a node
+   * 
+   */
+  public createTargetAssociation(parent: string, target: string, assocType: string): Observable<any> {
+
+    let path = 'api/-default-/public/alfresco/versions/1/nodes/' + parent + '/targets';
+    let body = {targetId: '', assocType: ''};
+    body.targetId = target;
+    body.assocType = assocType;
+    return this.postHeaderAuth(path, body);
+
+  }
+
+  /**
+   * 
+   * get source associations on a node
+   * 
+   */
+  public getSourceAssociation(targetId: string, associationType?: string): Observable<any> {
+
+    let path = 'api/-default-/public/alfresco/versions/1/nodes/' + targetId + '/sources?include=properties';
+    return this.getHeaderAuth(path);
 
   }
 

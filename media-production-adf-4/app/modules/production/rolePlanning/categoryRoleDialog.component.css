@@ -1,0 +1,11 @@
+.container {
+	width: 650px;
+}
+
+.fill {
+ flex: 1 1 auto;	
+}
+
+.right {
+	float: right;
+}

@@ -1,0 +1,16 @@
+.mat-column-name {
+	flex: 0 0 200px; 
+     }
+     
+.mat-column-roleBudget {
+	flex: 0 0 200px; 
+     }
+
+.mat-column-roleCount {
+	flex: 0 0 100px; 
+     }
+
+.mat-column-roleCountInput {
+	flex: 0 0 100px; 
+     }
+     

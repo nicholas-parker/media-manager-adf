@@ -10,6 +10,8 @@ import {AlfrescoProductionService} from '../../components/productionComponentMod
 import {AlfrescoService} from '../../components/alfrescoWorkflow/alfresco.service';
 import {WorkflowModule} from '../../components/alfrescoWorkflow/workflow.module';
 import {ProductionRolePieChartsComponent} from '../../components/roleCharts/productionRolePieCharts.component';
+import {ProductionComponentModule} from '../../components/productionComponentModule/productionComponentModule.module';
+import {ContractModule} from '../../components/contract/contract.module';
 
 import {ProductionComponent} from './production.component';
 import {ProductionDashboardComponent} from './production-dashboard.component';
@@ -25,6 +27,7 @@ import {CreateRoleComponent} from './rolePlanning/createRole.component';
 import {ProductionFilesComponent} from './productionFiles/productionFiles.component';
 import {FileDetailComponent} from './productionFiles/fileDetail.component';
 import {RoleService} from './rolePlanning/role.service';
+import {RoleManager} from './rolePlanning/roleManager.service';
 import {ProductionRoutingModule} from './production-routing.module';
 import {CardViewUpdateService} from 'ng2-alfresco-core';
 import {AdminComponent} from './admin/admin.component';
@@ -35,6 +38,7 @@ import {WithdrawContractDialog} from './rolePlanning/withdrawContractDialog.comp
 import {RoleCategoryHeaderComponent} from './rolePlanning/roleCategoryHeader.component';
 import {CompanyComponent} from './admin/company/company.component';
 import {ProductionPeriodComponent} from './admin/productionPeriod/productionPeriod.component';
+import {CategoryRoleDialog} from './rolePlanning/categoryRoleDialog.component';
 
 @NgModule({
   imports: [
@@ -51,7 +55,9 @@ import {ProductionPeriodComponent} from './admin/productionPeriod/productionPeri
     FormsModule,
     ReactiveFormsModule,
     WorkflowModule,
-    ChartsModule
+    ChartsModule,
+    ProductionComponentModule,
+    ContractModule
   ],
   declarations: [
     ProductionComponent,
@@ -73,7 +79,8 @@ import {ProductionPeriodComponent} from './admin/productionPeriod/productionPeri
     WithdrawContractDialog,
     CompanyComponent,
     ProductionPeriodComponent,
-    RoleCategoryHeaderComponent
+    RoleCategoryHeaderComponent,
+    CategoryRoleDialog
   ],
   exports: [
     MdSortModule,
@@ -84,7 +91,9 @@ import {ProductionPeriodComponent} from './admin/productionPeriod/productionPeri
     MdInputModule,
     MdDatepickerModule,
     WorkflowModule,
-    ChartsModule
+    ChartsModule,
+    ProductionComponentModule,
+    ContractModule
   ],
   entryComponents: [
     DefaultRoleFormComponent,
@@ -92,14 +101,16 @@ import {ProductionPeriodComponent} from './admin/productionPeriod/productionPeri
     RoleTagDialog,
     RoleFilterDialog,
     RoleDeleteDialog,
-    WithdrawContractDialog
+    WithdrawContractDialog,
+    CategoryRoleDialog
   ],
   providers: [
     ContractTemplateService,
     DefaultRoleService,
     RoleService,
     AlfrescoProductionService,
-    CardViewUpdateService
+    CardViewUpdateService,
+    RoleManager
   ]
 })
 
