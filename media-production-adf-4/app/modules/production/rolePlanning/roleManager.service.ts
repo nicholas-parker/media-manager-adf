@@ -51,8 +51,6 @@ export class RoleManager {
     filteredRole.roleType = defaultRoleName;
     filteredRole.dataSource = this.roleService;
 
-    let templateId: string;
-    let processName: string;
 
     return Observable
       .forkJoin([this.defaultRoleService.getDefaultRoleByName(defaultRoleName),
@@ -62,8 +60,8 @@ export class RoleManager {
         let result: DefaultRoleSummary = new DefaultRoleSummary();
         result.defaultRole = data[0];
         result.crewCount = data[1];
-        templateId = result.defaultRole.nvpList_typeContractTemplate;
-        processName = result.defaultRole.nvpList_typeProcessName;
+        // templateId = result.defaultRole.nvpList_typeContractTemplate;
+        // processName = result.defaultRole.nvpList_typeProcessName;
         console.log(result);
         return result;
 
@@ -101,10 +99,10 @@ export class RoleManager {
       .mergeMap((role: Role) => {
 
         // create the contract document from the template
-        if (undefined !== templateId) {
+        if (undefined !== role.nvpList_contractTemplate) {
           let contractName: string = role.nvpList_roleName + ' contract.docx';
           return Observable.forkJoin([Observable.of(role),
-          this.contractService.createBlankContractFromTemplateForRole(contractName, templateId, role['sys_node-uuid'])
+          this.contractService.createBlankContractFromTemplateForRole(contractName, role.nvpList_contractTemplate, role['sys_node-uuid'])
           ]);
         } else {
           let contract = new ContractDocumentCreateResult();
@@ -114,9 +112,11 @@ export class RoleManager {
       })
       .mergeMap((data: any[]) => {
         console.log(data);
+
         let role: Role = data[0];
         let contract: ContractDocumentCreateResult = data[1];
         let response: NewRoleEvent = new NewRoleEvent();
+
         response.roleId = role.sys_nodedbid;
         response.roleName = role.nvpList_roleName;
         response.roleType = role.nvpList_roleType;
@@ -127,6 +127,14 @@ export class RoleManager {
         response.workflowName = contract.contractWorkflowName;
         response.processId = contract.contractProcessId;
         response.workflowStatus = contract.contractProcessStatus;
+
+        role.nvpList_contractProcessId = response.processId;
+
+        return Observable.forkJoin([Observable.of(response),
+        this.roleService.writeRole(role)]);
+      })
+      .mergeMap((data: any[]) => {
+        let response: NewRoleEvent = data[0];
         return Observable.of(response);
       });
 

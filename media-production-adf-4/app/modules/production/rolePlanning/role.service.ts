@@ -6,6 +6,7 @@ import {BehaviorSubject} from 'rxjs/Rx';
 import {Observable} from 'rxjs/Rx';
 import {Role} from './role';
 import {RoleFilter} from './roleFilter';
+import {NodeEntry} from 'alfresco-js-api';
 
 // Import RxJs required methods
 import 'rxjs/add/operator/map';
@@ -184,6 +185,48 @@ export class RoleService extends DataSource<Role> {
       })
       .do(d => {this.refresh();});
 
+  }
+
+  /**
+   * 
+   * updates an existing role to the back end store and updates the observable list
+   * 
+   */
+  public updateRole(role: Role): Observable<Role> {
+
+    // let ecmTicket = this.apiService.getInstance().ecmAuth.getTicket();
+
+    // let url = RoleService.ECM_PROXY
+    //  + RoleService.CONTEXT_ROOT
+    //  + RoleService.SERVICE_PATH
+    //  + RoleService.SERVICE_PATH_1
+    //  + this.siteId
+    //  + RoleService.SERVICE_PATH_2
+    //  + '?alf_ticket=' + ecmTicket;
+
+    let bodyString = JSON.stringify(role);
+    // let headers = new Headers({'Content-Type': 'application/json'}); // ... Set content type to JSON
+    // let options = new RequestOptions({headers: headers}); // Create a request option
+
+
+    /** service returns a JSON payload of the new role */
+    // return <Observable<Role>>this.http.put(url, bodyString, options)
+    //  .map((response: Response) => {
+    //    let data = response.json().items;
+    //    role.sys_nodedbid = response.json().items['sys_node-uuid'];
+    //    role['sys_node-uuid'] = response.json().items['sys_node-uuid'];
+    //    return role;
+    //  })
+    //  .do(d => {this.refresh();});
+
+    return Observable.from(this.apiService.nodesApi.updateNode(role.sys_nodedbid, bodyString))
+      .map((response: NodeEntry) => {
+        let updatedRole: Role = response.entry.properties;
+        updatedRole.sys_nodedbid = response.entry.id;
+        updatedRole['sys_node-uuid'] = response.entry.id;
+        return updatedRole;
+      })
+      .do(d => {this.refresh();});
   }
 
   /**
