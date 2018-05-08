@@ -213,7 +213,7 @@ export class NewProductionComponent implements OnInit {
     postProduction.contract_serviceEnd = this.productionForm.value['prod_postProductionEndDate'];
     this.periods.push(postProduction);
 
-    this.snackBar.open('Creating your new production area');
+    this.snackBar.open('Creating your new production, wont be long');
     this.service.createSite(this.properties).subscribe(
       siteName => {
 

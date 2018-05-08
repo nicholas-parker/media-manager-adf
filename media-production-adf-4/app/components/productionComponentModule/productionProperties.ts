@@ -16,8 +16,8 @@ export class ProductionProperties {
   contract_operatingName = '';
   contract_formalAddress = '';
   contract_formalPostCode = '';
-  contract_registeredNum = '';
   contract_registerOrg = '';
+  contract_registeredNum = '';
   contract_registerRegion = '';
   contract_taxNumber = '';
   contract_taxRegion = '';
