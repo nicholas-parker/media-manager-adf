@@ -1,10 +1,12 @@
 <div *ngIf="loaded" class="header">
     <div class="name">{{category}}</div>
     <div><button  (click)="add(category)" md-button><md-icon class="buttonIcon">person_add</md-icon></button></div>
-    <!-- div *ngIf="!hasRoles" class="summaryItem">Add crew</div -->
-      <div *ngIf="hasRoles" class="summaryItem">Crew: {{roleCount}}</div>
-      <div *ngIf="hasRoles" class="summaryItem">In progress: {{processing}}</div>
-      <div *ngIf="hasRoles" class="summaryItem">Accepted: {{accepted}}</div>
-      <div *ngIf="hasRoles" class="summaryItem">{{completed}}% complete <md-progress-bar mode="determinate" value="40"></md-progress-bar></div>
+      <div *ngIf="hasRoles" class="summaryItem">{{stats.roleCount}} Crew</div>
+      <div *ngIf="hasRoles" class="summaryItem">{{stats.completePercent}}% complete <md-progress-bar mode="determinate" value="{{stats.completePercent}}"></md-progress-bar></div>
+      <div *ngIf="hasRoles" class="summaryItem">Pending: {{stats.pendingCount}}</div>
+      <div *ngIf="hasRoles" class="summaryItem">Candidate: {{stats.candidateCount}}</div>
+      <div *ngIf="hasRoles" class="summaryItem">Accepted: {{stats.acceptedCount}}</div>
+      <div *ngIf="hasRoles" class="summaryItem">Complete: {{stats.approvedCount}}</div>
+    
 </div>
 <div *ngIf="!loaded">Loading...</div>

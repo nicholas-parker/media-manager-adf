@@ -133,7 +133,7 @@ export class ProductionFilesComponent {
 
     this.docLibObsv = Observable.fromPromise(
       this.apiService.getInstance().core.sitesApi.getSiteContainer(productionSiteId, 'documentLibrary')
-    ).subscribe(response => {
+    ).subscribe((response: any) => {
       this.productionRootFolderId = response.entry.id;
       this.documentList.currentFolderId = this.productionRootFolderId;
     },

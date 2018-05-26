@@ -9,6 +9,8 @@ import {NewProductionComponent} from './newProduction.component';
 import {ProductionContext} from './productionContext';
 import {CrewCategorySummaryComponent} from './CrewCategorySummary/crewCategorySummary.component';
 import {CrewCategorySummaryService} from './CrewCategorySummary/crewCategorySummary.service';
+import {MasterRoleService} from './masterDataComponent/masterRoleService';
+import {MasterDocumentService} from './masterDataComponent/masterDocumentService';
 
 @NgModule({
   imports: [
@@ -32,8 +34,11 @@ import {CrewCategorySummaryService} from './CrewCategorySummary/crewCategorySumm
     FormsModule
   ],
   providers: [
+    MasterDocumentService,
+    AlfrescoProductionService,
     ProductionContext,
-    CrewCategorySummaryService
+    CrewCategorySummaryService,
+    MasterRoleService
   ]
 })
 export class ProductionComponentModule {}

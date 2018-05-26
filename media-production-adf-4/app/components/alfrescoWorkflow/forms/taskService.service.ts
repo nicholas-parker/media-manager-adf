@@ -51,7 +51,11 @@ export class TaskService {
 
     this.taskId = taskId;
     console.log('someone connected');
-    return this.service.getTaskVars(taskId);
+    return this.service.getTaskVars(taskId)
+      .flatMap((vars: TaskVar[]) => {
+        this.taskModel = vars;
+        return Observable.of(vars);
+      });
 
   }
 
@@ -110,6 +114,27 @@ export class TaskService {
 
   }
 
+  /**
+   * 
+   * given an instance of an object extracts the values from the task
+   *  
+   */
+  public mapToModel(model: any): any {
+
+    if (undefined === model) {return model;}
+
+    Object.keys(model).forEach(key => {
+
+      let match: TaskVar[] = this.taskModel.filter((n: TaskVar) => {return n.name === key;});
+      if (match.length > 0) {
+        model[key] = match[0].value;
+      }
+    });
+
+    return model;
+
+  }
+
   /** 
    * 
    * informs the user there was an error getting the variables for the task
@@ -150,7 +175,7 @@ export class TaskService {
    * sets the task variable
    * 
    */
-  public setTaskVar(name: string, newValue: any) {
+  public setTaskVar(name: string, newValue: any, now: boolean = false) {
 
     let r = this.taskModel.filter(m => m.name === name);
     if (r.length > 0) {
@@ -158,6 +183,44 @@ export class TaskService {
     } else {
       let newVar: TaskVar = new TaskVar('global', name, newValue, 'd:text');
       this.taskModel.push(newVar);
+    }
+
+    if (now) {
+      return this.service.setTaskVars(+this.taskId, this.taskModel.filter(m => m.name === name));
+    } else {
+      return Observable.empty();
+    }
+
+  }
+
+  /**
+   * 
+   * sets a number of task variables
+   * 
+   */
+  public setTaskVars(values: any, now: boolean = false): Observable<any> {
+
+    let updates = new Array<TaskVar>();
+
+    Object.keys(values).forEach(key => {
+
+      let r = this.taskModel.filter(m => m.name === key);
+      if (r.length > 0) {
+        r[0].value = values[key];
+        updates.push(r[0]);
+      } else {
+        let newVar: TaskVar = new TaskVar('global', key, values[key], 'd:text');
+        this.taskModel.push(newVar);
+        updates.push(newVar);
+      }
+
+    });
+
+
+    if (now && updates.length > 0) {
+      return this.service.setTaskVars(+this.taskId, updates);
+    } else {
+      return Observable.empty();
     }
 
   }
@@ -197,7 +260,9 @@ export class TaskService {
       filter(m => m.name !== 'contract_contractSupplier').
       filter(m => m.name !== 'bpm_package').
       filter(m => m.name !== 'nvpList_contractTemplate').
-      filter(m => m.name !== 'servicePeriods'));
+      filter(m => m.name !== 'servicePeriods').
+      filter(m => m.type !== 'd:date').
+      filter(m => m.type !== 'd:datetime'));
   }
 
   /**

@@ -233,7 +233,10 @@ export class ConfirmRightToWorkFormComponent implements OnInit {
         this.snackBar.open('Task saved...', null, {duration: 3000});
         this.dialogRef.close();
       },
-      err => {this.snackBar.open('ERROR saving task', err.message, {duration: 3000});});
+      err => {
+        this.snackBar.open('ERROR saving task', err.message, {duration: 3000});
+        console.log(err);
+      });
 
   }
 
@@ -244,19 +247,23 @@ export class ConfirmRightToWorkFormComponent implements OnInit {
    */
   public onConfirmRTW() {
 
-    this.service.setTaskVar('contract_RTWdate', new Date());
-    this.service.setTaskVar('contract_RTWdecision', 'PASS');
+    let updates = {contract_RTWdate: '', contract_RTWdecision: ''};
+    updates.contract_RTWdate = new Date().toISOString();
+    updates.contract_RTWdecision = 'PASS';
 
-    this.service.Save().subscribe(
-      data => {
-        this.service.TaskComplete().subscribe(
-          d => {
-            this.snackBar.open('Role completed', null, {duration: 3000});
-            this.dialogRef.close();
-          },
-          err => {this.snackBar.open('ERROR completing role', err.message, {duration: 3000});});
+
+    this.service.setTaskVars(updates, true)
+      .flatMap((data: any) => {
+        return this.service.TaskComplete();
+      })
+      .subscribe(
+      d => {
+        this.snackBar.open('Role completed', null, {duration: 3000});
+        this.dialogRef.close();
       },
-      error => {this.snackBar.open('ERROR comleting role', error.message, {duration: 3000});});
+      err => {
+        this.snackBar.open('ERROR completing role', err.message, {duration: 3000});
+      });
 
   }
 

@@ -102,7 +102,7 @@ export class RoleManager {
         if (undefined !== role.nvpList_contractTemplate) {
           let contractName: string = role.nvpList_roleName + ' contract.docx';
           return Observable.forkJoin([Observable.of(role),
-          this.contractService.createBlankContractFromTemplateForRole(contractName, role.nvpList_contractTemplate, role['sys_node-uuid'])
+          this.contractService.createBlankContractFromTemplateForRole(contractName, role.nvpList_contractTemplate, role['sys_node-uuid'], 'aaref466ertYFftdFt876Ft676d')
           ]);
         } else {
           let contract = new ContractDocumentCreateResult();

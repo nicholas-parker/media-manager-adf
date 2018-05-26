@@ -65,6 +65,12 @@ export class CreateRoleComponent implements OnInit {
 
   }
 
+  public selectTemplate(event) {
+
+    // NO OP
+
+  }
+
   /**
    * 
    * launches the workflow to create a new role with the provided properties
@@ -76,7 +82,7 @@ export class CreateRoleComponent implements OnInit {
     this.busy = true;
 
     // TODO - get site from somewhere
-    this.role.mwt_site = this.productionService.getSiteShortName();
+    // this.role.mwt_site = this.productionService.getSiteShortName();
     this.snackBar.open('Creating role...', null, {duration: 3000});
     this.workflowService.startProcess(CreateRoleComponent.CREATE_ROLE_PROCESS, this.role).subscribe(
       data => {this.onCreateOK(data);},

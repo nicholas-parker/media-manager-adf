@@ -93,7 +93,7 @@ export class WorkflowFormComponent {
   /** sets the task as complete */
   public onTaskComplete() {
 
-    this.opportunity.TaskSaveComplete().subscribe(
+    this.opportunity.sendToCandidate().subscribe(
       d => {
         this.snackBar.open('Details sent to candidate', null, {duration: 3000});
         this.dialogRef.close();

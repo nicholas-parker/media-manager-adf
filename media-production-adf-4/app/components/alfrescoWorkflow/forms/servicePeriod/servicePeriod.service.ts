@@ -104,33 +104,31 @@ export class ServicePeriodService implements OnInit {
       .map((res: any) => {
         return res.list.entries;
       })
-      // return the nodeId from each child as an array
-      .map((id: any) => {
-        return Observable.from(id.map(a => a.entry.id));
+      .flatMap((entries: any[]) => {
+        if (entries.length > 0) {
+          return Observable.forkJoin(
+            entries.map((e: any) => {
+              return Observable.fromPromise(this._apiService.nodesApi.getNode(e.entry.id));
+            }));
+        }
       })
-      // split the array into individual observables
-      .flatMap((ar: any) => {
-        return ar;
-      })
-      // use the nodeId in the observable to get the actual servicePeriod node
-      .flatMap((entry_id: any) => {
-        return Observable.fromPromise(this._apiService.nodesApi.getNode(entry_id));
-      })
-      // map the node into a servicePeriod object
-      .map((result: any) => {
-        let sp = new ServicePeriod();
-        sp.contract_servicePeriodId = result.entry.id;
-        sp.contract_servicePeriodName = result.entry.properties['contract:servicePeriodName'];
-        sp.contract_servicePeriodDescription = result.entry.properties['contract:servicePeriodDescription'];
-        sp.contract_serviceStart = result.entry.properties['contract:serviceStart'].substr(0, 10);
-        sp.contract_serviceEnd = result.entry.properties['contract:serviceEnd'].substr(0, 10);
-        sp.contract_servicePeriodType = result.entry.properties['contract:servicePeriodType'];
-        sp.contract_serviceTypeCode = result.entry.properties['contract:serviceTypeCode'];
-        return sp;
+      .flatMap((data: any[]) => {
+        let periods: Array<ServicePeriod> = data.map((result: any) => {
+          let sp = new ServicePeriod();
+          sp.contract_servicePeriodId = result.entry.id;
+          sp.contract_servicePeriodName = result.entry.properties['contract:servicePeriodName'];
+          sp.contract_servicePeriodDescription = result.entry.properties['contract:servicePeriodDescription'];
+          sp.contract_serviceStart = result.entry.properties['contract:serviceStart'].substr(0, 10);
+          /** serviceEnd is optional, could be an open ended agreement */
+          if (undefined !== result.entry.properties['contract:serviceEnd']) {
+            sp.contract_serviceEnd = result.entry.properties['contract:serviceEnd'].substr(0, 10);
+          }
+          sp.contract_servicePeriodType = result.entry.properties['contract:servicePeriodType'];
+          sp.contract_serviceTypeCode = result.entry.properties['contract:serviceTypeCode'];
+          return sp;
+        });
+        return Observable.of(periods);
       });
-
-
-
 
   }
 

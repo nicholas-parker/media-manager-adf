@@ -5,6 +5,7 @@ import {Role} from './role';
 import {FilteredRoleStream} from './FilteredRoleStream';
 import {MdProgressBarModule, MdDialog, MdDialogRef} from '@angular/material';
 import {CategoryRoleDialog} from './categoryRoleDialog.component';
+import {RoleMIService} from '../../../components/role/roleMI.service';
 
 @Component({
   selector: 'role-category-header',
@@ -21,7 +22,8 @@ export class RoleCategoryHeaderComponent implements OnInit {
   @Input()
   public set roles(r: FilteredRoleStream) {
 
-    this.init(r);
+    this.stats.init(r.connect(null)
+      .takeUntil(this.ngUnsubscribe));
 
   }
   /**
@@ -44,14 +46,22 @@ export class RoleCategoryHeaderComponent implements OnInit {
    * a flag to indicate if we have received our first stream of roles
    * 
    */
-  public loaded: boolean = false;
+  public loaded: boolean = true;
 
   /**
    * 
    * a flag to indicate if the supplied roles are empty or not
    * 
    */
-  public hasRoles: boolean = false;
+  public get hasRoles(): boolean {
+
+    if (this.stats.roleCount > 0) {
+      return true;
+    } else {
+      return false;
+    }
+
+  }
 
   /**
    * 
@@ -93,7 +103,7 @@ export class RoleCategoryHeaderComponent implements OnInit {
    * summary of role status counts
    * 
    */
-  public summary: {Set_up: 0, Supplier_review: 0, Accepted: 0, Declined: 0, Approved: 0, Completed: 0};
+  public stats: RoleMIService = new RoleMIService();
 
   /**
    * 
@@ -120,36 +130,6 @@ export class RoleCategoryHeaderComponent implements OnInit {
     this.ngUnsubscribe.complete();
   }
 
-  private init(r: FilteredRoleStream): void {
-
-    r.connect(null)
-      .takeUntil(this.ngUnsubscribe)
-      .subscribe(
-      roles => {
-        this.loaded = true;
-        this.reset();
-        roles.forEach(this.updateSummary, this);
-        this.roleCount = roles.length;
-        if (this.roleCount > 0) {
-          this.hasRoles = true;
-        } else {
-          this.hasRoles = false;
-        }
-      },
-      err => {});
-
-  }
-
-  private updateSummary(role: Role): void {
-
-    let status = role.nvpList_roleStatus.replace(' ', '_');
-    if (undefined === this.summary[status]) {
-      this.summary[status] = 1;
-    } else {
-      this.summary[status] = this.summary[status] + 1;
-    }
-
-  }
 
   /**
    * 
@@ -158,13 +138,8 @@ export class RoleCategoryHeaderComponent implements OnInit {
    */
   private reset() {
 
-    this.summary = {Set_up: 0, Supplier_review: 0, Accepted: 0, Declined: 0, Approved: 0, Completed: 0};
+
     this.hasRoles = false;
-    this.roleCount = 0;
-    this.processing = 0;
-    this.accepted = 0;
-    this.completed = 0;
-    this.percentageComplete = 0;
 
   }
 

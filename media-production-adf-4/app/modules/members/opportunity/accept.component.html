@@ -1,0 +1,260 @@
+<form [formGroup]="taskForm" novalidate #form>
+  <md-toolbar color="accent">
+    <div class="taskTitle"></div>
+    <span class="toolbar-spacer">Accept position</span>
+    <button md-button (click)="onCancel()"><md-icon class="buttonIcon">close</md-icon>Close</button>
+  </md-toolbar>
+<div class="flexRow">
+  <div class="leftCol">
+    <div class="col1">
+      <div class="title">{{ model.contract_serviceName }}</div>
+      <div class="inform">Production name</div>
+      <div class="inform darker normal">{{ model.contract_serviceDescription }}</div>
+    </div>
+    <div class="actionGroup">
+      <div><button md-button (click)="decline()" class="actionButton"><md-icon class="buttonIcon">thumb_down</md-icon>Decline offer</button></div>
+    </div>
+    <div class="col1 greyBack">
+      <div class="itemHeader">Location</div>
+      <div class="itemContent">{{ model.contract_location }}</div>
+      <div class="itemHeader">Pay</div>
+      <div class="itemContent">{{ model.contract_contractValueCurrency }} {{ model.contract_contractValue }} {{ model.contract_ratePeriodSpecifier }}</div>
+      <div class="itemHeader">Overtime</div>
+      <div class="itemContent">{{ model.contract_overtimePayable }} <span *ngIf="model.contract_overtimePayable === 'YES'">{{ model.contract_overtimeRate }}</span></div>
+      <div class="itemHeader">Holiday pay</div>
+      <div class="itemContent">{{ model.contract_holidayRate }} </div>
+      <div class="itemHeader">Contract type</div>
+      <div class="itemContent">{{ model.contract_PAYEstatus }}</div>
+      <div class="itemHeader">Payment</div>
+      <div class="itemContent">{{ model.contract_paymentPeriodSpecifier }}</div>
+      <div class="itemHeader">Dates</div>
+      <div *ngFor="let date of dates" class="itemContent">{{date.contract_servicePeriodName}}: {{ date.contract_serviceStart }} - {{ date.contract_serviceEnd }}</div>
+      <div class="itemHeader">Notice period</div>
+      <div class="itemContent">{{ model.contract_noticePeriod }}</div>
+      <div class="itemHeader">Reference</div>
+      <div class="itemContent">{{bpmContractUUID}}</div>
+    </div>
+  </div>
+<div class="flexCol">
+  <div class="signInstructions inform darker normal"  *ngIf="action === IS_REVIEWING && !detailsComplete">Complete your personal details below</div>
+  <div class="signInstructions inform darker normal" *ngIf="detailsComplete && action === IS_REVIEWING">
+    <div class="sub-info">Your details are now complete.<br/>Click below to confirm your details are correct.</div>
+    <button (click)="confirm()" md-raised-button color="accent">I confirm my details are correct to the best of my knowledge<md-icon class="buttonIcon">arrow_forward</md-icon></button>
+  </div>
+  <div class="signInstructions inform darker normal" *ngIf="action === CONTRACT_PREPARING">Your contract is being prepared for signature, please wait</div>
+  <!-- div class="signInstructions inform darker normal" *ngIf="action === CONTRACT_PREPARED">Sign the contract below to complete the process</div -->
+<div *ngIf="action === IS_REVIEWING">
+<md-tab-group [selectedIndex]="selectedTab">
+<md-tab>
+ <ng-template mat-tab-label>
+ Personal details <md-icon class="tabIcon" *ngIf="!this.taskForm.get('tab1').valid && !busy_tab1">done</md-icon><md-icon class="tabIcon green" *ngIf="this.taskForm.get('tab1').valid && !busy_tab1">done</md-icon><md-icon class="tabIcon" *ngIf="busy_tab1">autorenew</md-icon>
+ </ng-template>
+ <div class="tabContainer" formGroupName="tab1">
+ <div class="mat-title sub-heading">Personal details</div>
+ <div class="mat-body-1 sub-info">Complete your personal information</div>
+ <div class="flexCol">
+      <md-form-field class="leftField" >
+        <input mdInput placeholder="First name" formControlName="contract_supplierFirstName" [ngModel]="model.contract_supplierFirstName"/>
+      </md-form-field>
+
+        <md-form-field class="leftField">
+        <input placeholder="Last name" mdInput formControlName="contract_supplierLastName" [ngModel]="model.contract_supplierLastName"/>
+      </md-form-field>
+
+      <md-form-field class="leftField">
+        <input mdInput placeholder="your@email" formControlName="contract_supplierEmail" [ngModel]="model.contract_supplierEmail"/>
+      </md-form-field>
+
+        <md-form-field  class="leftField">
+          <input mdInput [mdDatepicker]="pickerDOB" placeholder="Date of birth" formControlName="contract_dateOfBirth" />
+          <md-datepicker-toggle mdSuffix [for]="pickerDOB"></md-datepicker-toggle>
+          <md-datepicker #pickerDOB></md-datepicker>
+        </md-form-field>
+
+        <md-form-field  class="leftField">
+          <input mdInput placeholder="Town of birth" formControlName="contract_townOfBirth" [ngModel]="model.contract_townOfBirth"/>
+        </md-form-field>
+
+        <md-form-field class="leftField">
+          <input mdInput placeholder="Country of birth" formControlName="contract_countryOfBirth" [ngModel]="model.contract_countryOfBirth"/>
+        </md-form-field>
+        
+        <div class="tabNav">
+          <button (click)="setTab(1)" md-raised-button color="accent">
+            <md-icon class="buttonIcon">arrow_forward</md-icon>Next
+          </button>
+        </div>
+      </div>
+</div>
+</md-tab>
+
+<md-tab>
+<ng-template mat-tab-label>
+ Contact details <md-icon class="tabIcon" *ngIf="!this.taskForm.get('tab2').valid && !busy_tab2">done</md-icon><md-icon class="tabIcon green" *ngIf="this.taskForm.get('tab2').valid && !busy_tab2">done</md-icon><md-icon class="tabIcon" *ngIf="busy_tab2">autorenew</md-icon>
+ </ng-template>
+ <div class="tabContainer" formGroupName="tab2">
+ {{this.taskForm.get('tab2').valid}}
+ <div class="mat-title sub-heading">Contact details</div>
+ <div class="mat-body-1 sub-info">Complete your contact details</div>
+   <div class="flexCol">
+       <md-form-field class="leftField">
+        <input  mdInput placeholder="Mobile" formControlName="contract_supplierMobile" [ngModel]="model.contract_supplierMobile"/>
+      </md-form-field>
+      <md-form-field class="leftField">
+        <input  mdInput placeholder="Address" formControlName="contract_supplierAddress1" [ngModel]="model.contract_supplierAddress1"/>
+      </md-form-field>
+      <md-form-field class="leftField">
+        <input  mdInput placeholder="Address" formControlName="contract_supplierAddress2" [ngModel]="model.contract_supplierAddress2"/>
+      </md-form-field>
+      <md-form-field class="leftField">
+        <input  mdInput placeholder="Address" formControlName="contract_supplierAddress3" [ngModel]="model.contract_supplierAddress3"/>
+      </md-form-field>
+      <md-form-field class="leftField">
+        <input  mdInput placeholder="Post code" formControlName="contract_supplierPostCode" [ngModel]="model.contract_supplierPostCode"/>
+      </md-form-field>
+      <div class="tabNav">
+        <button (click)="setTab(2)" md-raised-button color="accent">
+          <md-icon class="buttonIcon">arrow_forward</md-icon>Next
+        </button>
+      </div>
+   </div>
+ </div>
+</md-tab>
+
+<md-tab>
+<ng-template mat-tab-label>
+ Right to work <md-icon class="tabIcon" *ngIf="!this.taskForm.get('tab3').valid && !busy_tab3">done</md-icon><md-icon class="tabIcon green" *ngIf="this.taskForm.get('tab3').valid && !busy_tab3">done</md-icon><md-icon class="tabIcon" *ngIf="busy_tab2">autorenew</md-icon>
+ </ng-template>
+<div class="tabContainer" formGroupName="tab3">
+ <div class="mat-title sub-heading">Right to work</div>
+ <div class="mat-body-1 sub-info">Provide proof of your right to work in the UK</div>
+ <div class="flexCol">
+      <md-radio-group class="leftField" formControlName="contract_rightToWorkAsserted" [ngModel]="model.contract_rightToWorkAsserted">
+        <div><md-radio-button value="YES" (click)="UKNational()">I am a UK national</md-radio-button></div>
+        <div><md-radio-button value="NO" (click)="nonUKNational()">I am not a UK national but have the right to work in the UK</md-radio-button></div>
+      </md-radio-group>
+
+      <md-form-field *ngIf="isUKNational">
+        <input mdInput placeholder="National insurance number" formControlName="contract_nationalInsuranceNumber" [ngModel]="model.contract_nationalInsuranceNumber"/>
+      </md-form-field>
+
+      <md-form-field>
+        <input mdInput placeholder="Passport number" formControlName="contract_identityDocumentReference" [ngModel]="model.contract_identityDocumentReference"/>
+      </md-form-field>
+ 
+      <process-file #passport [docType]="'Passport'" [aspects]="passportAspects" [properties]="passportProperties" [deleteOption]="true" [maxFiles]="1" [fieldDescription]="'Scan of passport'" [explainText]="'Upload a scan of your passport'" [bpmPackage]="bpmPackage"></process-file>
+
+      <md-form-field *ngIf="isNotUKNational" >
+        <input mdInput placeholder="Visa number" formControlName="contract_visaNumber" [ngModel]="model.contract_visaNumber"/>
+      </md-form-field>
+    
+      <md-form-field *ngIf="isNotUKNational">
+        <input mdInput [mdDatepicker]="pickerExp" placeholder="Visa expiry date" formControlName="contract_visaExpiryDate" [ngModel]="model.contract_visaExpiryDate"/>
+        <md-datepicker-toggle mdSuffix [for]="pickerExp"></md-datepicker-toggle>
+        <md-datepicker #pickerExp></md-datepicker>
+      </md-form-field>
+
+      <!-- process-file *ngIf="isNotUKNational" #visa [docType]="'Visa'" [aspects]="visaAspects" [properties]="visaProperties" [deleteOption]="true" [maxFiles]="0" [fieldDescription]="'Scan of visa'" [explainText]="'Upload a scan of your visa or work permit'" [bpmPackage]="bpmPackage"></process-file -->
+      
+      <div class="tabNav">
+        <button (click)="setTab(3)" md-raised-button color="accent">
+          <md-icon class="buttonIcon">arrow_forward</md-icon>Next
+        </button>
+      </div>
+  </div>
+</div>
+</md-tab>
+<md-tab>
+<ng-template mat-tab-label>
+ Bank details <md-icon class="tabIcon" *ngIf="!this.taskForm.get('tab4').valid && !busy_tab4">done</md-icon><md-icon class="tabIcon green" *ngIf="this.taskForm.get('tab4').valid && !busy_tab4">done</md-icon><md-icon class="tabIcon" *ngIf="busy_tab4">autorenew</md-icon>
+ </ng-template>
+
+  <div class="tabContainer" formGroupName="tab4">
+    <div class="mat-title sub-heading">Bank details</div>
+    <div class="mat-body-1 sub-info">Please provide the details of the bank account to receive payment</div>
+    <div class="flexCol">
+      
+      <md-form-field>
+        <input mdInput placeholder="Bank name" formControlName="prod_bankName" [ngModel]="model.prod_bankName"/>
+      </md-form-field>
+
+      <md-form-field>
+        <input mdInput placeholder="Bank account name" formControlName="prod_bankAccountName" [ngModel]="model.prod_bankAccountName"/>
+      </md-form-field>
+
+      <md-form-field>
+        <input mdInput placeholder="Account number" formControlName="prod_bankAccountNumber" [ngModel]="model.prod_bankAccountNumber"/>
+      </md-form-field>
+
+      <md-form-field>
+        <input mdInput placeholder="Branch sort code" formControlName="prod_bankBranchSortCode" [ngModel]="model.prod_bankBranchSortCode"/>
+      </md-form-field>
+
+      <div class="tabNav">
+        <button (click)="setTab(4)" md-raised-button color="accent">
+          <md-icon class="buttonIcon">arrow_forward</md-icon>Next
+        </button>
+      </div>
+    </div>
+  </div>
+</md-tab>
+</md-tab-group>
+</div>
+
+<div *ngIf="action === CONTRACT_PREPARING" class="flexCentre">
+  <div class="inform darker">Electronic signature</div>
+  <div class="sub-info">Your contract is signed by electronic signature<br/>
+       A unique two part electronic signature has been assigned to you<br/>
+       This is the public part of your signature and it is placed in your contract</div>
+  <div class="eSignature">{{userPublicKey}}</div>
+  <div class="subInfo">The contract will also signed with your private signature when you agree the contract</div>
+  <div class="subInfo">Check the box below to confirm you are willing to electronically sign this contract</div>
+  <md-radio-button value="YES" (click)="agreeToSign()" >I am willing to electronically sign this contract</md-radio-button>
+  <md-spinner></md-spinner>
+</div>
+
+<div *ngIf="action === CONTRACT_PREPARED" class="flexRow">
+  <div class="contractContainer">
+    <div class="adf-not-overlay-viewer">
+      <adf-viewer
+        [showViewer]="true"
+        [overlayMode]="false"
+        [showToolbar]="false"
+        [fileNodeId]="bpmContractUUID">
+        <div class="mdl-spinner mdl-js-spinner is-active"></div>
+      </adf-viewer>
+    </div>
+  </div>
+  <div class="flexColumn signatureColumn">
+    <div class="inform darker">Electronic signature</div>
+    <div class="sub-info">Enter your name below and sign the contract </div>
+    <md-form-field>
+      <input  mdInput placeholder="Print name here" formControlName="signature" />
+    </md-form-field>
+    <button md-raised-button color="primary" (click)="sign()" ><md-icon class="buttonIcon">create</md-icon>I agree and accept</button>
+    <div class="signatureBox">
+      <div class="signatureName">{{ this.taskForm.value.signature }}</div>
+      <div class="eSignature">{{userPublicKey}}</div>
+    </div>
+    <div *ngIf="action === CONTRACT_SIGNING">You have now signed the contract. The production company will complete the on-boarding process and confirm the start date by email</div>
+  </div>
+</div>
+
+
+<div *ngIf="action === CONTRACT_SIGNED">
+  <div class="inform darker">Contract signed</div>
+  <div class="sub-info">You have now signed the contract. You can view the contract at any time from your contract folder</div>
+  <div class="sub-info">A unique contract signing reference has been generated and the signed contract has been recorded in the contract blockchain</div>
+  <div class="signingId">Unique signing number {{ this.signingId }}</div>
+  <div>The screening process will now be completed and start date confirmed by email</div>
+</div>
+
+<div *ngIf="action === CONTRACT_MANUAL">You will be emailed as soon as your contract is ready for signature</div>
+
+<div *ngIf="action === ROLE_DECLINED">You have declined the role</div>
+
+<!-- end of flexCol on the right of the page -->
+</div>
+<!-- end of flexRow which contains the two flexCol -->
+</div>
+</form>

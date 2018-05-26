@@ -80,9 +80,8 @@ export class RoleFilterDialog implements OnInit {
      * get the data for the tags listlet entry of listOfTags | async
      * 
      */
-    let tagPagination = Observable.fromPromise(this.apiService.getInstance().core.tagsApi.getTags())
-      .catch(err => {this.tagError(err);});
-    tagPagination.subscribe(data => {this.listOfTags = Observable.of(data.list.entries);});
+    Observable.fromPromise(this.apiService.getInstance().core.tagsApi.getTags())
+      .subscribe(data => {this.listOfTags = Observable.of(data.list.entries);});
 
     /**
      * 

@@ -194,32 +194,14 @@ export class RoleService extends DataSource<Role> {
    */
   public updateRole(role: Role): Observable<Role> {
 
-    // let ecmTicket = this.apiService.getInstance().ecmAuth.getTicket();
+    let id = role.sys_nodedbid;
+    delete role.sys_nodedbid;
+    let bodyProps = this.mapToProperties(role);
 
-    // let url = RoleService.ECM_PROXY
-    //  + RoleService.CONTEXT_ROOT
-    //  + RoleService.SERVICE_PATH
-    //  + RoleService.SERVICE_PATH_1
-    //  + this.siteId
-    //  + RoleService.SERVICE_PATH_2
-    //  + '?alf_ticket=' + ecmTicket;
+    let body = {};
+    body['properties'] = bodyProps;
 
-    let bodyString = JSON.stringify(role);
-    // let headers = new Headers({'Content-Type': 'application/json'}); // ... Set content type to JSON
-    // let options = new RequestOptions({headers: headers}); // Create a request option
-
-
-    /** service returns a JSON payload of the new role */
-    // return <Observable<Role>>this.http.put(url, bodyString, options)
-    //  .map((response: Response) => {
-    //    let data = response.json().items;
-    //    role.sys_nodedbid = response.json().items['sys_node-uuid'];
-    //    role['sys_node-uuid'] = response.json().items['sys_node-uuid'];
-    //    return role;
-    //  })
-    //  .do(d => {this.refresh();});
-
-    return Observable.from(this.apiService.nodesApi.updateNode(role.sys_nodedbid, bodyString))
+    return Observable.from(this.apiService.nodesApi.updateNode(id, body, null))
       .map((response: NodeEntry) => {
         let updatedRole: Role = response.entry.properties;
         updatedRole.sys_nodedbid = response.entry.id;
@@ -227,6 +209,20 @@ export class RoleService extends DataSource<Role> {
         return updatedRole;
       })
       .do(d => {this.refresh();});
+  }
+
+  /**
+   * 
+   * update the status of a role
+   * 
+   */
+  public updateRoleStatus(roleId: string, status: string): Observable<Role> {
+
+    let r: Role = new Role();
+    r.sys_nodedbid = roleId;
+    r.nvpList_roleStatus = status;
+    return this.updateRole(r);
+
   }
 
   /**
@@ -292,7 +288,7 @@ export class RoleService extends DataSource<Role> {
 
       console.log('Role for filter');
       if (role.tags !== undefined) {
-        let roleTags: string[] = role.tags.map(entry => entry.entry.tag);
+        let roleTags: string[] = role.tags.map((entry: any) => entry.entry.tag);
         if (roleTags.length === 0) {
 
           /**
@@ -399,7 +395,7 @@ export class RoleService extends DataSource<Role> {
         let roles: Role[] = res.json().items;
         if (this.filterOnTags) {
 
-          roles.forEach(entry => this.addTags(entry));
+          // TAGS roles.forEach(entry => this.addTags(entry));
           this._roles.next([]);
 
         } else {
@@ -489,6 +485,27 @@ export class RoleService extends DataSource<Role> {
 
     }
     return result;
+
+  }
+
+  /**
+   * 
+   * take an object and map to an Alfresco node properties object.
+   * The response object contains the same properties but the '_' is mapped to ':'
+   * 
+   */
+  public mapToProperties(source: any): any {
+
+    let bodyProps = {};
+    let names = Object.getOwnPropertyNames(source);
+    for (let i = 0; i < names.length; i++) {
+
+      if (names[i].includes('_')) {
+        bodyProps[names[i].replace('_', ':')] = source[names[i]];
+      }
+    }
+
+    return bodyProps;
 
   }
 

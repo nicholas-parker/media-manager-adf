@@ -6,6 +6,7 @@
  */
 import {Observable, Subscription} from 'rxjs/Rx';
 import {Component, OnInit, ViewChild} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {MdTabsModule, MdSelectModule, MdInputModule, MdListModule, MdCheckboxModule, MdDatepickerModule, MdSnackBar, MdRadioModule} from '@angular/material';
 import {FormControl, FormGroup, FormBuilder} from '@angular/forms';
 import {Task} from '../../../components/alfrescoWorkflow/task';
@@ -20,6 +21,8 @@ import {ProcessFileFormComponent} from '../../../components/alfrescoWorkflow/for
 import {OpportunityModel} from '../../../components/alfrescoWorkflow/forms/opportunity/opportunityModel';
 import {ViewerModule} from 'ng2-alfresco-viewer';
 import {NodesApiService} from 'ng2-alfresco-core';
+import {ServicePeriodService} from '../../../components/alfrescoWorkflow/forms/servicePeriod/servicePeriod.service';
+import {ServicePeriod} from '../../../components/productionComponentModule/servicePeriod';
 
 @Component({
   selector: 'member-opportunity',
@@ -43,6 +46,13 @@ export class OpportunityComponent {
   public taskForm: FormGroup;
   public fields: string[] = [];
   public model: OpportunityModel = new OpportunityModel();
+
+  /**
+   * 
+   * observable of contract dates
+   * 
+   */
+  public dates: ServicePeriod[];
 
   /**
    * 
@@ -153,6 +163,7 @@ export class OpportunityComponent {
   constructor(private service: TaskService,
     private nodeService: NodesApiService,
     private workflowService: AlfrescoWorkflowService,
+    private servicePeriods: ServicePeriodService,
     private fb: FormBuilder,
     private snackBar: MdSnackBar,
     private route: ActivatedRoute,
@@ -170,13 +181,33 @@ export class OpportunityComponent {
 
     /**
      * 
-     * subscribe to route parameters
+     * subscribe to route parameters, 'id' is the task id which contains the opportunity.
+     * load the task information
+     * get the servicePeriods
      * 
      */
-    this.routeParamSub = this.route.params.subscribe(params => {
-      this.taskId = +params['id']; // (+) converts string 'id' to a number
-      this.setTask(this.taskId);
-    });
+    this.routeParamSub = this.route.params
+      .flatMap((params1: any[]) => {
+        if (undefined === params1['id']) {return Observable.empty();}
+        return Observable.of(params1);
+      })
+      .flatMap((params2: any[]) => {
+        this.taskId = +params2['id']; // (+) converts string 'id' to a number
+        return this.service.connect(params2['id']);
+      })
+      .map((data: any) => {
+        /** load the forms */
+        this.service.LoadTaskForm(data);
+        this.setContent(data);
+      })
+      .flatMap((d: any) => {
+        /** get the dates */
+        return this.servicePeriods.getChildPeriods(this.bpmContractUUID, 'contract:engagementPeriods');
+      })
+      .subscribe((periods: ServicePeriod[]) => {
+        this.dates = periods;
+      },
+      err => console.log(err));
   }
 
   public ngAfterContentInit() {
@@ -252,13 +283,7 @@ export class OpportunityComponent {
   public setTask(id: number) {
     console.log('setting taskid ' + id);
 
-    this.service.connect(id).subscribe(
-      data => {
-        this.service.LoadTaskForm(data);
-        this.setContent(data);
-      },
-      err => console.log(err)
-    );
+
   }
 
   /**
@@ -380,60 +405,22 @@ export class OpportunityComponent {
 
   }
 
+
   /**
    * 
-   * save the current data back to the workflow and close the window
-   * [ common for all task forms ]
+   * user accepts the role, 
+   *   - update the task status
+   *   - navigate to the accept screen
    * 
    */
-  public onSave() {
+  public accept() {
 
-    this.service.Save().subscribe(
-      data => {
-        this.snackBar.open('Task saved...', null, {duration: 3000});
-        // this.dialogRef.close();
+    // update task status
+    this.service.setTaskVar('candidateReviewOutcome', this.roleAccepted, true)
+      .subscribe((d: any) => {
+        this.router.navigate(['member/accept', this.taskId]);
       },
-      err => {this.snackBar.open('ERROR saving task', err.message, {duration: 3000});});
-
-  }
-
-  /**
-   * 
-   * User wants to electronically sign the contract,
-   * invoke the back end service to sign the agreement
-   * 
-   */
-  public onSign() {
-
-    this.hasSigned = true;
-    this.signature = this.taskForm.controls['signature'].value;
-    this.taskForm.controls['signature'].disable();
-    this.taskForm.controls['signature'].setValue(this.signature);
-    this.signingId = '5b44tg657ffd5d7';
-
-    this.onAccept();
-
-  }
-
-
-  /**
-   * 
-   * user accepts the role, update the response value and complete the task
-   * 
-   */
-  public onAccept() {
-
-    // TODO - check form is validated
-
-
-    if (this.hasSigned === false) {
-      this.snackBar.open('Please sign the contract before accepting the role', null, {duration: 5000});
-      this.selectedTab = 4;
-      return;
-    }
-
-    this.taskForm.controls['candidateReviewOutcome'].setValue(this.roleAccepted);
-    this.completeTask();
+      err => {console.log(err);});
 
   }
 
@@ -442,7 +429,7 @@ export class OpportunityComponent {
    * decline role button executes this method
    * 
    */
-  public onDecline() {
+  public decline() {
 
     this.taskForm.controls['candidateReviewOutcome'].setValue(this.roleDeclined);
     this.completeTask();

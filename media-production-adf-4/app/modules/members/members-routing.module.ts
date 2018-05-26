@@ -7,6 +7,7 @@ import {ReviewOfferComponent} from './review-offer.component';
 import {MemberFilesComponent} from './member-files.component';
 import {MemberDashboardComponent} from './member-dashboard.component';
 import {OpportunityComponent} from './opportunity/opportunity.component';
+import {AcceptComponent} from './opportunity/accept.component';
 import {NewProductionComponent} from '../../components/productionComponentModule/newProduction.component';
 
 const memberRoutes: Routes = [
@@ -36,6 +37,10 @@ const memberRoutes: Routes = [
           {
             path: 'opportunity/:id',
             component: OpportunityComponent
+          },
+          {
+            path: 'accept/:id',
+            component: AcceptComponent
           },
           {
             path: 'production',

@@ -29,7 +29,7 @@ export class ProductionComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
     private service: AlfrescoProductionService,
-    private context: ProductionContext;
+    private context: ProductionContext,
     private defaultRoleService: DefaultRoleService,
     private contractTemplateService: ContractTemplateService,
     private roleService: RoleService) {
@@ -39,42 +39,44 @@ export class ProductionComponent implements OnInit {
   /**
    * 
    * subscribe to the routing to get the production Id from the route,
-   * when we have the productionId, get the production details
+   * when we have the productionId set the context
    * 
    */
   public ngOnInit() {
 
-    this.productionId = this.route.params.map(p => p.id);
-    this.productionId.subscribe(id => {
-      this.getProduction(id);
-    });
+    this.route.params
+      .map((params: any[]) => {
+        if (undefined !== params['id']) {
+
+          this.context.setProductionId(params['id']);
+          this.defaultRoleService.setContext(params['id']);
+          this.roleService.setContext(params['id']);
+          this.contractTemplateService.setContext(params['id']);
+
+        } else {
+          return Observable.empty();
+        }
+      })
+      .flatMap(d => {
+        return this.context.getProduction();
+      })
+      .subscribe(
+      (production: Production) => {
+        this.production = production;
+        this.loaded = true;
+      },
+      err => {console.log(err);});
 
   }
 
-  /**
-   * 
-   * get the production details for the given production id
-   * 
-   */
-  private getProduction(id) {
-
-    let obs: Observable<Production> = this.service.getPrduction(id);
-    obs.subscribe(res => this.gotProduction(res),
-      err => this.gotProductionError(err));
-
-  }
 
   public gotProduction(res) {
 
-    this.production = res;
-    this.loaded = true;
+    if (null != res) {
 
-    /** now we know our production context set the context in the service providers */
-    console.log('Production component setting context in services...');
-    this.defaultRoleService.setContext(this.production.id);
-    this.roleService.setContext(this.production.id);
-    this.contractTemplateService.setContext(this.production.id);
-    this.context.setProduction(this.production);
+      /** now we know our production context set the context in the service providers */
+      console.log('Production component setting context in services...');
+    }
 
   }
 

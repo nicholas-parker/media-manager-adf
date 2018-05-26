@@ -18,6 +18,9 @@ import {ServicePeriodComponent} from '../servicePeriod/servicePeriod.component';
 import {ServicePeriodService} from '../servicePeriod/servicePeriod.service';
 import {ServicePeriod} from '../../../productionComponentModule/servicePeriod';
 import {TaskForm} from '../taskForm';
+import {RoleService} from '../../../../modules/production/rolePlanning/role.service';
+import {Role} from '../../../../modules/production/rolePlanning/role';
+import {ContractService} from '../../../contract/contract.service';
 
 @Component({
   selector: 'opportunity',
@@ -144,10 +147,10 @@ export class OpportunityComponent extends TaskForm implements OnInit {
     console.log(' opportunity component loading taskid ' + id);
 
     if (id === 0) {return;}
-    this.subTask = this.service.connect(id).subscribe(
+    this.subTask = this.taskService.connect(id).subscribe(
       data => {
 
-        this.service.LoadTaskForm(data);
+        this.taskService.LoadTaskForm(data);
         this.setContent(data);
 
       },
@@ -257,7 +260,8 @@ export class OpportunityComponent extends TaskForm implements OnInit {
     }
   }
 
-  constructor(private service: TaskService,
+  constructor(private roleService: RoleService,
+    private contractService: ContractService,
     private nodeService: NodesApiService,
     private workflowService: AlfrescoWorkflowService,
     private servicePeriodService: ServicePeriodService,
@@ -363,7 +367,7 @@ export class OpportunityComponent extends TaskForm implements OnInit {
     });
 
     // give the service a reference to this form and it will load it with matching variables from the process
-    this.service.taskForm = this.opportunityForm;
+    this.taskService.taskForm = this.opportunityForm;
   }
 
 
@@ -375,35 +379,35 @@ export class OpportunityComponent extends TaskForm implements OnInit {
    */
   private setContent(data) {
 
-    // this.passport.processId = this.service.getTaskVar('processId');
-    let bpmPackageNodeRef: string = this.service.getTaskVar('bpm_package');
+    // this.passport.processId = this.taskService.getTaskVar('processId');
+    let bpmPackageNodeRef: string = this.taskService.getTaskVar('bpm_package');
     this.bpmPackage = bpmPackageNodeRef.substring(24, 60);
-    this.bpmContractUUID = this.service.getTaskVar('contract_contractDocumentNodeId');
+    this.bpmContractUUID = this.taskService.getTaskVar('contract_contractDocumentNodeId');
     this.hasContract = true;
 
-    this.model.contract_serviceName = this.service.getTaskVar('contract_serviceName');
-    this.model.contract_serviceDescription = this.service.getTaskVar('contract_serviceDescription');
-    this.model.contract_serviceStart = this.service.getTaskVar('contract_serviceStart');
-    this.model.contract_serviceEnd = this.service.getTaskVar('contract_serviceEnd');
-    this.model.contract_location = this.service.getTaskVar('contract_location');
-    this.model.contract_contractCode = this.service.getTaskVar('contract_contractCode');
-    this.model.contract_PAYEstatus = this.service.getTaskVar('contract_PAYEstatus');
-    this.model.contract_contractDeliverableType = this.service.getTaskVar('contract_contractDeliverableType');
-    this.model.contract_paymentPeriodSpecifier = this.service.getTaskVar('contract_paymentPeriodSpecifier');
-    this.model.contract_contractValueCurrency = this.service.getTaskVar('contract_contractValueCurrency');
-    this.model.contract_contractValue = this.service.getTaskVar('contract_contractValue');
-    this.model.contract_holidayRate = this.service.getTaskVar('contract_holidayRate');
-    this.model.contract_noticePeriod = this.service.getTaskVar('contract_noticePeriod');
-    this.model.contract_overtimePayable = this.service.getTaskVar('contract_overtimePayable');
-    this.model.contract_overtimeRate = this.service.getTaskVar('contract_overtimeRate');
-    this.model.contract_ratePeriodSpecifier = this.service.getTaskVar('contract_ratePeriodSpecifier');
+    this.model.contract_serviceName = this.taskService.getTaskVar('contract_serviceName');
+    this.model.contract_serviceDescription = this.taskService.getTaskVar('contract_serviceDescription');
+    this.model.contract_serviceStart = this.taskService.getTaskVar('contract_serviceStart');
+    this.model.contract_serviceEnd = this.taskService.getTaskVar('contract_serviceEnd');
+    this.model.contract_location = this.taskService.getTaskVar('contract_location');
+    this.model.contract_contractCode = this.taskService.getTaskVar('contract_contractCode');
+    this.model.contract_PAYEstatus = this.taskService.getTaskVar('contract_PAYEstatus');
+    this.model.contract_contractDeliverableType = this.taskService.getTaskVar('contract_contractDeliverableType');
+    this.model.contract_paymentPeriodSpecifier = this.taskService.getTaskVar('contract_paymentPeriodSpecifier');
+    this.model.contract_contractValueCurrency = this.taskService.getTaskVar('contract_contractValueCurrency');
+    this.model.contract_contractValue = this.taskService.getTaskVar('contract_contractValue');
+    this.model.contract_holidayRate = this.taskService.getTaskVar('contract_holidayRate');
+    this.model.contract_noticePeriod = this.taskService.getTaskVar('contract_noticePeriod');
+    this.model.contract_overtimePayable = this.taskService.getTaskVar('contract_overtimePayable');
+    this.model.contract_overtimeRate = this.taskService.getTaskVar('contract_overtimeRate');
+    this.model.contract_ratePeriodSpecifier = this.taskService.getTaskVar('contract_ratePeriodSpecifier');
 
     /**
      * 
      * set the flags which drive the UI content for UK/ Not UK national
      * 
      */
-    this.model.contract_rightToWorkAsserted = this.service.getTaskVar('contract_rightToWorkAsserted');
+    this.model.contract_rightToWorkAsserted = this.taskService.getTaskVar('contract_rightToWorkAsserted');
     if (this.model.contract_rightToWorkAsserted === 'YES') {
 
       this.isUKNational = true;
@@ -469,7 +473,7 @@ export class OpportunityComponent extends TaskForm implements OnInit {
    */
   public onSave() {
 
-    this.service.Save().subscribe(
+    this.taskService.Save().subscribe(
       data => {
         this.snackBar.open('Task saved...', null, {duration: 3000});
         // this.dialogRef.close();
@@ -479,6 +483,26 @@ export class OpportunityComponent extends TaskForm implements OnInit {
   }
 
   /**
+   * 
+   * a contract admin completes the details and submits to candidate
+   * 
+   */
+  public sendToCandidate(): Observable<any> {
+
+    return this.contractService.getContractRoleId(this.bpmContractUUID)
+      .flatMap((roleId: string) => {
+        return this.roleService.updateRoleStatus(roleId, Role.ROLE_STATUS_SUPPLIER_REVIEW);
+      })
+      .flatMap((d: any) => {
+        return this.taskService.Save();
+      })
+      .flatMap((d: any) => {
+        return this.taskService.TaskComplete();
+      });
+  }
+
+  /**
+   * @deprecated - now in member/accept component
    * 
    * User wants to electronically sign the contract,
    * invoke the back end service to sign the agreement
@@ -498,7 +522,7 @@ export class OpportunityComponent extends TaskForm implements OnInit {
 
 
   /**
-   * 
+   * @deprecated - now in member/accept component
    * user accepts the role, update the response value and complete the task
    * 
    */
@@ -519,6 +543,7 @@ export class OpportunityComponent extends TaskForm implements OnInit {
   }
 
   /**
+   * A contract admin member receives a decline notification via an offline method and declines on behalf of the candidate
    * 
    * decline role button executes this method
    * 
@@ -536,7 +561,7 @@ export class OpportunityComponent extends TaskForm implements OnInit {
    * 
    */
   private completeTask() {
-    this.service.Save().subscribe(
+    this.taskService.Save().subscribe(
 
       /**
        * 
@@ -544,7 +569,7 @@ export class OpportunityComponent extends TaskForm implements OnInit {
        * 
        */
       data => {
-        this.service.TaskComplete().subscribe(
+        this.taskService.TaskComplete().subscribe(
 
           /**
            * 

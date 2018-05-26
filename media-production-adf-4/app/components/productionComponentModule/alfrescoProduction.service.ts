@@ -1,5 +1,5 @@
 import {AlfRESTList} from '../alfrescoWorkflow/AlfRESTList';
-import {Injectable, Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
+import {Injectable, Component, EventEmitter, Input, OnChanges, Output, Optional} from '@angular/core';
 import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import {AlfrescoApiService, LogService} from 'ng2-alfresco-core';
 import {BehaviorSubject} from 'rxjs/Rx';
@@ -7,6 +7,11 @@ import {Observable, Subscription} from 'rxjs/Rx';
 import {AlfrescoService} from '../alfrescoWorkflow/alfresco.service';
 import {ProductionProperties} from './productionProperties';
 import {ServicePeriod} from './servicePeriod';
+import {MasterRoleService} from './masterDataComponent/masterRoleService';
+import {DefaultRoleService} from '../../modules/production/defaultRoles/defaultRole.service';
+import {DefaultRole} from '../../modules/production/defaultRoles/defaultRole';
+import {ContractService} from '../contract/contract.service';
+// import {MasterDocumentService} from './masterDataComponent/masterDocumentService';
 
 // Import RxJs required methods
 import 'rxjs/Rx';
@@ -60,39 +65,15 @@ export class AlfrescoProductionService extends AlfrescoService {
   private newSite;
 
   constructor(private _apiService: AlfrescoApiService,
+    private masterRoles: MasterRoleService,
+    @Optional() private contracts: ContractService,
+    private defaultRoles: DefaultRoleService,
     private _logService: LogService,
     private _http: Http) {
     super(_apiService, _logService, _http);
   }
 
-  /**
-   * 
-   * given the production id (shortName) returns the full data modelAddress
-   * This can be extended to provide containers and members
-   * 
-   */
-  public getPrduction(id): Observable<Production> {
 
-    this.siteShortName = id;
-    let path = 'api/-default-/public/alfresco/versions/1/sites/' + id;
-    let obs: Observable<Production> = this.get(path);
-    return obs;
-
-  }
-
-  /**
-   * 
-   * returns the production properties for a give production short name
-   * 
-   */
-  public getProductionProperties(id): Observable<ProductionProperties> {
-
-    return Observable.fromPromise(this._apiService.nodesApi.getNode(id))
-      .map((data: any) => {
-        return this.mapToObject(data.entry.properties, new ProductionProperties());
-      });
-
-  }
 
   /**
    * 
@@ -149,7 +130,14 @@ export class AlfrescoProductionService extends AlfrescoService {
         return Observable.fromPromise(this._apiService.nodesApi.updateNode(siteInfo.entry.guid, update));
       })
       .flatMap((data: any) => {
-        return this.applyProduct(this.siteInfo.id, this.productionProperties.productCode);
+        return this.applyProduct(this.siteInfo.id, this.productionProperties.prod_productCode);
+      })
+      .flatMap(d => {
+        return this.applyDefaultRoles(this.siteInfo.id, 'TV_PRODUCTION', properties.prod_productCode);
+      })
+      .flatMap((roles: any) => {
+        console.log(roles);
+        return Observable.of(roles);
       });
 
   }
@@ -237,7 +225,7 @@ export class AlfrescoProductionService extends AlfrescoService {
 
     let opts = {'assocType': 'prod:subProjects'};
     return Observable.fromPromise(this._apiService.getInstance().core.childAssociationsApi.listSecondaryChildAssociations(siteNodeId, opts))
-      .map((list: <any>) => {
+      .map((list: any) => {
         let periods = [];
         for (let i = 0; i < list.entries.length; i++) {
           let period = new ServicePeriod();
@@ -289,6 +277,45 @@ export class AlfrescoProductionService extends AlfrescoService {
         console.log('ERROR servie error retrieveinf periods');
         console.log(err);
       });
+
+  }
+
+
+  /**
+   * 
+   * applies the master default roles to a production
+   * copies over the master contracts into the production Contract Template folder
+   * copies over the master default roles into the production defaultRole list, updates each role with the new contract template id
+   * returns the number of defaultRoles created
+   * 
+   */
+  public applyDefaultRoles(siteName: string, productCategory: string, product: string): Observable<DefaultRole[]> {
+
+    return this.contracts.applyMasterContracts(siteName, productCategory, product)
+      .flatMap((contracts: any) => {
+
+        return this.masterRoles.connect(null)
+          .flatMap((defaultRoles: DefaultRole[]) => {
+            let roleObs: Array<Observable<DefaultRole>> = defaultRoles.map((r: DefaultRole) => {
+              const filtered = contracts.filter(contract => {return contract.entry.id === r.nvpList_typeContractTemplate;});
+              if (filtered.length > 0) {
+                r.nvpList_typeContractTemplate = filtered[0].targetId;
+              }
+              return this.defaultRoles.writeRole(r, siteName);
+            });
+            return Observable.forkJoin(roleObs);
+          });
+      });
+
+  }
+
+  /**
+   * 
+   * iterates through a list of nodes to find the node with the provided nodeId, returns the new target node
+   * 
+   */
+  private findNewContractDocumentNode(list: any, sourceId: string): string {
+
 
   }
 

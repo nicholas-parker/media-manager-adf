@@ -158,6 +158,17 @@ export class AlfrescoService {
     let bodyString = JSON.stringify(message);
 
     let result: Observable<any> = this.http.post(url, bodyString, options)
+      .retryWhen(error => {
+        return error.flatMap((error2: any) => {
+          if (error2.status >= 500) {
+            return Observable.of(error2.status).delay(5000);
+          }
+          return Observable.throw({error: 'No retry'});
+        })
+          .take(5)
+          .concat(Observable.throw({error: 'There was an error after 5 retries'}));
+      })
+
       .map((res: Response) => res.json())
       .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
 

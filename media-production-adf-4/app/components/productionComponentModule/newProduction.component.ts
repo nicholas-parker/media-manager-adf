@@ -190,38 +190,39 @@ export class NewProductionComponent implements OnInit {
     /**
      * create the production periods
      */
-    this.periods = new Array();
-
-    let preProduction = new ServicePeriod();
-    preProduction.contract_serviceName = 'Pre production';
-    preProduction.contract_serviceDescription = '';
-    preProduction.contract_serviceStart = this.productionForm.value['prod_preProductionStartDate'];
-    preProduction.contract_serviceEnd = this.productionForm.value['prod_preProductionEndDate'];
-    this.periods.push(preProduction);
-
-    let production = new ServicePeriod();
-    production.contract_serviceName = 'Production';
-    production.contract_serviceDescription = '';
-    production.contract_serviceStart = this.productionForm.value['prod_productionStartDate'];
-    production.contract_serviceEnd = this.productionForm.value['prod_productionEndDate'];
-    this.periods.push(production);
-
-    let postProduction = new ServicePeriod();
-    postProduction.contract_serviceName = 'Post production';
-    postProduction.contract_serviceDescription = '';
-    postProduction.contract_serviceStart = this.productionForm.value['prod_postProductionStartDate'];
-    postProduction.contract_serviceEnd = this.productionForm.value['prod_postProductionEndDate'];
-    this.periods.push(postProduction);
+    //    this.periods = new Array();
+    //
+    //    let preProduction = new ServicePeriod();
+    //    preProduction.contract_serviceName = 'Pre production';
+    //    preProduction.contract_serviceDescription = '';
+    //    preProduction.contract_serviceStart = this.productionForm.value['prod_preProductionStartDate'];
+    //    preProduction.contract_serviceEnd = this.productionForm.value['prod_preProductionEndDate'];
+    //    this.periods.push(preProduction);
+    //
+    //    let production = new ServicePeriod();
+    //    production.contract_serviceName = 'Production';
+    //    production.contract_serviceDescription = '';
+    //    production.contract_serviceStart = this.productionForm.value['prod_productionStartDate'];
+    //    production.contract_serviceEnd = this.productionForm.value['prod_productionEndDate'];
+    //    this.periods.push(production);
+    //
+    //    let postProduction = new ServicePeriod();
+    //    postProduction.contract_serviceName = 'Post production';
+    //    postProduction.contract_serviceDescription = '';
+    //    postProduction.contract_serviceStart = this.productionForm.value['prod_postProductionStartDate'];
+    //    postProduction.contract_serviceEnd = this.productionForm.value['prod_postProductionEndDate'];
+    //    this.periods.push(postProduction);
 
     this.snackBar.open('Creating your new production, wont be long');
-    this.service.createSite(this.properties).subscribe(
+    this.service.createSite(this.properties)
+      .subscribe(
       siteName => {
 
         /*
          * 
          * site created, now create the production periods
-         * 
-         */
+         * THINKING ABOUT HOW TO CREATE PRODUCTION PERIODS, BUT NOT HERE
+         *
         for (let i = 0; i < this.periods.length; i++) {
 
 
@@ -239,7 +240,7 @@ export class NewProductionComponent implements OnInit {
 
             });
         }
-
+      */
         this.router.navigate(['/production/', this.service.siteInfo.id]);
 
       },

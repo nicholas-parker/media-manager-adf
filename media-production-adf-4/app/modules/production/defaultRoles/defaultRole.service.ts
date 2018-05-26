@@ -128,15 +128,21 @@ export class DefaultRoleService extends DataSource<DefaultRole> {
    * Writes a new default role to the back end store and updates the observable list
    * 
    */
-  public writeRole(defaultRole: DefaultRole): Observable<any> {
+  public writeRole(defaultRole: DefaultRole, siteId?: string): Observable<DefaultRole> {
 
     let ecmTicket = this.apiService.getInstance().ecmAuth.getTicket();
+    let _siteId: string = null;
+    if (undefined !== siteId) {
+      _siteId = siteId;
+    } else {
+      _siteId = this.siteId;
+    }
 
     this.url = DefaultRoleService.ECM_PROXY
       + DefaultRoleService.CONTEXT_ROOT
       + DefaultRoleService.SERVICE_PATH
       + DefaultRoleService.SERVICE_LIST_PATH_1
-      + this.siteId
+      + _siteId
       + DefaultRoleService.SERVICE_LIST_PATH_2
       + '?alf_ticket=' + ecmTicket;
 
@@ -144,8 +150,14 @@ export class DefaultRoleService extends DataSource<DefaultRole> {
     let headers = new Headers({'Content-Type': 'application/json'}); // ... Set content type to JSON
     let options = new RequestOptions({headers: headers}); // Create a request option
 
-    let obs: Observable<any> = this.http.post(this.url, bodyString, options).do(resp => {this._getDefaultRoles_Service();});
-    return obs;
+    return this.http.post(this.url, bodyString, options)
+      .map((response: Response) => {
+        defaultRole.sys_nodedbid = response.json().items['sys_node-uuid'];
+        defaultRole['sys_node-uuid'] = response.json().items['sys_node-uuid'];
+        return defaultRole;
+      })
+      .do(resp => {this._getDefaultRoles_Service();});
+
   }
 
 

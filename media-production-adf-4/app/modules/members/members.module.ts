@@ -29,7 +29,7 @@ import {MemberFilesComponent} from './member-files.component';
 import {MemberDashboardComponent} from './member-dashboard.component';
 import {MembersRoutingModule} from './members-routing.module';
 import {OpportunityComponent} from './opportunity/opportunity.component';
-
+import {AcceptComponent} from './opportunity/accept.component';
 
 @NgModule({
   imports: [
@@ -54,7 +54,8 @@ import {OpportunityComponent} from './opportunity/opportunity.component';
     MemberFilesComponent,
     MemberDashboardComponent,
     MemberNotificationComponent,
-    OpportunityComponent
+    OpportunityComponent,
+    AcceptComponent
   ],
   exports: [
     CommonModule,

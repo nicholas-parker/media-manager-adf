@@ -7,8 +7,6 @@ import {Observable} from 'rxjs/Observable';
 import {Component, OnInit, Input} from '@angular/core';
 import {MdTabsModule, MdSelectModule, MdInputModule, MdDialogRef, MdListModule, MdCheckboxModule, MdDatepickerModule, MdSnackBar, MdRadioModule} from '@angular/material';
 import {FormControl, FormGroup, FormBuilder} from '@angular/forms';
-import {AlfrescoService} from '../alfresco.service';
-import {AlfrescoWorkflowService} from '../alfrescoWorkflow.service';
 import {Role} from './role';
 
 @Component({

@@ -9,10 +9,10 @@
   </button>
   <button md-button>My Profile</button>
 </md-toolbar>
-<!-- alfresco-upload-drag-area
+<alfresco-upload-drag-area
     [parentId]="documentList.currentFolderId"
     [versioning]="versioning"
-    [enabled]="documentList.hasCreatePermission()" -->
+    [enabled]="documentList.hasCreatePermission()">
 <adf-document-list
       #documentList
       [permissionsStyle]="permissionsStyle"
@@ -35,7 +35,7 @@
           class="image-table-cell">
         </data-column>
         <data-column
-          title="{{'DOCUMENT_LIST.COLUMNS.DISPLAY_NAME' | translate}}"
+          title="{{'DOCUMENT_LIST.COLUMNS.DISPLAY_NAME'}}"
           key="name"
           class="full-width ellipsis-cell">
         </data-column>
@@ -51,12 +51,12 @@
         </data-column>
         -->
         <data-column
-          title="{{'DOCUMENT_LIST.COLUMNS.CREATED_BY' | translate}}"
+          title="{{'DOCUMENT_LIST.COLUMNS.CREATED_BY'}}"
           key="createdByUser.displayName"
           class="desktop-only">
         </data-column>
         <data-column
-          title="{{'DOCUMENT_LIST.COLUMNS.CREATED_ON' | translate}}"
+          title="{{'DOCUMENT_LIST.COLUMNS.CREATED_ON'}}"
           key="createdAt"
           type="date"
           format="medium"
@@ -69,7 +69,7 @@
         <content-action
           icon="content_copy"
           target="folder"
-          title="{{'DOCUMENT_LIST.ACTIONS.FOLDER.COPY' | translate}}"
+          title="{{'DOCUMENT_LIST.ACTIONS.FOLDER.COPY'}}"
           permission="update"
           [disableWithNoPermission]="true"
           handler="copy">
@@ -77,7 +77,7 @@
         <content-action
           icon="redo"
           target="folder"
-          title="{{'DOCUMENT_LIST.ACTIONS.FOLDER.MOVE' | translate}}"
+          title="{{'DOCUMENT_LIST.ACTIONS.FOLDER.MOVE'}}"
           permission="update"
           [disableWithNoPermission]="true"
           handler="move">
@@ -87,7 +87,7 @@
           target="folder"
           permission="delete"
           [disableWithNoPermission]="true"
-          title="{{'DOCUMENT_LIST.ACTIONS.FOLDER.DELETE' | translate}}"
+          title="{{'DOCUMENT_LIST.ACTIONS.FOLDER.DELETE'}}"
           (permissionEvent)="handlePermissionError($event)"
           handler="delete">
         </content-action>
@@ -95,13 +95,13 @@
         <content-action
           icon="file_download"
           target="document"
-          title="{{'DOCUMENT_LIST.ACTIONS.DOCUMENT.DOWNLOAD' | translate}}"
+          title="{{'DOCUMENT_LIST.ACTIONS.DOCUMENT.DOWNLOAD'}}"
           handler="download">
         </content-action>
         <content-action
           icon="content_copy"
           target="document"
-          title="{{'DOCUMENT_LIST.ACTIONS.DOCUMENT.COPY' | translate}}"
+          title="{{'DOCUMENT_LIST.ACTIONS.DOCUMENT.COPY'}}"
           permission="update"
           [disableWithNoPermission]="true"
           handler="copy">
@@ -109,7 +109,7 @@
         <content-action
           icon="redo"
           target="document"
-          title="{{'DOCUMENT_LIST.ACTIONS.DOCUMENT.MOVE' | translate}}"
+          title="{{'DOCUMENT_LIST.ACTIONS.DOCUMENT.MOVE'}}"
           permission="update"
           [disableWithNoPermission]="true"
           handler="move">
@@ -120,9 +120,9 @@
           permission="delete"
           [disableWithNoPermission]="true"
           (permissionEvent)="handlePermissionError($event)"
-          title="{{'DOCUMENT_LIST.ACTIONS.DOCUMENT.DELETE' | translate}}"
+          title="{{'DOCUMENT_LIST.ACTIONS.DOCUMENT.DELETE'}}"
           handler="delete">
         </content-action>
       </content-actions>
     </adf-document-list>
-<!-- /alfresco-upload-drag-area -->
+</alfresco-upload-drag-area>

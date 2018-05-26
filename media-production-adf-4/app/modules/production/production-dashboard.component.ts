@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
 import {TaskListComponent} from '../../components/alfrescoWorkflow/taskList.component';
-import {ProductionRolePieCharts} from '../../components/roleCharts/productionRolePieCharts.component';
+// import {ProductionRolePieCharts} from '../../components/roleCharts/productionRolePieCharts.component';
 import {ProductionContext} from '../../components/productionComponentModule/productionContext';
 import {Production} from '../../components/productionComponentModule/production';
 import {RoleService} from './rolePlanning/role.service';

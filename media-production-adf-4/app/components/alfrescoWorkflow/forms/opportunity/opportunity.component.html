@@ -8,17 +8,17 @@
         <div mdLine class="mat-title sub-heading">Role details</div>      
       </md-list-item>
       <md-list-item>
-        <md-icon mdListIcon>person</md-icon>
+        <!-- md-icon mdListIcon>person</md-icon -->
         <div mdLine mdColors="{color: 'accent'}">Role / Position</div>
         <div mdLine>{{ model.contract_serviceName }}</div>
       </md-list-item>
       <md-list-item>
-        <md-icon mdListIcon>chat_bubble_outline</md-icon>
+        <!-- md-icon mdListIcon>chat_bubble_outline</md-icon -->
         <div mdLine>Role / Position</div>
         <div mdLine>{{ model.contract_serviceDescription }}</div>
       </md-list-item>
       <md-list-item>
-        <md-icon mdListIcon>location_on</md-icon>
+        <!-- md-icon mdListIcon>location_on</md-icon -->
         <div mdLine>Location</div>
         <div mdLine>{{ model.contract_location }}</div>
       </md-list-item>
@@ -33,19 +33,19 @@
   <div class="tabContainer" *ngIf="editRole === true">
     <div mdLine class="mat-title sub-heading">Role details</div>
     <div class="tabItem">
-      <md-icon class="toolbar-icon">person</md-icon>
+      <!-- md-icon class="toolbar-icon">person</md-icon -->
       <md-form-field>
         <input mdInput placeholder="position" formControlName="contract_serviceName"  />
       </md-form-field>
     </div>
     <div>
-      <md-icon class="toolbar-icon">chat_bubble_outline</md-icon>
+      <!-- md-icon class="toolbar-icon">chat_bubble_outline</md-icon -->
       <md-form-field>
-        <input mdInput placeholder="position" formControlName="contract_serviceDescription"  />
+        <input mdInput placeholder="description" formControlName="contract_serviceDescription"  />
       </md-form-field>
     </div>
     <div>
-      <md-icon class="toolbar-icon">location_on</md-icon>
+      <!-- md-icon class="toolbar-icon">location_on</md-icon -->
       <md-form-field>
         <input mdInput placeholder="location" formControlName="contract_location"  />
       </md-form-field>
@@ -55,6 +55,7 @@
 
   <md-tab label="Engagement periods" *ngIf="showRole">
     <div class="tabContainer">
+      <div>A contract must have one or more engagement periods.  Add an engagement period for each slot of time you need this crew member. </div>
       <div formArrayName="servicePeriods" *ngFor="let period of opportunityForm.get('servicePeriods').controls; let i=index;">
 	   <div [formGroupName]="i" class="engagementContainer">
 	   <div class="period-heading">
@@ -106,7 +107,7 @@
       </md-list-item>
   
       <md-list-item>
-        <md-icon mdListIcon>account_balance</md-icon>
+        <!-- md-icon mdListIcon>account_balance</md-icon -->
         <div mdLine *ngIf="!editFinancials">Rate</div>
         <div mdLine *ngIf="!editFinancials">{{ model.contract_contractValueCurrency }} {{ model.contract_contractValue }} {{ model.contract_ratePeriodSpecifier }}</div>
         <div class="inRow" mdLine *ngIf="editFinancials">
@@ -128,7 +129,7 @@
       </md-list-item>
   
       <md-list-item>
-        <md-icon mdListIcon>query_builder</md-icon>
+        <!-- md-icon mdListIcon>query_builder</md-icon -->
         <div *ngIf="!editFinancials" mdLine>Employment status</div>
         <div *ngIf="!editFinancials" mdLine>{{ model.contract_PAYEstatus }}</div>
         <md-select mdLine *ngIf="editFinancials" class="wfInput" mdInput id="PAYE" formControlName="contract_PAYEstatus" placeholder="PAYE or Contract">
@@ -137,7 +138,7 @@
       </md-list-item>
 
       <md-list-item>
-        <md-icon mdListIcon>date_range</md-icon>
+        <!-- md-icon mdListIcon>date_range</md-icon -->
         <div mdLine *ngIf="!editFinancials">Paid</div>
         <div mdLine *ngIf="!editFinancials">{{ model.contract_paymentPeriodSpecifier }}</div>
         <md-select mdLine *ngIf="editFinancials" class="wfInput" placeholder="Payment period" formControlName="contract_paymentPeriodSpecifier">
@@ -146,7 +147,7 @@
       </md-list-item>
      
       <md-list-item>
-        <md-icon mdListIcon>date_range</md-icon>
+        <!-- md-icon mdListIcon>date_range</md-icon -->
         <div mdLine *ngIf="!editFinancials">Contract code</div>
         <div mdLine *ngIf="!editFinancials">{{ model.contract_contractCode }}</div>
         <md-form-field mdLine *ngIf="editFinancials" class="wfInput">
@@ -155,7 +156,7 @@
       </md-list-item>
       
       <md-list-item>
-        <md-icon mdListIcon>network_check</md-icon>
+        <!-- md-icon mdListIcon>network_check</md-icon -->
         <div mdLine *ngIf="!editFinancials">Paid overtime</div>
         <div mdLine *ngIf="!editFinancials">{{ model.contract_overtimePayable }} <span *ngIf="model.contract_overtimePayable === 'YES'">{{ model.contract_overtimeRate }}</span></div>
         <div mdLine *ngIf="editFinancials">
@@ -168,7 +169,7 @@
       </md-list-item>
    
       <md-list-item>
-        <md-icon mdListIcon>beach_access</md-icon>
+        <!-- md-icon mdListIcon>beach_access</md-icon -->
         <div mdLine *ngIf="!editFinancials">Days paid leave</div>
         <div mdLine *ngIf="!editFinancials">{{ model.contract_holidayRate }}</div>
         <md-form-field mdLine *ngIf="editFinancials" class="wfInput">
@@ -177,7 +178,7 @@
       </md-list-item>
    
       <md-list-item>
-        <md-icon mdListIcon>do_not_disturb</md-icon>
+        <!-- md-icon mdListIcon>do_not_disturb</md-icon -->
         <div mdLine *ngIf="!editFinancials">Termination notice period</div>
         <div mdLine *ngIf="!editFinancials">{{ model.contract_noticePeriod }}</div>
         
@@ -241,19 +242,19 @@
   <div class="tabContainer">
     <div mdLine class="mat-title sub-heading">Employee details</div>
       <div class="tabItem">
-        <md-icon class="toolbar-icon">person</md-icon>
+        <!-- md-icon class="toolbar-icon">person</md-icon -->
         <md-form-field>
           <input mdInput placeholder="First name" formControlName="contract_supplierFirstName" />
         </md-form-field>
       </div>
       <div class="tabItem">
-        <md-icon class="toolbar-icon">person</md-icon>
+        <!-- md-icon class="toolbar-icon">person</md-icon -->
         <md-form-field>
           <input mdInput placeholder="Last name" formControlName="contract_supplierLastName" />
         </md-form-field>
       </div>
       <div class="tabItem">
-        <md-icon class="toolbar-icon">contact_mail</md-icon>
+        <!-- md-icon class="toolbar-icon">contact_mail</md-icon -->
         <md-form-field>
           <input mdInput placeholder="your@email" formControlName="contract_supplierEmail" />
         </md-form-field>
@@ -269,7 +270,7 @@
         <div mdLine class="mat-body-1">Complete your personal information</div>
       </md-list-item>
       <md-list-item>
-        <md-icon mdListIcon>contacts</md-icon>
+        <!-- md-icon mdListIcon>contacts</md-icon -->
         <div *ngIf="!editPersonal" mdLine>First name</div>
         <div *ngIf="!editPersonal" mdLine>{{model.contract_supplierFirstName}}</div>
         <md-form-field mdLine *ngIf="editPersonal" mdLine class="leftField" >
@@ -277,7 +278,7 @@
         </md-form-field>
       </md-list-item>
       <md-list-item>
-        <md-icon mdListIcon>contacts</md-icon>
+        <!-- md-icon mdListIcon>contacts</md-icon -->
         <div *ngIf="!editPersonal" mdLine>Last name</div>
         <div *ngIf="!editPersonal" mdLine>{{model.contract_supplierLastName}}</div>
         <md-form-field mdLine *ngIf="editPersonal" class="leftField" >
@@ -285,7 +286,7 @@
         </md-form-field>
       </md-list-item>
       <md-list-item>
-        <md-icon mdListIcon>email</md-icon>
+        <!-- md-icon mdListIcon>email</md-icon -->
         <div *ngIf="!editPersonal" mdLine>Last name</div>
         <div *ngIf="!editPersonal" mdLine>{{model.contract_supplierEmail}}</div>
         <md-form-field mdLine *ngIf="editPersonal" class="leftField" >
@@ -293,7 +294,7 @@
         </md-form-field>
       </md-list-item>
       <md-list-item>
-        <md-icon mdListIcon>event</md-icon>
+        <!-- md-icon mdListIcon>event</md-icon -->
         <div *ngIf="!editPersonal" mdLine>Date of birth</div>
         <div *ngIf="!editPersonal" mdLine>{{model.contract_dateOfBirth}}</div>
         <md-form-field  mdLine *ngIf="editPersonal" class="leftField">
@@ -303,7 +304,7 @@
         </md-form-field>
       </md-list-item>
       <md-list-item>
-        <md-icon mdListIcon>place</md-icon>
+        <!-- md-icon mdListIcon>place</md-icon -->
         <div *ngIf="!editPersonal" mdLine>Town of birth</div>
         <div *ngIf="!editPersonal" mdLine>{{model.contract_townOfBirth}}</div>
         <md-form-field mdLine *ngIf="editPersonal" class="leftField" >
@@ -311,7 +312,7 @@
         </md-form-field>
       </md-list-item>      
       <md-list-item>
-        <md-icon mdListIcon>place</md-icon>
+        <!-- md-icon mdListIcon>place</md-icon -->
         <div *ngIf="!editPersonal" mdLine>Country of birth</div>
         <div *ngIf="!editPersonal" mdLine>{{model.contract_countryOfBirth}}</div>
         <md-form-field mdLine *ngIf="editPersonal" class="leftField" >
@@ -335,7 +336,7 @@
         <div mdLine class="mat-body-1">Complete your contact details</div>
       </md-list-item>
       <md-list-item>
-        <md-icon mdListIcon>phone</md-icon>
+        <!-- md-icon mdListIcon>phone</md-icon -->
         <div *ngIf="false" mdLine>Mobile</div>
         <div *ngIf="false" mdLine>{{model.contract_supplierMobile}}</div>
         <md-form-field mdLine *ngIf="true" class="leftField" >
@@ -343,7 +344,7 @@
         </md-form-field>
       </md-list-item>      
       <md-list-item>
-        <md-icon mdListIcon>place</md-icon>
+        <!-- md-icon mdListIcon>place</md-icon -->
         <div *ngIf="false" mdLine>Address</div>
         <div *ngIf="false" mdLine>{{model.contract_supplierAddress1}}</div>
         <md-form-field mdLine *ngIf="true" class="leftField" >
@@ -351,7 +352,7 @@
         </md-form-field>
       </md-list-item>      
       <md-list-item>
-        <md-icon mdListIcon>place</md-icon>
+        <!-- md-icon mdListIcon>place</md-icon -->
         <div *ngIf="false" mdLine>Address</div>
         <div *ngIf="false" mdLine>{{model.contract_supplierAddress2}}</div>
         <md-form-field mdLine *ngIf="true" class="leftField" >
@@ -359,7 +360,7 @@
         </md-form-field>
       </md-list-item>      
       <md-list-item>
-        <md-icon mdListIcon>place</md-icon>
+        <!-- md-icon mdListIcon>place</md-icon -->
         <div *ngIf="false" mdLine>Address</div>
         <div *ngIf="false" mdLine>{{model.contract_supplierAddress3}}</div>
         <md-form-field mdLine *ngIf="true" class="leftField" >
@@ -367,7 +368,7 @@
         </md-form-field>
       </md-list-item>      
       <md-list-item>
-        <md-icon mdListIcon>place</md-icon>
+        <!-- md-icon mdListIcon>place</md-icon -->
         <div *ngIf="false" mdLine>Post code</div>
         <div *ngIf="false" mdLine>{{model.contract_supplierPostCode}}</div>
         <md-form-field mdLine *ngIf="true" class="leftField" >
