@@ -10,6 +10,5 @@ export declare class AsyncSubject<T> extends Subject<T> {
     private hasCompleted;
     protected _subscribe(subscriber: Subscriber<any>): Subscription;
     next(value: T): void;
-    error(error: any): void;
     complete(): void;
 }

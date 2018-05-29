@@ -139,7 +139,7 @@ var GroupBySubscriber = (function (_super) {
         this.groups.delete(key);
     };
     GroupBySubscriber.prototype.unsubscribe = function () {
-        if (!this.closed) {
+        if (!this.closed && !this.attemptedToUnsubscribe) {
             this.attemptedToUnsubscribe = true;
             if (this.count === 0) {
                 _super.prototype.unsubscribe.call(this);

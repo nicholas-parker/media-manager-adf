@@ -163,7 +163,7 @@ class GroupBySubscriber<T, K, R> extends Subscriber<T> implements RefCountSubscr
   }
 
   unsubscribe() {
-    if (!this.closed) {
+    if (!this.closed && !this.attemptedToUnsubscribe) {
       this.attemptedToUnsubscribe = true;
       if (this.count === 0) {
         super.unsubscribe();

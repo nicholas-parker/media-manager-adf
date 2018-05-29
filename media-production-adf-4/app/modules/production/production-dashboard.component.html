@@ -3,7 +3,7 @@
         
           <!-- bar along top of dashboard -->
           <div class="demo-charts mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
-            <role-pie-charts></role-pie-charts>
+            <ngx-charts-number-card #card [view]="cardView" [scheme]="cardColorScheme" [results]="stats.categoryCount"></ngx-charts-number-card>
           </div>
           
           <!-- main area on the dashboard -->
@@ -25,14 +25,13 @@
                </md-card>
             </div>
             
-          <div *ngIf="hasRoles" class="demo-graphs mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--8-col">
+          <div *ngIf="hasRoles" class="mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--8-col">
             <div >
-              <svg fill="currentColor" viewBox="0 0 500 250" class="demo-graph">
-                <use xlink:href="#chart" />
-              </svg>
-              <svg fill="currentColor" viewBox="0 0 500 250" class="demo-graph">
-                <use xlink:href="#chart" />
-              </svg>
+              <ngx-charts-advanced-pie-chart
+                [view]="pieView"
+                [scheme]="cardColorScheme"
+                [results]="stats.statusSummary">
+              </ngx-charts-advanced-pie-chart>
             </div>
           </div>
           

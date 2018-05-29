@@ -1,11 +1,14 @@
 {
   "name": "media-production-adf-4",
   "version": "0.2.0",
+  "problems": [
+    "peer dep missing: rxjs@^5.0.3, required by @swimlane/ngx-charts@5.3.1"
+  ],
   "dependencies": {
     "@angular/animations": {
-      "version": "4.4.4",
-      "from": "@angular/animations@4.4.4",
-      "resolved": "https://registry.npmjs.org/@angular/animations/-/animations-4.4.4.tgz"
+      "version": "4.4.7",
+      "from": "@angular/animations@4.4.7",
+      "resolved": "https://registry.npmjs.org/@angular/animations/-/animations-4.4.7.tgz"
     },
     "@angular/cdk": {
       "version": "2.0.0-beta.10",
@@ -13,34 +16,34 @@
       "resolved": "https://registry.npmjs.org/@angular/cdk/-/cdk-2.0.0-beta.10.tgz"
     },
     "@angular/common": {
-      "version": "4.4.4",
-      "from": "@angular/common@4.4.4",
-      "resolved": "https://registry.npmjs.org/@angular/common/-/common-4.4.4.tgz"
+      "version": "4.4.7",
+      "from": "@angular/common@4.4.7",
+      "resolved": "https://registry.npmjs.org/@angular/common/-/common-4.4.7.tgz"
     },
     "@angular/compiler": {
-      "version": "4.4.4",
-      "from": "@angular/compiler@4.4.4",
-      "resolved": "https://registry.npmjs.org/@angular/compiler/-/compiler-4.4.4.tgz"
+      "version": "4.4.7",
+      "from": "@angular/compiler@4.4.7",
+      "resolved": "https://registry.npmjs.org/@angular/compiler/-/compiler-4.4.7.tgz"
     },
     "@angular/compiler-cli": {
-      "version": "4.4.4",
-      "from": "@angular/compiler-cli@4.4.4",
-      "resolved": "https://registry.npmjs.org/@angular/compiler-cli/-/compiler-cli-4.4.4.tgz"
+      "version": "4.4.7",
+      "from": "@angular/compiler-cli@4.4.7",
+      "resolved": "https://registry.npmjs.org/@angular/compiler-cli/-/compiler-cli-4.4.7.tgz"
     },
     "@angular/core": {
-      "version": "4.4.4",
-      "from": "@angular/core@4.4.4",
-      "resolved": "https://registry.npmjs.org/@angular/core/-/core-4.4.4.tgz"
+      "version": "4.4.7",
+      "from": "@angular/core@4.4.7",
+      "resolved": "https://registry.npmjs.org/@angular/core/-/core-4.4.7.tgz"
     },
     "@angular/forms": {
-      "version": "4.4.4",
-      "from": "@angular/forms@4.4.4",
-      "resolved": "https://registry.npmjs.org/@angular/forms/-/forms-4.4.4.tgz"
+      "version": "4.4.7",
+      "from": "@angular/forms@4.4.7",
+      "resolved": "https://registry.npmjs.org/@angular/forms/-/forms-4.4.7.tgz"
     },
     "@angular/http": {
-      "version": "4.4.4",
-      "from": "@angular/http@4.4.4",
-      "resolved": "https://registry.npmjs.org/@angular/http/-/http-4.4.4.tgz"
+      "version": "4.4.7",
+      "from": "@angular/http@4.4.7",
+      "resolved": "https://registry.npmjs.org/@angular/http/-/http-4.4.7.tgz"
     },
     "@angular/material": {
       "version": "2.0.0-beta.10",
@@ -48,29 +51,34 @@
       "resolved": "https://registry.npmjs.org/@angular/material/-/material-2.0.0-beta.10.tgz"
     },
     "@angular/platform-browser": {
-      "version": "4.4.4",
-      "from": "@angular/platform-browser@4.4.4",
-      "resolved": "https://registry.npmjs.org/@angular/platform-browser/-/platform-browser-4.4.4.tgz"
+      "version": "4.4.7",
+      "from": "@angular/platform-browser@4.4.7",
+      "resolved": "https://registry.npmjs.org/@angular/platform-browser/-/platform-browser-4.4.7.tgz"
     },
     "@angular/platform-browser-dynamic": {
-      "version": "4.4.4",
-      "from": "@angular/platform-browser-dynamic@4.4.4",
-      "resolved": "https://registry.npmjs.org/@angular/platform-browser-dynamic/-/platform-browser-dynamic-4.4.4.tgz"
+      "version": "4.4.7",
+      "from": "@angular/platform-browser-dynamic@4.4.7",
+      "resolved": "https://registry.npmjs.org/@angular/platform-browser-dynamic/-/platform-browser-dynamic-4.4.7.tgz"
     },
     "@angular/platform-server": {
-      "version": "4.4.4",
-      "from": "@angular/platform-server@4.4.4",
-      "resolved": "https://registry.npmjs.org/@angular/platform-server/-/platform-server-4.4.4.tgz"
+      "version": "4.4.7",
+      "from": "@angular/platform-server@4.4.7",
+      "resolved": "https://registry.npmjs.org/@angular/platform-server/-/platform-server-4.4.7.tgz"
     },
     "@angular/router": {
-      "version": "4.4.4",
-      "from": "@angular/router@4.4.4",
-      "resolved": "https://registry.npmjs.org/@angular/router/-/router-4.4.4.tgz"
+      "version": "4.4.7",
+      "from": "@angular/router@4.4.7",
+      "resolved": "https://registry.npmjs.org/@angular/router/-/router-4.4.7.tgz"
     },
     "@ngx-translate/core": {
-      "version": "7.0.0",
-      "from": "@ngx-translate/core@7.0.0",
-      "resolved": "https://registry.npmjs.org/@ngx-translate/core/-/core-7.0.0.tgz"
+      "version": "7.2.2",
+      "from": "@ngx-translate/core@7.2.2",
+      "resolved": "https://registry.npmjs.org/@ngx-translate/core/-/core-7.2.2.tgz"
+    },
+    "@swimlane/ngx-charts": {
+      "version": "5.3.1",
+      "from": "@swimlane/ngx-charts@5.3.1",
+      "resolved": "https://registry.npmjs.org/@swimlane/ngx-charts/-/ngx-charts-5.3.1.tgz"
     },
     "alfresco-js-api": {
       "version": "1.7.0",
@@ -78,19 +86,24 @@
       "resolved": "https://registry.npmjs.org/alfresco-js-api/-/alfresco-js-api-1.7.0.tgz"
     },
     "angular": {
-      "version": "1.6.6",
-      "from": "angular@1.6.6",
-      "resolved": "https://registry.npmjs.org/angular/-/angular-1.6.6.tgz"
+      "version": "1.7.0",
+      "from": "angular@1.7.0",
+      "resolved": "https://registry.npmjs.org/angular/-/angular-1.7.0.tgz"
     },
     "chart.js": {
-      "version": "2.5.0",
-      "from": "chart.js@2.5.0",
-      "resolved": "https://registry.npmjs.org/chart.js/-/chart.js-2.5.0.tgz"
+      "version": "2.7.2",
+      "from": "chart.js@2.7.2",
+      "resolved": "https://registry.npmjs.org/chart.js/-/chart.js-2.7.2.tgz"
     },
     "core-js": {
       "version": "2.4.1",
       "from": "core-js@2.4.1",
       "resolved": "https://registry.npmjs.org/core-js/-/core-js-2.4.1.tgz"
+    },
+    "d3": {
+      "version": "4.13.0",
+      "from": "d3@^4.9.1",
+      "resolved": "https://registry.npmjs.org/d3/-/d3-4.13.0.tgz"
     },
     "dialog-polyfill": {
       "version": "0.4.7",
@@ -187,11 +200,6 @@
       "from": "ng2-alfresco-webscript@1.9.0",
       "resolved": "https://registry.npmjs.org/ng2-alfresco-webscript/-/ng2-alfresco-webscript-1.9.0.tgz"
     },
-    "ng2-charts": {
-      "version": "1.6.0",
-      "from": "ng2-charts@1.6.0",
-      "resolved": "https://registry.npmjs.org/ng2-charts/-/ng2-charts-1.6.0.tgz"
-    },
     "pdfjs-dist": {
       "version": "1.5.404",
       "from": "pdfjs-dist@1.5.404",
@@ -208,14 +216,326 @@
       "resolved": "https://registry.npmjs.org/reflect-metadata/-/reflect-metadata-0.1.9.tgz"
     },
     "rxjs": {
-      "version": "5.1.0",
-      "from": "rxjs@5.1.0",
-      "resolved": "https://registry.npmjs.org/rxjs/-/rxjs-5.1.0.tgz"
+      "required": {
+        "_args": [
+          [
+            "rxjs@5.0.1",
+            "/home/nick/git/media-production-adf/media-production-adf-4"
+          ],
+          [
+            "rxjs@5.0.1",
+            "/home/nick/git/media-production-adf/media-production-adf-4"
+          ]
+        ],
+        "_from": "rxjs@5.0.1",
+        "_id": "rxjs@5.0.1",
+        "_integrity": "sha1-Omm9+fDKCphjAzcNRwj3K9+sg1Y=",
+        "_location": "/rxjs",
+        "_phantomChildren": {},
+        "_requested": {
+          "type": "version",
+          "registry": true,
+          "raw": "rxjs@5.0.1",
+          "name": "rxjs",
+          "escapedName": "rxjs",
+          "rawSpec": "5.0.1",
+          "saveSpec": null,
+          "fetchSpec": "5.0.1"
+        },
+        "_requiredBy": [
+          "/"
+        ],
+        "_resolved": "https://registry.npmjs.org/rxjs/-/rxjs-5.0.1.tgz",
+        "_spec": "5.0.1",
+        "_where": "/home/nick/git/media-production-adf/media-production-adf-4",
+        "author": {
+          "name": "Ben Lesh",
+          "email": "blesh@netflix.com"
+        },
+        "bugs": {
+          "url": "https://github.com/ReactiveX/RxJS/issues"
+        },
+        "config": {
+          "commitizen": {
+            "path": "cz-conventional-changelog"
+          },
+          "ghooks": {
+            "commit-msg": "node ./node_modules/validate-commit-msg/index.js",
+            "pre-commit": "npm run lint_staged"
+          }
+        },
+        "contributors": [
+          {
+            "name": "Ben Lesh",
+            "email": "blesh@netflix.com"
+          },
+          {
+            "name": "Paul Taylor",
+            "email": "paul.e.taylor@me.com"
+          },
+          {
+            "name": "Jeff Cross",
+            "email": "crossj@google.com"
+          },
+          {
+            "name": "Matthew Podwysocki",
+            "email": "matthewp@microsoft.com"
+          },
+          {
+            "name": "OJ Kwon",
+            "email": "kwon.ohjoong@gmail.com"
+          },
+          {
+            "name": "Andre Staltz",
+            "email": "andre@staltz.com"
+          }
+        ],
+        "dependencies": {
+          "symbol-observable": {
+            "_args": [
+              [
+                "symbol-observable@1.2.0",
+                "/home/nick/git/media-production-adf/media-production-adf-4"
+              ],
+              [
+                "symbol-observable@1.2.0",
+                "/home/nick/git/media-production-adf/media-production-adf-4"
+              ]
+            ],
+            "_from": "symbol-observable@1.2.0",
+            "_id": "symbol-observable@1.2.0",
+            "_integrity": "sha512-e900nM8RRtGhlV36KGEU9k65K3mPb1WV70OdjfxlG2EAuM1noi/E/BaW/uMhL7bPEssK8QV57vN3esixjUvcXQ==",
+            "_location": "/symbol-observable",
+            "_phantomChildren": {},
+            "_requested": {
+              "type": "version",
+              "registry": true,
+              "raw": "symbol-observable@1.2.0",
+              "name": "symbol-observable",
+              "escapedName": "symbol-observable",
+              "rawSpec": "1.2.0",
+              "saveSpec": "[Circular]",
+              "fetchSpec": "1.2.0"
+            },
+            "_requiredBy": [
+              "/ng2-3d-editor/rxjs",
+              "/ng2-alfresco-core/rxjs",
+              "/ng2-alfresco-datatable/rxjs",
+              "/ng2-alfresco-documentlist/rxjs",
+              "/ng2-alfresco-login/rxjs",
+              "/ng2-alfresco-search/rxjs",
+              "/ng2-alfresco-social/rxjs",
+              "/ng2-alfresco-tag/rxjs",
+              "/ng2-alfresco-upload/rxjs",
+              "/ng2-alfresco-userinfo/rxjs",
+              "/ng2-alfresco-viewer/rxjs",
+              "/ng2-alfresco-webscript/rxjs",
+              "/rxjs"
+            ],
+            "_resolved": "https://registry.npmjs.org/symbol-observable/-/symbol-observable-1.2.0.tgz",
+            "_spec": "1.2.0",
+            "_where": "/home/nick/git/media-production-adf/media-production-adf-4",
+            "author": {
+              "name": "Ben Lesh",
+              "email": "ben@benlesh.com"
+            },
+            "bugs": {
+              "url": "https://github.com/blesh/symbol-observable/issues"
+            },
+            "description": "Symbol.observable ponyfill",
+            "devDependencies": {
+              "babel-cli": "^6.9.0",
+              "babel-preset-es2015": "^6.9.0",
+              "babel-preset-es3": "^1.0.0",
+              "chai": "^3.5.0",
+              "check-es3-syntax-cli": "^0.1.0",
+              "mocha": "^2.4.5",
+              "typescript": "^2.1.4"
+            },
+            "engines": {
+              "node": ">=0.10.0"
+            },
+            "files": [
+              "index.js",
+              "ponyfill.js",
+              "index.d.ts",
+              "es/index.js",
+              "es/ponyfill/js",
+              "lib/index.js",
+              "lib/ponyfill.js"
+            ],
+            "homepage": "https://github.com/blesh/symbol-observable#readme",
+            "jsnext:main": "es/index.js",
+            "keywords": [
+              "symbol",
+              "observable",
+              "observables",
+              "ponyfill",
+              "polyfill",
+              "shim"
+            ],
+            "license": "MIT",
+            "main": "lib/index.js",
+            "module": "es/index.js",
+            "name": "symbol-observable",
+            "repository": {
+              "type": "git",
+              "url": "git+https://github.com/blesh/symbol-observable.git"
+            },
+            "scripts": {
+              "build": "babel es --out-dir lib",
+              "prepublish": "npm test",
+              "test": "npm run build && mocha && tsc && node ./ts-test/test.js && check-es3-syntax -p lib/ --kill"
+            },
+            "typings": "index.d.ts",
+            "version": "1.2.0",
+            "readme": "# symbol-observable [![Build Status](https://travis-ci.org/benlesh/symbol-observable.svg?branch=master)](https://travis-ci.org/benlesh/symbol-observable)\n\n> [`Symbol.observable`](https://github.com/zenparsing/es-observable) [ponyfill](https://ponyfill.com)\n\n\n## Install\n\n```\n$ npm install --save symbol-observable\n```\n\n\n## Usage\n\n```js\nconst symbolObservable = require('symbol-observable').default;\n\nconsole.log(symbolObservable);\n//=> Symbol(observable)\n```\n\n\n## Related\n\n- [is-observable](https://github.com/sindresorhus/is-observable) - Check if a value is an Observable\n- [observable-to-promise](https://github.com/sindresorhus/observable-to-promise) - Convert an Observable to a Promise\n\n\n## License\n\nMIT © [Sindre Sorhus](https://sindresorhus.com) and [Ben Lesh](https://github.com/benlesh)\n",
+            "readmeFilename": "readme.md",
+            "dependencies": {},
+            "optionalDependencies": {},
+            "_dependencies": {},
+            "path": "/home/nick/git/media-production-adf/media-production-adf-4/node_modules/symbol-observable",
+            "error": "[Circular]",
+            "extraneous": false
+          }
+        },
+        "description": "Reactive Extensions for modern JavaScript",
+        "devDependencies": {
+          "benchmark": "^2.1.0",
+          "benchpress": "2.0.0-beta.1",
+          "chai": "^3.5.0",
+          "color": "^0.11.1",
+          "colors": "1.1.2",
+          "commitizen": "^2.8.6",
+          "coveralls": "^2.11.13",
+          "cz-conventional-changelog": "^1.2.0",
+          "doctoc": "^1.0.0",
+          "escape-string-regexp": "^1.0.5 ",
+          "esdoc": "^0.4.7",
+          "eslint": "^3.8.0",
+          "fs-extra": "^0.30.0",
+          "ghooks": "^1.3.2",
+          "glob": "^7.0.3",
+          "gm": "^1.22.0",
+          "google-closure-compiler-js": "^20160916.0.0",
+          "gzip-size": "^3.0.0",
+          "http-server": "^0.9.0",
+          "lint-staged": "^3.1.0",
+          "lodash": "^4.15.0",
+          "madge": "^1.4.3",
+          "markdown-doctest": "^0.8.1",
+          "minimist": "^1.2.0",
+          "mkdirp": "^0.5.1",
+          "mocha": "^3.0.2",
+          "mocha-in-sauce": "0.0.1",
+          "npm-run-all": "^3.1.0",
+          "npm-scripts-info": "^0.3.4",
+          "nyc": "^8.3.0",
+          "opn-cli": "^3.1.0",
+          "platform": "^1.3.1",
+          "promise": "^7.1.1",
+          "protractor": "^3.1.1",
+          "rollup": "0.36.3",
+          "rx": "latest",
+          "shx": "^0.1.4",
+          "sinon": "^2.0.0-pre",
+          "sinon-chai": "^2.8.0",
+          "source-map-support": "^0.4.0",
+          "tslib": "^1.0.0",
+          "tslint": "^3.15.1",
+          "typescript": "~2.0.6",
+          "typings": "^2.0.0",
+          "validate-commit-msg": "^2.3.1",
+          "watch": "^1.0.1",
+          "watchify": "3.7.0",
+          "webpack": "^1.13.1",
+          "xmlhttprequest": "1.8.0"
+        },
+        "engines": {
+          "npm": ">=2.0.0"
+        },
+        "homepage": "https://github.com/ReactiveX/RxJS",
+        "keywords": [
+          "Rx",
+          "RxJS",
+          "ReactiveX",
+          "ReactiveExtensions",
+          "Streams",
+          "Observables",
+          "Observable",
+          "Stream",
+          "ES6",
+          "ES2015"
+        ],
+        "license": "Apache-2.0",
+        "lint-staged": {
+          "eslint": "*.@(js)",
+          "tslint": "*.@(ts)"
+        },
+        "main": "Rx.js",
+        "name": "rxjs",
+        "repository": {
+          "type": "git",
+          "url": "git+ssh://git@github.com/ReactiveX/RxJS.git"
+        },
+        "scripts-info": {
+          "info": "List available script",
+          "build_all": "Build all packages (ES6, CJS, UMD) and generate packages",
+          "build_cjs": "Build CJS package with clean up existing build, copy source into dist",
+          "build_es6": "Build ES6 package with clean up existing build, copy source into dist",
+          "build_closure_core": "Minify Global core build using closure compiler",
+          "build_global": "Build Global package, then minify build",
+          "build_perf": "Build CJS & Global build, run macro performance test",
+          "build_test": "Build CJS package & test spec, execute mocha test runner",
+          "build_cover": "Run lint to current code, build CJS & test spec, execute test coverage",
+          "build_docs": "Build ES6 & global package, create documentation using it",
+          "build_spec": "Build test specs",
+          "check_circular_dependencies": "Check codebase has circular dependencies",
+          "clean_spec": "Clean up existing test spec build output",
+          "clean_dist_cjs": "Clean up existing CJS package output",
+          "clean_dist_es6": "Clean up existing ES6 package output",
+          "clean_dist_global": "Clean up existing Global package output",
+          "commit": "Run git commit wizard",
+          "compile_dist_cjs": "Compile codebase into CJS module",
+          "compile_module_es6": "Compile codebase into ES6",
+          "cover": "Execute test coverage",
+          "lint_perf": "Run lint against performance test suite",
+          "lint_spec": "Run lint against test spec",
+          "lint_src": "Run lint against source",
+          "lint_staged": "Run lint against staged files",
+          "lint": "Run lint against everything",
+          "perf": "Run macro performance benchmark",
+          "perf_micro": "Run micro performance benchmark",
+          "test_mocha": "Execute mocha test runner against existing test spec build",
+          "test_browser": "Execute mocha test runner on browser against existing test spec build",
+          "test": "Clean up existing test spec build, build test spec and execute mocha test runner",
+          "tests2png": "Generate marble diagram image from test spec",
+          "watch": "Watch codebase, trigger compile when source code changes"
+        },
+        "typings": "Rx.d.ts",
+        "version": "5.0.1",
+        "readme": "[![Build Status](https://travis-ci.org/ReactiveX/rxjs.svg?branch=master)](https://travis-ci.org/ReactiveX/rxjs)\n[![Coverage Status](https://coveralls.io/repos/github/ReactiveX/rxjs/badge.svg?branch=master)](https://coveralls.io/github/ReactiveX/rxjs?branch=master)\n[![npm version](https://badge.fury.io/js/%40reactivex%2Frxjs.svg)](http://badge.fury.io/js/%40reactivex%2Frxjs)\n[![Join the chat at https://gitter.im/Reactive-Extensions/RxJS](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Reactive-Extensions/RxJS?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)\n\n[![Selenium Test Status](https://saucelabs.com/browser-matrix/rxjs5.svg)](https://saucelabs.com/u/rxjs5)\n\n# RxJS 5 (release candidate)\n\nReactive Extensions Library for JavaScript. This is a rewrite of [Reactive-Extensions/RxJS](https://github.com/Reactive-Extensions/RxJS) and is intended to supersede it once this is ready. This rewrite is meant to have better performance, better modularity, better debuggable call stacks, while staying mostly backwards compatible, with some breaking changes that reduce the API surface.\n\n[Apache 2.0 License](LICENSE.txt)\n\n- [Code of Conduct](CODE_OF_CONDUCT.md)\n- [Contribution Guidelines](CONTRIBUTING.md)\n- [Maintainer Guidelines](doc/maintainer-guidelines.md)\n- [Creating Operators](doc/operator-creation.md)\n- [Migrating From RxJS 4 to RxJS 5](MIGRATION.md)\n- [API Documentation (WIP)](http://reactivex.io/rxjs)\n\n## Important\n\nBy contributing or commenting on issues in this repository, whether you've read them or not, you're agreeing to the [Contributor Code of Conduct](CODE_OF_CONDUCT.md). Much like traffic laws, ignorance doesn't grant you immunity.\n\n## Installation and Usage\n\n### ES6 via npm\n\n```sh\nnpm install rxjs\n```\n\nTo import the entire core set of functionality:\n\n```js\nimport Rx from 'rxjs/Rx';\n\nRx.Observable.of(1,2,3)\n```\n\nTo import only what you need by patching (this is useful for size-sensitive bundling):\n\n```js\nimport { Observable } from 'rxjs/Observable';\nimport 'rxjs/add/observable/of';\nimport 'rxjs/add/operator/map';\n\nObservable.of(1,2,3).map(x => x + '!!!'); // etc\n```\n\nTo import what you need and use it with proposed [bind operator](https://github.com/tc39/proposal-bind-operator):\n\n> Note: This additional syntax requires [transpiler support](http://babeljs.io/docs/plugins/transform-function-bind/) and this syntax may be completely withdrawn from TC39 without notice! Use at your own risk.\n\n```js\nimport { Observable } from 'rxjs/Observable';\nimport { of } from 'rxjs/observable/of';\nimport { map } from 'rxjs/operator/map';\n\nObservable::of(1,2,3)::map(x => x + '!!!'); // etc\n```\n\n### CommonJS via npm\n\n```sh\nnpm install rxjs\n```\n\nImport all core functionality:\n\n```js\nvar Rx = require('rxjs/Rx');\n\nRx.Observable.of(1,2,3); // etc\n```\n\nImport only what you need and patch Observable (this is useful in size-sensitive bundling scenarios):\n\n```js\nvar Observable = require('rxjs/Observable').Observable;\n// patch Observable with appropriate methods\nrequire('rxjs/add/observable/of');\nrequire('rxjs/add/operator/map');\n\nObservable.of(1,2,3).map(function (x) { return x + '!!!'; }); // etc\n```\n\nImport operators and use them _manually_ you can do the following (this is also useful for bundling):\n\n```js\nvar of = require('rxjs/observable/of').of;\nvar map = require('rxjs/operator/map').map;\n\nmap.call(of(1,2,3), function (x) { return x + '!!!'; });\n```\n\nYou can also use the above method to build your own Observable and export it from your own module.\n\n\n### All Module Types (CJS/ES6/AMD/TypeScript) via npm\n\nTo install this library via [npm](https://www.npmjs.org) **version 3**, use the following command:\n\n```sh\nnpm install @reactivex/rxjs\n```\n\nIf you are using npm **version 2** before this library has achieved a stable version, you need to specify the library version explicitly:\n\n```sh\nnpm install @reactivex/rxjs@5.0.0-rc.1\n```\n\n### CDN\n\nFor CDN, you can use [unpkg](https://unpkg.com/):\n\n5.0.0-beta.1 - 5.0.0-beta.11:\n\nhttps://unpkg.com/@reactivex/rxjs/dist/global/Rx.umd.js\n\n\n5.0.0-beta.12 or higher:\n\nhttps://unpkg.com/@reactivex/rxjs/dist/global/Rx.js\n\n#### Node.js Usage:\n\n```js\nvar Rx = require('@reactivex/rxjs');\n\nRx.Observable.of('hello world')\n  .subscribe(function(x) { console.log(x); });\n```\n\n## Goals\n\n- Provide better performance than preceding versions of RxJS\n- To model/follow the [Observable Spec Proposal](https://github.com/zenparsing/es-observable) to the observable.\n- Provide more modular file structure in a variety of formats\n- Provide more debuggable call stacks than preceding versions of RxJS\n\n## Building/Testing\n\nThe build and test structure is fairly primitive at the moment. There are various npm scripts that can be run:\n\n- build_es6: Transpiles the TypeScript files from `src/` to `dist/es6`\n- build_cjs: Transpiles the ES6 files from `dist/es6` to `dist/cjs`\n- build_amd: Transpiles the ES6 files from `dist/es6` to `dist/amd`\n- build_global: Transpiles/Bundles the CommonJS files from `dist/cjs` to `dist/global/Rx.js`\n- build_all: Performs all of the above in the proper order.\n- build_test: builds ES6, then CommonJS, then runs the tests with `jasmine`\n- build_perf: builds ES6, CommonJS, then global, then runs the performance tests with `protractor`\n- build_docs: generates API documentation from `dist/es6` to `dist/docs`\n- build_cover: runs `istanbul` code coverage against test cases\n- test: runs tests with `jasmine`, must have built prior to running.\n- tests2png: generates PNG marble diagrams from test cases.\n\n`npm run info` will list available script.\n\n### Example\n\n```sh\n# build all the things!\nnpm run build_all\n```\n\n## Performance Tests\n\nRun `npm run build_perf` or `npm run perf` to run the performance tests with `protractor`.\nRun `npm run perf_micro` to run micro performance test benchmarking operator.\n\n## Adding documentation\nRxNext uses [ESDoc](https://esdoc.org/) to generate API documentation. Refer to ESDoc's documentation for syntax. Run `npm run build_docs` to generate.\n\n## Generating PNG marble diagrams\n\nThe script `npm run tests2png` requires some native packages installed locally: `imagemagick`, `graphicsmagick`, and `ghostscript`.\n\nFor Mac OS X with [Homebrew](http://brew.sh/):\n\n- `brew install imagemagick`\n- `brew install graphicsmagick`\n- `brew install ghostscript`\n- You may need to install the Ghostscript fonts manually:\n  - Download the tarball from the [gs-fonts project](https://sourceforge.net/projects/gs-fonts)\n  - `mkdir -p /usr/local/share/ghostscript && tar zxvf /path/to/ghostscript-fonts.tar.gz -C /usr/local/share/ghostscript`\n\nFor Debian Linux:\n\n- `sudo add-apt-repository ppa:dhor/myway`\n- `apt-get install imagemagick`\n- `apt-get install graphicsmagick`\n- `apt-get install ghostscript`\n\nFor Windows and other Operating Systems, check the download instructions here:\n\n- http://imagemagick.org\n- http://www.graphicsmagick.org\n- http://www.ghostscript.com/\n",
+        "readmeFilename": "README.md",
+        "optionalDependencies": {},
+        "_dependencies": {
+          "symbol-observable": "^1.0.1"
+        },
+        "path": "/home/nick/git/media-production-adf/media-production-adf-4/node_modules/rxjs",
+        "error": "[Circular]",
+        "extraneous": false,
+        "peerMissing": [
+          {
+            "requiredBy": "@swimlane/ngx-charts@5.3.1",
+            "requires": "rxjs@^5.0.3"
+          }
+        ]
+      },
+      "peerMissing": true
     },
     "zone.js": {
-      "version": "0.8.18",
-      "from": "zone.js@0.8.18",
-      "resolved": "https://registry.npmjs.org/zone.js/-/zone.js-0.8.18.tgz"
+      "version": "0.8.26",
+      "from": "zone.js@0.8.26",
+      "resolved": "https://registry.npmjs.org/zone.js/-/zone.js-0.8.26.tgz"
     }
   }
 }

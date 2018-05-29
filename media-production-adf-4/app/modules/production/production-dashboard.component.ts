@@ -1,12 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 import {Observable} from 'rxjs/Observable';
+import {NgxChartsModule} from '@swimlane/ngx-charts';
 import {TaskListComponent} from '../../components/alfrescoWorkflow/taskList.component';
-// import {ProductionRolePieCharts} from '../../components/roleCharts/productionRolePieCharts.component';
 import {ProductionContext} from '../../components/productionComponentModule/productionContext';
 import {Production} from '../../components/productionComponentModule/production';
 import {RoleService} from './rolePlanning/role.service';
 import {Role} from './rolePlanning/role';
+import {RoleMIService} from '../../components/role/roleMI.service';
 
 @Component({
   selector: 'production-dashboard',
@@ -35,6 +36,18 @@ export class ProductionDashboardComponent implements OnInit {
    * 
    */
   private ngUnsubscribe: Subject<any> = new Subject<any>();
+
+  /**
+   * 
+   * MI for the dashboard
+   * 
+   */
+  public stats: RoleMIService = new RoleMIService();
+  public cardView: any[] = [1065, 200];
+  public pieView: any[] = [700, 400];
+  public cardColorScheme = {
+    domain: ['#C7B42C', '#A10A28', '#AAAAAA', '#5AA454']
+  };
 
   constructor(private context: ProductionContext,
     private roleService: RoleService) {
@@ -84,6 +97,19 @@ export class ProductionDashboardComponent implements OnInit {
       },
       err => {}
       );
+
+    /**
+     * 
+     * link the role stream into the stats
+     */
+    this.stats.init(this.roleService.connect(null).takeUntil(this.ngUnsubscribe));
+
+    /**
+     * 
+     * setup the charts
+     * 
+     */
+
   }
 
   /**

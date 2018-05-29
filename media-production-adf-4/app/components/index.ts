@@ -23,5 +23,4 @@ export {SearchComponent} from './search/search.component';
 export {SearchBarComponent} from './search/search-bar.component';
 export {SettingsComponent} from './setting/settings.component';
 export {AppLoginComponent} from './applogin/applogin.component';
-export {ProductionRolePieChartsComponent} from './roleCharts/productionRolePieCharts.component';
 export {MemberNotificationComponent} from './memberNotification/memberNotification.component';

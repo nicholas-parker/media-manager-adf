@@ -1,17 +1,26 @@
 three.js
 ========
 
+[![Gitter][gitter-badge]][gitter-badge-url]
+[![Latest NPM release][npm-badge]][npm-badge-url]
+[![License][license-badge]][license-badge-url]
+[![Dependencies][dependencies-badge]][dependencies-badge-url]
+[![Dev Dependencies][devDependencies-badge]][devDependencies-badge-url]
+
 #### JavaScript 3D library ####
 
-The aim of the project is to create a lightweight 3D library with a very low level of complexity — in other words, for dummies. The library provides &lt;canvas&gt;, &lt;svg&gt;, CSS3D and WebGL renderers.
+The aim of the project is to create an easy to use, lightweight, 3D library. The library provides &lt;canvas&gt;, &lt;svg&gt;, CSS3D and WebGL renderers.
 
-[Examples](http://threejs.org/examples/) — [Documentation](http://threejs.org/docs/) — [Migrating](https://github.com/mrdoob/three.js/wiki/Migration) — [Help](http://stackoverflow.com/questions/tagged/three.js)
-
+[Examples](http://threejs.org/examples/) &mdash;
+[Documentation](http://threejs.org/docs/) &mdash;
+[Wiki](https://github.com/mrdoob/three.js/wiki) &mdash;
+[Migrating](https://github.com/mrdoob/three.js/wiki/Migration-Guide) &mdash;
+[Help](http://stackoverflow.com/questions/tagged/three.js)
 
 ### Usage ###
 
-Download the [minified library](http://threejs.org/build/three.min.js) and include it in your html.
-Alternatively see [how to build the library yourself](https://github.com/mrdoob/three.js/wiki/build.py,-or-how-to-generate-a-compressed-Three.js-file).
+Download the [minified library](http://threejs.org/build/three.min.js) and include it in your html, or install and import it as a [module](http://threejs.org/docs/#manual/introduction/Import-via-modules),
+Alternatively see [how to build the library yourself](https://github.com/mrdoob/three.js/wiki/Build-instructions).
 
 ```html
 <script src="js/three.min.js"></script>
@@ -58,8 +67,20 @@ function animate() {
 }
 ```
 
-If everything went well you should see [this](http://jsfiddle.net/hfj7gm6t/).
+If everything went well you should see [this](https://jsfiddle.net/hfj7gm6t/).
 
 ### Change log ###
 
 [releases](https://github.com/mrdoob/three.js/releases)
+
+
+[gitter-badge]: https://badges.gitter.im/mrdoob/three.js.svg
+[gitter-badge-url]: https://gitter.im/mrdoob/three.js
+[npm-badge]: https://img.shields.io/npm/v/three.svg
+[npm-badge-url]: https://www.npmjs.com/package/three
+[license-badge]: https://img.shields.io/npm/l/three.svg
+[license-badge-url]: ./LICENSE
+[dependencies-badge]: https://img.shields.io/david/mrdoob/three.js.svg
+[dependencies-badge-url]: https://david-dm.org/mrdoob/three.js
+[devDependencies-badge]: https://img.shields.io/david/dev/mrdoob/three.js.svg
+[devDependencies-badge-url]: https://david-dm.org/mrdoob/three.js#info=devDependencies

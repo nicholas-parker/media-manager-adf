@@ -23,6 +23,7 @@ import {MdSortModule, MdTableModule} from '@angular/material';
 import {CdkTableModule} from '@angular/cdk/table';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MaterialModule} from './material.module';
+import {NgxChartsModule} from '@swimlane/ngx-charts';
 
 import {CoreModule} from 'ng2-alfresco-core';
 import {DataTableModule} from 'ng2-alfresco-datatable';
@@ -80,6 +81,7 @@ if (process.env.ENV === 'production') {
     ProductionModule,
     StartModule,
     MembersModule,
+    NgxChartsModule,
     routing
   ],
   declarations: [

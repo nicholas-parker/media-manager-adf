@@ -4,12 +4,11 @@ import {CdkTableModule} from '@angular/cdk/table';
 import {MdSortModule, MdTableModule, MdDialogModule, MdButtonModule, MdInputModule, MdListModule, MdCheckboxModule, MdDatepickerModule} from '@angular/material';
 import {MaterialModule} from '../../material.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {ChartsModule} from 'ng2-charts';
+import {NgxChartsModule} from '@swimlane/ngx-charts';
 
 import {AlfrescoProductionService} from '../../components/productionComponentModule/alfrescoProduction.service';
 import {AlfrescoService} from '../../components/alfrescoWorkflow/alfresco.service';
 import {WorkflowModule} from '../../components/alfrescoWorkflow/workflow.module';
-import {ProductionRolePieChartsComponent} from '../../components/roleCharts/productionRolePieCharts.component';
 import {ProductionComponentModule} from '../../components/productionComponentModule/productionComponentModule.module';
 import {ContractModule} from '../../components/contract/contract.module';
 
@@ -55,9 +54,9 @@ import {CategoryRoleDialog} from './rolePlanning/categoryRoleDialog.component';
     FormsModule,
     ReactiveFormsModule,
     WorkflowModule,
-    ChartsModule,
     ProductionComponentModule,
-    ContractModule
+    ContractModule,
+    NgxChartsModule
   ],
   declarations: [
     ProductionComponent,
@@ -71,7 +70,6 @@ import {CategoryRoleDialog} from './rolePlanning/categoryRoleDialog.component';
     RoleDetailComponent,
     ProductionFilesComponent,
     FileDetailComponent,
-    ProductionRolePieChartsComponent,
     AdminComponent,
     RoleTagDialog,
     RoleFilterDialog,
@@ -91,7 +89,6 @@ import {CategoryRoleDialog} from './rolePlanning/categoryRoleDialog.component';
     MdInputModule,
     MdDatepickerModule,
     WorkflowModule,
-    ChartsModule,
     ProductionComponentModule,
     ContractModule
   ],

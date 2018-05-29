@@ -1,1 +1,1 @@
-export declare const errorObject: any;
+export declare var errorObject: any;

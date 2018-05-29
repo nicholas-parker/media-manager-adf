@@ -7,11 +7,11 @@ import { Subscriber } from '../Subscriber';
 
 const toString: Function = Object.prototype.toString;
 
-export type NodeStyleEventEmitter = {
+export type NodeStyleEventEmmitter = {
   addListener: (eventName: string, handler: Function) => void;
   removeListener: (eventName: string, handler: Function) => void;
 };
-function isNodeStyleEventEmitter(sourceObj: any): sourceObj is NodeStyleEventEmitter {
+function isNodeStyleEventEmmitter(sourceObj: any): sourceObj is NodeStyleEventEmmitter {
   return !!sourceObj && typeof sourceObj.addListener === 'function' && typeof sourceObj.removeListener === 'function';
 }
 
@@ -35,7 +35,7 @@ function isEventTarget(sourceObj: any): sourceObj is EventTarget {
   return !!sourceObj && typeof sourceObj.addEventListener === 'function' && typeof sourceObj.removeEventListener === 'function';
 }
 
-export type EventTargetLike = EventTarget | NodeStyleEventEmitter | JQueryStyleEventEmitter | NodeList | HTMLCollection;
+export type EventTargetLike = EventTarget | NodeStyleEventEmmitter | JQueryStyleEventEmitter | NodeList | HTMLCollection;
 
 export type EventListenerOptions = {
   capture?: boolean;
@@ -135,7 +135,7 @@ export class FromEventObservable<T> extends Observable<T> {
       const source = sourceObj;
       sourceObj.on(eventName, handler);
       unsubscribe = () => source.off(eventName, handler);
-    } else if (isNodeStyleEventEmitter(sourceObj)) {
+    } else if (isNodeStyleEventEmmitter(sourceObj)) {
       const source = sourceObj;
       sourceObj.addListener(eventName, handler);
       unsubscribe = () => source.removeListener(eventName, handler);

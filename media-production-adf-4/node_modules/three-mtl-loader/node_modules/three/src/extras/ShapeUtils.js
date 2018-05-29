@@ -2,7 +2,7 @@
  * @author zz85 / http://www.lab4games.net/zz85/blog
  */
 
-THREE.ShapeUtils = {
+var ShapeUtils = {
 
 	// calculate area of the contour polygon
 
@@ -52,7 +52,7 @@ THREE.ShapeUtils = {
 			cx = contour[ verts[ w ] ].x;
 			cy = contour[ verts[ w ] ].y;
 
-			if ( Number.EPSILON > ( ( ( bx - ax ) * ( cy - ay ) ) - ( ( by - ay ) * ( cx - ax ) ) ) ) return false;
+			if ( ( bx - ax ) * ( cy - ay ) - ( by - ay ) * ( cx - ax ) <= 0 ) return false;
 
 			var aX, aY, bX, bY, cX, cY;
 			var apx, apy, bpx, bpy, cpx, cpy;
@@ -105,7 +105,7 @@ THREE.ShapeUtils = {
 
 			var u, v, w;
 
-			if ( THREE.ShapeUtils.area( contour ) > 0.0 ) {
+			if ( ShapeUtils.area( contour ) > 0.0 ) {
 
 				for ( v = 0; v < n; v ++ ) verts[ v ] = v;
 
@@ -185,7 +185,7 @@ THREE.ShapeUtils = {
 			if ( indices ) return vertIndices;
 			return result;
 
-		}
+		};
 
 	} )(),
 
@@ -523,7 +523,7 @@ THREE.ShapeUtils = {
 					hIdx, nextIdx, intersection;
 				for ( ihIdx = 0; ihIdx < indepHoles.length; ihIdx ++ ) {
 
-					chkHole = holes[ indepHoles[ ihIdx ]];
+					chkHole = holes[ indepHoles[ ihIdx ] ];
 					for ( hIdx = 0; hIdx < chkHole.length; hIdx ++ ) {
 
 						nextIdx = hIdx + 1; nextIdx %= chkHole.length;
@@ -556,7 +556,7 @@ THREE.ShapeUtils = {
 				counter --;
 				if ( counter < 0 ) {
 
-					console.log( "Infinite Loop! Holes left:" + indepHoles.length + ", Probably Hole outside Shape!" );
+					console.log( 'THREE.ShapeUtils: Infinite Loop! Holes left:" + indepHoles.length + ", Probably Hole outside Shape!' );
 					break;
 
 				}
@@ -574,7 +574,7 @@ THREE.ShapeUtils = {
 						holeIdx = indepHoles[ h ];
 
 						// prevent multiple checks
-						cutKey = shapePt.x + ":" + shapePt.y + ":" + holeIdx;
+						cutKey = shapePt.x + ':' + shapePt.y + ':' + holeIdx;
 						if ( failedCuts[ cutKey ] !== undefined )			continue;
 
 						hole = holes[ holeIdx ];
@@ -639,11 +639,11 @@ THREE.ShapeUtils = {
 
 		for ( i = 0, il = allpoints.length; i < il; i ++ ) {
 
-			key = allpoints[ i ].x + ":" + allpoints[ i ].y;
+			key = allpoints[ i ].x + ':' + allpoints[ i ].y;
 
 			if ( allPointsMap[ key ] !== undefined ) {
 
-				console.warn( "THREE.ShapeUtils: Duplicate point", key, i );
+				console.warn( 'THREE.ShapeUtils: Duplicate point', key, i );
 
 			}
 
@@ -654,7 +654,7 @@ THREE.ShapeUtils = {
 		// remove holes by cutting paths to holes and adding them to the shape
 		var shapeWithoutHoles = removeHoles( contour, holes );
 
-		var triangles = THREE.ShapeUtils.triangulate( shapeWithoutHoles, false ); // True returns indices for points of spooled shape
+		var triangles = ShapeUtils.triangulate( shapeWithoutHoles, false ); // True returns indices for points of spooled shape
 		//console.log( "triangles",triangles, triangles.length );
 
 		// check all face vertices against all points map
@@ -665,7 +665,7 @@ THREE.ShapeUtils = {
 
 			for ( f = 0; f < 3; f ++ ) {
 
-				key = face[ f ].x + ":" + face[ f ].y;
+				key = face[ f ].x + ':' + face[ f ].y;
 
 				index = allPointsMap[ key ];
 
@@ -685,81 +685,11 @@ THREE.ShapeUtils = {
 
 	isClockWise: function ( pts ) {
 
-		return THREE.ShapeUtils.area( pts ) < 0;
+		return ShapeUtils.area( pts ) < 0;
 
-	},
-
-	// Bezier Curves formulas obtained from
-	// http://en.wikipedia.org/wiki/B%C3%A9zier_curve
-
-	// Quad Bezier Functions
-
-	b2: ( function () {
-
-		function b2p0( t, p ) {
-
-			var k = 1 - t;
-			return k * k * p;
-
-		}
-
-		function b2p1( t, p ) {
-
-			return 2 * ( 1 - t ) * t * p;
-
-		}
-
-		function b2p2( t, p ) {
-
-			return t * t * p;
-
-		}
-
-		return function b2( t, p0, p1, p2 ) {
-
-			return b2p0( t, p0 ) + b2p1( t, p1 ) + b2p2( t, p2 );
-
-		};
-
-	} )(),
-
-	// Cubic Bezier Functions
-
-	b3: ( function () {
-
-		function b3p0( t, p ) {
-
-			var k = 1 - t;
-			return k * k * k * p;
-
-		}
-
-		function b3p1( t, p ) {
-
-			var k = 1 - t;
-			return 3 * k * k * t * p;
-
-		}
-
-		function b3p2( t, p ) {
-
-			var k = 1 - t;
-			return 3 * k * t * t * p;
-
-		}
-
-		function b3p3( t, p ) {
-
-			return t * t * t * p;
-
-		}
-
-		return function b3( t, p0, p1, p2, p3 ) {
-
-			return b3p0( t, p0 ) + b3p1( t, p1 ) + b3p2( t, p2 ) + b3p3( t, p3 );
-
-		};
-
-	} )()
+	}
 
 };
+
+
+export { ShapeUtils };

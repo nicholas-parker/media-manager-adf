@@ -42,7 +42,7 @@ var Observable = (function () {
             operator.call(sink, this.source);
         }
         else {
-            sink.add(this._trySubscribe(sink));
+            sink.add(this._subscribe(sink));
         }
         if (sink.syncErrorThrowable) {
             sink.syncErrorThrowable = false;
@@ -51,16 +51,6 @@ var Observable = (function () {
             }
         }
         return sink;
-    };
-    Observable.prototype._trySubscribe = function (sink) {
-        try {
-            return this._subscribe(sink);
-        }
-        catch (err) {
-            sink.syncErrorThrown = true;
-            sink.syncErrorValue = err;
-            sink.error(err);
-        }
     };
     /**
      * @method forEach

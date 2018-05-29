@@ -2,7 +2,7 @@ import { Operator } from './Operator';
 import { Observer } from './Observer';
 import { Observable } from './Observable';
 import { Subscriber } from './Subscriber';
-import { ISubscription, Subscription, TeardownLogic } from './Subscription';
+import { ISubscription, Subscription } from './Subscription';
 /**
  * @class SubjectSubscriber<T>
  */
@@ -26,7 +26,6 @@ export declare class Subject<T> extends Observable<T> implements ISubscription {
     error(err: any): void;
     complete(): void;
     unsubscribe(): void;
-    protected _trySubscribe(subscriber: Subscriber<T>): TeardownLogic;
     protected _subscribe(subscriber: Subscriber<T>): Subscription;
     asObservable(): Observable<T>;
 }

@@ -1,31 +1,35 @@
+import { _Math } from '../../math/Math';
+import { Vector3 } from '../../math/Vector3';
+import { Matrix4 } from '../../math/Matrix4';
+
 /**
  * @author zz85 / http://www.lab4games.net/zz85/blog
  * Extensible curve object
  *
- * Some common of Curve methods
+ * Some common of curve methods:
  * .getPoint(t), getTangent(t)
- * .getPointAt(u), getTagentAt(u)
+ * .getPointAt(u), getTangentAt(u)
  * .getPoints(), .getSpacedPoints()
  * .getLength()
  * .updateArcLengths()
  *
- * This following classes subclasses THREE.Curve:
+ * This following curves inherit from THREE.Curve:
  *
- * -- 2d classes --
+ * -- 2D curves --
+ * THREE.ArcCurve
+ * THREE.CubicBezierCurve
+ * THREE.EllipseCurve
  * THREE.LineCurve
  * THREE.QuadraticBezierCurve
- * THREE.CubicBezierCurve
  * THREE.SplineCurve
- * THREE.ArcCurve
- * THREE.EllipseCurve
  *
- * -- 3d classes --
+ * -- 3D curves --
+ * THREE.CatmullRomCurve3
+ * THREE.CubicBezierCurve3
  * THREE.LineCurve3
  * THREE.QuadraticBezierCurve3
- * THREE.CubicBezierCurve3
- * THREE.SplineCurve3
  *
- * A series of curves can be represented as a THREE.CurvePath
+ * A series of curves can be represented as a THREE.CurvePath.
  *
  **/
 
@@ -33,20 +37,20 @@
  *	Abstract Curve base class
  **************************************************************/
 
-THREE.Curve = function () {
+function Curve() {
 
-};
+	this.arcLengthDivisions = 200;
 
-THREE.Curve.prototype = {
+}
 
-	constructor: THREE.Curve,
+Object.assign( Curve.prototype, {
 
 	// Virtual base class method to overwrite and implement in subclasses
 	//	- t [0 .. 1]
 
-	getPoint: function ( t ) {
+	getPoint: function () {
 
-		console.warn( "THREE.Curve: Warning, getPoint() not implemented!" );
+		console.warn( 'THREE.Curve: .getPoint() not implemented.' );
 		return null;
 
 	},
@@ -65,7 +69,7 @@ THREE.Curve.prototype = {
 
 	getPoints: function ( divisions ) {
 
-		if ( ! divisions ) divisions = 5;
+		if ( divisions === undefined ) divisions = 5;
 
 		var points = [];
 
@@ -83,7 +87,7 @@ THREE.Curve.prototype = {
 
 	getSpacedPoints: function ( divisions ) {
 
-		if ( ! divisions ) divisions = 5;
+		if ( divisions === undefined ) divisions = 5;
 
 		var points = [];
 
@@ -110,13 +114,12 @@ THREE.Curve.prototype = {
 
 	getLengths: function ( divisions ) {
 
-		if ( ! divisions ) divisions = ( this.__arcLengthDivisions ) ? ( this.__arcLengthDivisions ) : 200;
+		if ( divisions === undefined ) divisions = this.arcLengthDivisions;
 
-		if ( this.cacheArcLengths
-			&& ( this.cacheArcLengths.length === divisions + 1 )
-			&& ! this.needsUpdate ) {
+		if ( this.cacheArcLengths &&
+			( this.cacheArcLengths.length === divisions + 1 ) &&
+			! this.needsUpdate ) {
 
-			//console.log( "cached", this.cacheArcLengths );
 			return this.cacheArcLengths;
 
 		}
@@ -131,7 +134,7 @@ THREE.Curve.prototype = {
 
 		for ( p = 1; p <= divisions; p ++ ) {
 
-			current = this.getPoint ( p / divisions );
+			current = this.getPoint( p / divisions );
 			sum += current.distanceTo( last );
 			cache.push( sum );
 			last = current;
@@ -140,11 +143,11 @@ THREE.Curve.prototype = {
 
 		this.cacheArcLengths = cache;
 
-		return cache; // { sums: cache, sum:sum }; Sum is in the last element.
+		return cache; // { sums: cache, sum: sum }; Sum is in the last element.
 
 	},
 
-	updateArcLengths: function() {
+	updateArcLengths: function () {
 
 		this.needsUpdate = true;
 		this.getLengths();
@@ -170,8 +173,6 @@ THREE.Curve.prototype = {
 			targetArcLength = u * arcLengths[ il - 1 ];
 
 		}
-
-		//var time = Date.now();
 
 		// binary search for the index with largest value smaller than target u distance
 
@@ -204,12 +205,9 @@ THREE.Curve.prototype = {
 
 		i = high;
 
-		//console.log('b' , i, low, high, Date.now()- time);
-
 		if ( arcLengths[ i ] === targetArcLength ) {
 
-			var t = i / ( il - 1 );
-			return t;
+			return i / ( il - 1 );
 
 		}
 
@@ -237,7 +235,7 @@ THREE.Curve.prototype = {
 	// 2 points a small delta apart will be used to find its gradient
 	// which seems to give a reasonable approximation
 
-	getTangent: function( t ) {
+	getTangent: function ( t ) {
 
 		var delta = 0.0001;
 		var t1 = t - delta;
@@ -261,24 +259,126 @@ THREE.Curve.prototype = {
 		var t = this.getUtoTmapping( u );
 		return this.getTangent( t );
 
+	},
+
+	computeFrenetFrames: function ( segments, closed ) {
+
+		// see http://www.cs.indiana.edu/pub/techreports/TR425.pdf
+
+		var normal = new Vector3();
+
+		var tangents = [];
+		var normals = [];
+		var binormals = [];
+
+		var vec = new Vector3();
+		var mat = new Matrix4();
+
+		var i, u, theta;
+
+		// compute the tangent vectors for each segment on the curve
+
+		for ( i = 0; i <= segments; i ++ ) {
+
+			u = i / segments;
+
+			tangents[ i ] = this.getTangentAt( u );
+			tangents[ i ].normalize();
+
+		}
+
+		// select an initial normal vector perpendicular to the first tangent vector,
+		// and in the direction of the minimum tangent xyz component
+
+		normals[ 0 ] = new Vector3();
+		binormals[ 0 ] = new Vector3();
+		var min = Number.MAX_VALUE;
+		var tx = Math.abs( tangents[ 0 ].x );
+		var ty = Math.abs( tangents[ 0 ].y );
+		var tz = Math.abs( tangents[ 0 ].z );
+
+		if ( tx <= min ) {
+
+			min = tx;
+			normal.set( 1, 0, 0 );
+
+		}
+
+		if ( ty <= min ) {
+
+			min = ty;
+			normal.set( 0, 1, 0 );
+
+		}
+
+		if ( tz <= min ) {
+
+			normal.set( 0, 0, 1 );
+
+		}
+
+		vec.crossVectors( tangents[ 0 ], normal ).normalize();
+
+		normals[ 0 ].crossVectors( tangents[ 0 ], vec );
+		binormals[ 0 ].crossVectors( tangents[ 0 ], normals[ 0 ] );
+
+
+		// compute the slowly-varying normal and binormal vectors for each segment on the curve
+
+		for ( i = 1; i <= segments; i ++ ) {
+
+			normals[ i ] = normals[ i - 1 ].clone();
+
+			binormals[ i ] = binormals[ i - 1 ].clone();
+
+			vec.crossVectors( tangents[ i - 1 ], tangents[ i ] );
+
+			if ( vec.length() > Number.EPSILON ) {
+
+				vec.normalize();
+
+				theta = Math.acos( _Math.clamp( tangents[ i - 1 ].dot( tangents[ i ] ), - 1, 1 ) ); // clamp for floating pt errors
+
+				normals[ i ].applyMatrix4( mat.makeRotationAxis( vec, theta ) );
+
+			}
+
+			binormals[ i ].crossVectors( tangents[ i ], normals[ i ] );
+
+		}
+
+		// if the curve is closed, postprocess the vectors so the first and last normal vectors are the same
+
+		if ( closed === true ) {
+
+			theta = Math.acos( _Math.clamp( normals[ 0 ].dot( normals[ segments ] ), - 1, 1 ) );
+			theta /= segments;
+
+			if ( tangents[ 0 ].dot( vec.crossVectors( normals[ 0 ], normals[ segments ] ) ) > 0 ) {
+
+				theta = - theta;
+
+			}
+
+			for ( i = 1; i <= segments; i ++ ) {
+
+				// twist a little...
+				normals[ i ].applyMatrix4( mat.makeRotationAxis( tangents[ i ], theta * i ) );
+				binormals[ i ].crossVectors( tangents[ i ], normals[ i ] );
+
+			}
+
+		}
+
+		return {
+			tangents: tangents,
+			normals: normals,
+			binormals: binormals
+		};
+
 	}
 
-};
+} );
 
-// TODO: Transformation for Curves?
 
-/**************************************************************
- *	3D Curves
- **************************************************************/
-
-// A Factory method for creating new curve subclasses
-
-THREE.Curve.create = function ( constructor, getPointFunc ) {
-
-	constructor.prototype = Object.create( THREE.Curve.prototype );
-	constructor.prototype.constructor = constructor;
-	constructor.prototype.getPoint = getPointFunc;
-
-	return constructor;
-
-};
+export { Curve };

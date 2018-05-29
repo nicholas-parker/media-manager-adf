@@ -4,7 +4,6 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var isFunction_1 = require('../util/isFunction');
 var Observable_1 = require('../Observable');
 var Subscription_1 = require('../Subscription');
 /**
@@ -56,10 +55,9 @@ var FromEventPatternObservable = (function (_super) {
      * @param {function(handler: Function): any} addHandler A function that takes
      * a `handler` function as argument and attaches it somehow to the actual
      * source of events.
-     * @param {function(handler: Function, signal?: any): void} [removeHandler] An optional function that
+     * @param {function(handler: Function): void} removeHandler A function that
      * takes a `handler` function as argument and removes it in case it was
-     * previously attached using `addHandler`. if addHandler returns signal to teardown when remove,
-     * removeHandler function will forward it.
+     * previously attached using `addHandler`.
      * @param {function(...args: any): T} [selector] An optional function to
      * post-process results. It takes the arguments from the event handler and
      * should return a single value.
@@ -81,13 +79,10 @@ var FromEventPatternObservable = (function (_super) {
             }
             _this._callSelector(subscriber, args);
         } : function (e) { subscriber.next(e); };
-        var retValue = this._callAddHandler(handler, subscriber);
-        if (!isFunction_1.isFunction(removeHandler)) {
-            return;
-        }
+        this._callAddHandler(handler, subscriber);
         subscriber.add(new Subscription_1.Subscription(function () {
             //TODO: determine whether or not to forward to error handler
-            removeHandler(handler, retValue);
+            removeHandler(handler);
         }));
     };
     FromEventPatternObservable.prototype._callSelector = function (subscriber, args) {
@@ -101,7 +96,7 @@ var FromEventPatternObservable = (function (_super) {
     };
     FromEventPatternObservable.prototype._callAddHandler = function (handler, errorSubscriber) {
         try {
-            return this.addHandler(handler) || null;
+            this.addHandler(handler);
         }
         catch (e) {
             errorSubscriber.error(e);

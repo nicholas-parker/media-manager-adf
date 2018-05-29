@@ -41,10 +41,6 @@ import 'material-design-icons/iconfont/material-icons.css';
 import '../public/css/app.css';
 import '../public/css/muli-font.css';
 
-import 'ng2-charts';
-import * as Chart from 'chart.js';
-window['Chart'] = Chart;
-
 require('script-loader!raphael/raphael.min.js');
 
 require('script-loader!moment/min/moment.min.js');

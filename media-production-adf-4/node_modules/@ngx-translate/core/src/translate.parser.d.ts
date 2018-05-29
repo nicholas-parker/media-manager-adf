@@ -6,7 +6,7 @@ export declare abstract class TranslateParser {
      * @param params
      * @returns {string}
      */
-    abstract interpolate(expr: string, params?: any): string;
+    abstract interpolate(expr: string | Function, params?: any): string;
     /**
      * Gets a value from an object by composed key
      * parser.getValue({ key1: { keyA: 'valueI' }}, 'key1.keyA') ==> 'valueI'
@@ -14,10 +14,12 @@ export declare abstract class TranslateParser {
      * @param key
      * @returns {string}
      */
-    abstract getValue(target: any, key: string): string;
+    abstract getValue(target: any, key: string): any;
 }
 export declare class TranslateDefaultParser extends TranslateParser {
     templateMatcher: RegExp;
-    interpolate(expr: string, params?: any): string;
-    getValue(target: any, key: string): string;
+    interpolate(expr: string | Function, params?: any): string;
+    getValue(target: any, key: string): any;
+    private interpolateFunction(fn, params?);
+    private interpolateString(expr, params?);
 }

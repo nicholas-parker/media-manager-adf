@@ -224,12 +224,7 @@ export class AjaxSubscriber<T> extends Subscriber<Event> {
     } else {
       this.xhr = xhr;
 
-      // set up the events before open XHR
-      // https://developer.mozilla.org/en/docs/Web/API/XMLHttpRequest/Using_XMLHttpRequest
-      // You need to add the event listeners before calling open() on the request.
-      // Otherwise the progress events will not fire.
-      this.setupEvents(xhr, request);
-      // open XHR
+      // open XHR first
       let result: any;
       if (user) {
         result = tryCatch(xhr.open).call(xhr, method, url, async, user, password);
@@ -248,6 +243,9 @@ export class AjaxSubscriber<T> extends Subscriber<Event> {
 
       // set headers
       this.setHeaders(xhr, headers);
+
+      // now set up the events
+      this.setupEvents(xhr, request);
 
       // finally send the request
       result = body ? tryCatch(xhr.send).call(xhr, body) : tryCatch(xhr.send).call(xhr);
@@ -306,18 +304,14 @@ export class AjaxSubscriber<T> extends Subscriber<Event> {
     (<any>xhrTimeout).request = request;
     (<any>xhrTimeout).subscriber = this;
     (<any>xhrTimeout).progressSubscriber = progressSubscriber;
-    if (xhr.upload && 'withCredentials' in xhr) {
+    if (xhr.upload && 'withCredentials' in xhr && root.XDomainRequest) {
       if (progressSubscriber) {
         let xhrProgress: (e: ProgressEvent) => void;
         xhrProgress = function(e: ProgressEvent) {
           const { progressSubscriber } = (<any>xhrProgress);
           progressSubscriber.next(e);
         };
-        if (root.XDomainRequest) {
-          xhr.onprogress = xhrProgress;
-        } else {
-          xhr.upload.onprogress = xhrProgress;
-        }
+        xhr.onprogress = xhrProgress;
         (<any>xhrProgress).progressSubscriber = progressSubscriber;
       }
       let xhrError: (e: ErrorEvent) => void;

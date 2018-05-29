@@ -1,6 +1,5 @@
 import { Observable } from '../Observable';
-import { ColdObservable } from './ColdObservable';
-import { HotObservable } from './HotObservable';
+import { Subject } from '../Subject';
 import { TestMessage } from './TestMessage';
 import { SubscriptionLog } from './SubscriptionLog';
 import { VirtualTimeScheduler } from '../scheduler/VirtualTimeScheduler';
@@ -13,8 +12,8 @@ export declare class TestScheduler extends VirtualTimeScheduler {
     private flushTests;
     constructor(assertDeepEqual: (actual: any, expected: any) => boolean | void);
     createTime(marbles: string): number;
-    createColdObservable<T>(marbles: string, values?: any, error?: any): ColdObservable<T>;
-    createHotObservable<T>(marbles: string, values?: any, error?: any): HotObservable<T>;
+    createColdObservable<T>(marbles: string, values?: any, error?: any): Observable<T>;
+    createHotObservable<T>(marbles: string, values?: any, error?: any): Subject<T>;
     private materializeInnerObservable(observable, outerFrame);
     expectObservable(observable: Observable<any>, unsubscriptionMarbles?: string): ({
         toBe: observableToBeFn;
